@@ -1,0 +1,722 @@
+{
+ "fx": "LV2: ArcVu (OpenGrid)",
+ "checks": [
+  {
+   "check": "loads",
+   "status": "PASS",
+   "detail": "LV2: ArcVu (OpenGrid), 60 parameters"
+  },
+  {
+   "check": "finite output",
+   "status": "PASS",
+   "detail": "peak -3.8 dBFS"
+  },
+  {
+   "check": "not silent",
+   "status": "PASS",
+   "detail": "rms -14.9 dBFS"
+  },
+  {
+   "check": "deterministic render",
+   "status": "PASS",
+   "detail": "repeat differs by -240.0 dB"
+  },
+  {
+   "check": "editor opens",
+   "status": "PASS",
+   "detail": "1650x431, 0.2% animates by itself"
+  },
+  {
+   "check": "every parameter changes the sound",
+   "status": "FAIL",
+   "detail": "Dynamic frequency, Dynamic depth, Dynamic on, Dynamic type, Dynamic listen, In place, Meters only"
+  },
+  {
+   "check": "every parameter is shown in the GUI",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "state survives save and reopen",
+   "status": "FAIL",
+   "detail": "0 VU reference (1.74000001 -> 2.00000000), Peak (0.47999999 -> 0.00000000), Meter type (4.88000011 -> 5.00000000), Face (1.96000004 -> 2.00000000), Single meter (0.34999999 -> 0.00000000), Mid side (0.72000003 -> 1.00000000), AES-17 (0.09000000 -> 0.00000000), Polarity L (0.68000001 -> 1.00000000), Polarity R (0.05000000 -> 0.00000000), Mute L (0.41999999 -> 0.00000000), Mute R (0.79000002 -> 1.00000000), Monitor (0.80000001 -> 1.00000000), High-pass slope (3.59999990 -> 4.00000000), Low-pass slope (2.55999994 -> 3.00000000), Dynamic on (0.49000001 -> 0.00000000), Dynamic type (3.44000006 -> 3.00000000), Dynamic listen (0.23000000 -> 0.00000000), VU model (1.20000005 -> 1.00000000), Overshoot (5.73799992 -> 5.73999977), Analog RMS (0.30000001 -> 0.00000000)"
+  },
+  {
+   "check": "editor reopens",
+   "status": "PASS",
+   "detail": "5 close/open cycles"
+  }
+ ],
+ "params": [
+  {
+   "index": 0,
+   "name": "Free Wheeling",
+   "ident": "0:_freeWheeling",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.138,
+   "visual": "ok"
+  },
+  {
+   "index": 1,
+   "name": "Enabled",
+   "ident": "1:_enabled",
+   "default": 1,
+   "context": "random state 5",
+   "audioDiffDb": 4.3,
+   "audio": "CONDITIONAL",
+   "visualChange": 0.15,
+   "visual": "ok"
+  },
+  {
+   "index": 2,
+   "name": "0 VU reference",
+   "ident": "2:_urn:opengrid:arcvu:reference",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.198,
+   "visual": "ok"
+  },
+  {
+   "index": 3,
+   "name": "Peak",
+   "ident": "3:_urn:opengrid:arcvu:peak",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.405,
+   "visual": "ok"
+  },
+  {
+   "index": 4,
+   "name": "Meter type",
+   "ident": "4:_urn:opengrid:arcvu:kind",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 6.867,
+   "visual": "ok"
+  },
+  {
+   "index": 5,
+   "name": "Face",
+   "ident": "5:_urn:opengrid:arcvu:face",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 6,
+   "name": "Single meter",
+   "ident": "6:_urn:opengrid:arcvu:single",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 7,
+   "name": "Mid side",
+   "ident": "7:_urn:opengrid:arcvu:midSide",
+   "default": 0,
+   "context": "Trim M=1",
+   "audioDiffDb": 1.5,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 8,
+   "name": "AES-17",
+   "ident": "8:_urn:opengrid:arcvu:aes17",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 9,
+   "name": "RMS window",
+   "ident": "9:_urn:opengrid:arcvu:rmsMs",
+   "default": -0.0152284264,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 10,
+   "name": "Clip threshold",
+   "ident": "10:_urn:opengrid:arcvu:clipDb",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 11,
+   "name": "Trim L",
+   "ident": "11:_urn:opengrid:arcvu:trimL",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -0.6,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 12,
+   "name": "Trim R",
+   "ident": "12:_urn:opengrid:arcvu:trimR",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -0.6,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 13,
+   "name": "Trim M",
+   "ident": "13:_urn:opengrid:arcvu:trimM",
+   "default": 0.5,
+   "context": "Mid side=1",
+   "audioDiffDb": 1.5,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 14,
+   "name": "Trim S",
+   "ident": "14:_urn:opengrid:arcvu:trimS",
+   "default": 0.5,
+   "context": "Mid side=1",
+   "audioDiffDb": 2.4,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 15,
+   "name": "Polarity L",
+   "ident": "15:_urn:opengrid:arcvu:polL",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": 2.3,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 16,
+   "name": "Polarity R",
+   "ident": "16:_urn:opengrid:arcvu:polR",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": 1.0,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 17,
+   "name": "Mute L",
+   "ident": "17:_urn:opengrid:arcvu:muteL",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 18,
+   "name": "Mute R",
+   "ident": "18:_urn:opengrid:arcvu:muteR",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -5.0,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 19,
+   "name": "Monitor",
+   "ident": "19:_urn:opengrid:arcvu:monitor",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -4.5,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 20,
+   "name": "High-pass",
+   "ident": "20:_urn:opengrid:arcvu:hpfHz",
+   "default": -0.04166666667,
+   "context": "High-pass slope=1",
+   "audioDiffDb": -4.2,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 21,
+   "name": "High-pass slope",
+   "ident": "21:_urn:opengrid:arcvu:hpfPoles",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 22,
+   "name": "Low-pass",
+   "ident": "22:_urn:opengrid:arcvu:lpfHz",
+   "default": -0.05263157895,
+   "context": "Low-pass slope=1random state 5",
+   "audioDiffDb": 6.0,
+   "audio": "CONDITIONAL",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 23,
+   "name": "Low-pass slope",
+   "ident": "23:_urn:opengrid:arcvu:lpfPoles",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 24,
+   "name": "Mono frequency",
+   "ident": "24:_urn:opengrid:arcvu:monoHz",
+   "default": -0.05263157895,
+   "context": "Mono amount=1random state 5",
+   "audioDiffDb": -2.2,
+   "audio": "CONDITIONAL",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 25,
+   "name": "Mono amount",
+   "ident": "25:_urn:opengrid:arcvu:monoAmt",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 26,
+   "name": "Dynamic frequency",
+   "ident": "26:_urn:opengrid:arcvu:dynHz",
+   "default": -0.006711409396,
+   "context": "Dynamic on=1, Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 27,
+   "name": "Dynamic depth",
+   "ident": "27:_urn:opengrid:arcvu:dynDepth",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic type=0.5",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 28,
+   "name": "Dynamic on",
+   "ident": "28:_urn:opengrid:arcvu:dynOn",
+   "default": 0,
+   "context": "Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 29,
+   "name": "Dynamic type",
+   "ident": "29:_urn:opengrid:arcvu:dynType",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic depth=1",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 30,
+   "name": "Dynamic listen",
+   "ident": "30:_urn:opengrid:arcvu:dynListen",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 31,
+   "name": "VU model",
+   "ident": "31:_urn:opengrid:arcvu:vuModel",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 32,
+   "name": "Rise",
+   "ident": "32:_urn:opengrid:arcvu:riseMs",
+   "default": -0.05263157895,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 33,
+   "name": "Fall",
+   "ident": "33:_urn:opengrid:arcvu:fallMs",
+   "default": -0.02564102564,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 34,
+   "name": "Overshoot",
+   "ident": "34:_urn:opengrid:arcvu:overshoot",
+   "default": -0.02564102564,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 35,
+   "name": "Peak hold",
+   "ident": "35:_urn:opengrid:arcvu:peakHold",
+   "default": 0.03225806452,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 36,
+   "name": "Value hold",
+   "ident": "36:_urn:opengrid:arcvu:valueHold",
+   "default": 0.03225806452,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 37,
+   "name": "Clip hold",
+   "ident": "37:_urn:opengrid:arcvu:clipHold",
+   "default": 0.03225806452,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 38,
+   "name": "Peak lamp threshold",
+   "ident": "38:_urn:opengrid:arcvu:peakThresh",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 39,
+   "name": "Red zone",
+   "ident": "39:_urn:opengrid:arcvu:redDb",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 40,
+   "name": "Comfort zone",
+   "ident": "40:_urn:opengrid:arcvu:comfort",
+   "default": -0.09090909091,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 41,
+   "name": "Analog RMS",
+   "ident": "41:_urn:opengrid:arcvu:analogRms",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 42,
+   "name": "Weighting",
+   "ident": "42:_urn:opengrid:arcvu:weight",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 43,
+   "name": "Force mono",
+   "ident": "43:_urn:opengrid:arcvu:forceMono",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 44,
+   "name": "Trim link",
+   "ident": "44:_urn:opengrid:arcvu:trimLink",
+   "default": 0,
+   "context": "Trim L=1random state 5",
+   "audioDiffDb": 2.4,
+   "audio": "CONDITIONAL",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 45,
+   "name": "In place",
+   "ident": "45:_urn:opengrid:arcvu:inPlace",
+   "default": 0,
+   "context": "Monitor=0.4",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 46,
+   "name": "Show values",
+   "ident": "46:_urn:opengrid:arcvu:showValues",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 47,
+   "name": "Show hold",
+   "ident": "47:_urn:opengrid:arcvu:showHold",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 48,
+   "name": "Show tools",
+   "ident": "48:_urn:opengrid:arcvu:showTools",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 49,
+   "name": "Show label",
+   "ident": "49:_urn:opengrid:arcvu:showLabel",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 50,
+   "name": "Meters only",
+   "ident": "50:_urn:opengrid:arcvu:metersOnly",
+   "default": 0,
+   "context": "Bypass hidden processors=1, High-pass slope=1, High-pass=1",
+   "audioDiffDb": -240.0,
+   "audio": "DEAD",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 51,
+   "name": "GUI size",
+   "ident": "51:_urn:opengrid:arcvu:guiScale",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 3.224,
+   "visual": "ok"
+  },
+  {
+   "index": 52,
+   "name": "Drag sensitivity",
+   "ident": "52:_urn:opengrid:arcvu:dragSens",
+   "default": -0.06666666667,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 53,
+   "name": "Meter refresh",
+   "ident": "53:_urn:opengrid:arcvu:refresh",
+   "default": -0.2,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 54,
+   "name": "Bypass hidden processors",
+   "ident": "54:_urn:opengrid:arcvu:bypassHidden",
+   "default": 0,
+   "context": "Meters only=1, High-pass slope=1, High-pass=1random state 5",
+   "audioDiffDb": 6.0,
+   "audio": "CONDITIONAL",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 55,
+   "name": "Tooltips",
+   "ident": "55:_urn:opengrid:arcvu:tooltips",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 56,
+   "name": "Stay above windows",
+   "ident": "56:_urn:opengrid:arcvu:alwaysOnTop",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 57,
+   "name": "Bypass",
+   "ident": "57:bypass",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 58,
+   "name": "Wet",
+   "ident": "58:wet",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 59,
+   "name": "Delta",
+   "ident": "59:delta",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 100.0,
+   "visual": "ok"
+  }
+ ],
+ "info": {
+  "fx": 0,
+  "latency": "0",
+  "numParams": 60,
+  "name": "LV2: ArcVu (OpenGrid)"
+ },
+ "failed": [
+  "every parameter changes the sound",
+  "state survives save and reopen"
+ ]
+}

@@ -1,0 +1,4 @@
+[  2%] Built target arcvu_dsp
+[  5%] Building CXX object CMakeFiles/ArcVu_QA.dir/plugin/PluginEditor.cpp.o
+[  8%] Linking CXX executable ArcVu_QA_artefacts/Debug/ArcVu_QA
+[100%] Built target ArcVu_QA

@@ -1,0 +1,87 @@
+# SPDX-License-Identifier: MIT
+# Builds, tests and packages ArcVu for Windows (x86_64) and Linux (x86_64). macOS is built, signed, PACE-wrapped and
+# notarized on the developer's machine (installer/build_macos.sh); the AAX SDK is not available in CI.
+#
+# ArcVu uses two repositories that sit next to it on a developer machine, so the job checks out the same layout:
+#   ArcVu/                       this repository
+#   audiogridder/JUCE            the JUCE checkout (public MistaMin/JUCE, pinned)
+#   instruments/GoodLookinDri    the Rust drawing library (private MistaMin/GoodLookinDri, pinned)
+# GoodLookinDri is private: add a repository secret OPENGRID_CI_TOKEN (a fine-grained token with read access to it).
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  JUCE_REF: a480a36d4ece2dc8fdaae65b6318995d0858afe1
+  GOODLOOKINDRI_REF: d8311fa02d7035c08dcdfa39a13b12e5398b6a5e
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-2022
+            name: windows
+          - os: ubuntu-22.04
+            name: linux
+    runs-on: ${{ matrix.os }}
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ArcVu
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/JUCE
+          ref: ${{ env.JUCE_REF }}
+          path: audiogridder/JUCE
+      - uses: actions/checkout@v4
+        with:
+          repository: MistaMin/GoodLookinDri
+          ref: ${{ env.GOODLOOKINDRI_REF }}
+          token: ${{ secrets.OPENGRID_CI_TOKEN }}
+          path: instruments/GoodLookinDri
+
+      - name: Linux dependencies
+        if: matrix.name == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build pkg-config libasound2-dev libjack-jackd2-dev libx11-dev libxcomposite-dev \
+            libxi-dev libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev libfreetype6-dev \
+            libfontconfig1-dev libgl1-mesa-dev
+
+      - name: Build, test and package (Linux)
+        if: matrix.name == 'linux'
+        working-directory: ArcVu
+        run: installer/build_linux.sh
+
+      - name: Build, test and package (Windows)
+        if: matrix.name == 'windows'
+        working-directory: ArcVu
+        shell: pwsh
+        run: powershell -ExecutionPolicy Bypass -File installer\build_windows.ps1
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arcvu-${{ matrix.name }}
+          path: |
+            ArcVu/dist/**/*.zip
+            ArcVu/dist/**/*.tar.gz
+            ArcVu/dist/**/*.sha256
+          if-no-files-found: error
+
+      - name: Attach to the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ArcVu/dist/**/*.zip
+            ArcVu/dist/**/*.tar.gz
+            ArcVu/dist/**/*.sha256

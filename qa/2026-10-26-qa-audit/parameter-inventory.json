@@ -1,0 +1,332 @@
+[
+  {
+    "id": "reference",
+    "name": "0 VU reference",
+    "group": 3,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "peak",
+    "name": "Peak",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "kind",
+    "name": "Meter type",
+    "group": 1,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "face",
+    "name": "Face",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "single",
+    "name": "Single meter",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "midSide",
+    "name": "Mid side",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "aes17",
+    "name": "AES-17",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "rmsMs",
+    "name": "RMS window",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "clipDb",
+    "name": "Clip threshold",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "polL",
+    "name": "Polarity L",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "polR",
+    "name": "Polarity R",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "muteL",
+    "name": "Mute L",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "muteR",
+    "name": "Mute R",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "monitor",
+    "name": "Monitor",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "hpfHz",
+    "name": "High-pass",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "hpfPoles",
+    "name": "High-pass slope",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "lpfHz",
+    "name": "Low-pass",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "lpfPoles",
+    "name": "Low-pass slope",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "monoHz",
+    "name": "Mono frequency",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "monoAmt",
+    "name": "Mono amount",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "dynHz",
+    "name": "Dynamic frequency",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "dynDepth",
+    "name": "Dynamic depth",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "dynOn",
+    "name": "Dynamic on",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "dynType",
+    "name": "Dynamic type",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "dynListen",
+    "name": "Dynamic listen",
+    "group": 6,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "vuModel",
+    "name": "VU model",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "riseMs",
+    "name": "Rise",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "fallMs",
+    "name": "Fall",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "overshoot",
+    "name": "Overshoot",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "peakHold",
+    "name": "Peak hold",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "valueHold",
+    "name": "Value hold",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "clipHold",
+    "name": "Clip hold",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "peakThresh",
+    "name": "Peak lamp threshold",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "redDb",
+    "name": "Red zone",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "comfort",
+    "name": "Comfort zone",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "analogRms",
+    "name": "Analog RMS",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "weight",
+    "name": "Weighting",
+    "group": 4,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "forceMono",
+    "name": "Force mono",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "trimLink",
+    "name": "Trim link",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "inPlace",
+    "name": "In place",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "showValues",
+    "name": "Show values",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "showHold",
+    "name": "Show hold",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "showTools",
+    "name": "Show tools",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "showLabel",
+    "name": "Show label",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "metersOnly",
+    "name": "Meters only",
+    "group": 2,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "guiScale",
+    "name": "GUI size",
+    "group": 2,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "dragSens",
+    "name": "Drag sensitivity",
+    "group": 7,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "refresh",
+    "name": "Meter refresh",
+    "group": 7,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "bypassHidden",
+    "name": "Bypass hidden processors",
+    "group": 7,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "tooltips",
+    "name": "Tooltips",
+    "group": 7,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "alwaysOnTop",
+    "name": "Stay above windows",
+    "group": 7,
+    "audio_or_conditional": false
+  },
+  {
+    "id": "trimL",
+    "name": "Trim L",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "trimR",
+    "name": "Trim R",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "trimM",
+    "name": "Trim M",
+    "group": 5,
+    "audio_or_conditional": true
+  },
+  {
+    "id": "trimS",
+    "name": "Trim S",
+    "group": 5,
+    "audio_or_conditional": true
+  }
+]

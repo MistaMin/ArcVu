@@ -1,0 +1,599 @@
+
+    AU Validation Tool
+    Version: 1.10.0 
+    Copyright 2003-2019, Apple Inc. All Rights Reserved.
+    Specify -h (-help) for command options
+
+--------------------------------------------------
+VALIDATING AUDIO UNIT: 'aufx' - 'ArcV' - 'OpGr'
+--------------------------------------------------
+Manufacturer String: OpenGrid
+AudioUnit Name: ArcVu
+Component Version: 1.0.0 (0x10000)
+
+* * PASS
+--------------------------------------------------
+TESTING OPEN TIMES:
+COLD:
+Time to open AudioUnit:         402.424 ms
+WARM:
+Time to open AudioUnit:         1.426  ms
+This AudioUnit is a version 2 implementation.
+FIRST TIME:
+Time for initialization:        0.004 ms
+
+* * PASS
+--------------------------------------------------
+VERIFYING DEFAULT SCOPE FORMATS:
+Input Scope Bus Configuration:
+ Default Bus Count:1
+    Bus Name: Input
+    Default Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+    Has Channel Layouts: 0x640001 0x650002 0x660002 0x670002 0x6A0002 
+    Default Layout:
+	Tag=0x650002, Num Chan Descs=0
+
+Output Scope Bus Configuration:
+ Default Bus Count:1
+    Bus Name: Output
+    Default Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+    Has Channel Layouts: 0x640001 0x650002 0x660002 0x670002 0x6A0002 
+    Default Layout:
+	Tag=0x650002, Num Chan Descs=0
+
+* * PASS
+--------------------------------------------------
+VERIFYING REQUIRED PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING RECOMMENDED PROPERTIES:
+  VERIFYING PROPERTY: Latency
+    PASS
+  VERIFYING PROPERTY: Tail Time
+    PASS
+  VERIFYING PROPERTY: Bypass Effect
+    PASS
+
+* * PASS
+--------------------------------------------------
+VERIFYING OPTIONAL PROPERTIES:
+
+* * PASS
+--------------------------------------------------
+VERIFYING SPECIAL PROPERTIES:
+
+VERIFYING CUSTOM UI
+Cocoa Views Available: 1
+  JUCE_AUCocoaViewClass_b33f329e5dc61e91
+    PASS
+
+HAS FACTORY PRESETS
+    ID:   0    Name: Untitled
+
+VERIFYING CLASS INFO
+    PASS
+
+TESTING HOST CALLBACKS
+    PASS
+
+* * PASS
+--------------------------------------------------
+PUBLISHED PARAMETER INFO:
+
+# # # 55 Global Scope Parameters:
+Parameter ID:3135069
+Name: Face
+Parameter Type: Indexed
+Values: Minimum = Arc, Default = Arc, Maximum = Vertical
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 3
+Value: 0,  String: Arc
+Value: 1,  String: Horizontal
+Value: 2,  String: Vertical
+  -parameter PASS
+
+Parameter ID:3292052
+Name: Meter type
+Parameter Type: Indexed
+Values: Minimum = VU, Default = VU, Maximum = EBU
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 9
+Value: 0,  String: VU
+Value: 1,  String: RMS
+Value: 2,  String: K-12
+Value: 3,  String: K-14
+Value: 4,  String: K-20
+Value: 5,  String: DIN
+Value: 6,  String: Nordic
+Value: 7,  String: BBC
+Value: 8,  String: EBU
+  -parameter PASS
+
+Parameter ID:3436767
+Name: Peak
+Parameter Type: Indexed
+Values: Minimum = Follow, Default = Auto, Maximum = Hold
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 3
+Value: 0,  String: Follow
+Value: 1,  String: Auto
+Value: 2,  String: Hold
+  -parameter PASS
+
+Parameter ID:3446687
+Name: Polarity L
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:3446693
+Name: Polarity R
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:92702517
+Name: AES-17
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:96064875
+Name: Dynamic frequency
+Parameter Type: Generic
+Values: Minimum = 80.00, Default = 4000.00, Maximum = 12000.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:96065080
+Name: Dynamic on
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:99483152
+Name: High-pass
+Parameter Type: Generic
+Values: Minimum = 20.00, Default = 80.00, Maximum = 500.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:103177236
+Name: Low-pass
+Parameter Type: Generic
+Values: Minimum = 1000.00, Default = 16000.00, Maximum = 20000.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:104264019
+Name: Mute L
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:104264025
+Name: Mute R
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:108388591
+Name: Red zone
+Parameter Type: Generic
+Values: Minimum = -12.00, Default = -0.00, Maximum = 12.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:108641630
+Name: RMS window
+Parameter Type: Generic
+Values: Minimum = 30.00, Default = 300.00, Maximum = 2000.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:110628970
+Name: Trim L
+Parameter Type: Generic
+Values: Minimum = -24.00, Default = -0.00, Maximum = 24.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:110628971
+Name: Trim M
+Parameter Type: Generic
+Values: Minimum = -24.00, Default = -0.00, Maximum = 24.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:110628976
+Name: Trim R
+Parameter Type: Generic
+Values: Minimum = -24.00, Default = -0.00, Maximum = 24.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:110628977
+Name: Trim S
+Parameter Type: Generic
+Values: Minimum = -24.00, Default = -0.00, Maximum = 24.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:182314493
+Name: High-pass slope
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 4
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:190900775
+Name: Stay above windows
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:226036215
+Name: Show label
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:233854174
+Name: Show tools
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:444822152
+Name: Analog RMS
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:711104889
+Name: Low-pass slope
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 4
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:775379882
+Name: VU model
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 2
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:789780462
+Name: Clip threshold
+Parameter Type: Generic
+Values: Minimum = -12.00, Default = -0.00, Maximum = -0.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:817829071
+Name: GUI size
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 2
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:851276415
+Name: Show values
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:865595009
+Name: Fall
+Parameter Type: Generic
+Values: Minimum = 50.00, Default = 300.00, Maximum = 2000.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:917431343
+Name: Clip hold
+Parameter Type: Generic
+Values: Minimum = -1.00, Default = 2.00, Maximum = 30.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:950199756
+Name: Comfort zone
+Parameter Type: Generic
+Values: Minimum = 1.00, Default = 4.00, Maximum = 12.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1009075414
+Name: Meters only
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1054643135
+Name: Mid side
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1078990677
+Name: Mono frequency
+Parameter Type: Generic
+Values: Minimum = 20.00, Default = 120.00, Maximum = 400.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1085444827
+Name: Meter refresh
+Parameter Type: Generic
+Values: Minimum = 10, Default = 30, Maximum = 60
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1164849360
+Name: Tooltips
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1187316128
+Name: Dynamic listen
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1216734799
+Name: Rise
+Parameter Type: Generic
+Values: Minimum = 50.00, Default = 300.00, Maximum = 1000.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1222328139
+Name: 0 VU reference
+Parameter Type: Indexed
+Values: Minimum = 20, Default = 18, Maximum = 14
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 3
+Value: 0,  String: 20
+Value: 1,  String: 18
+Value: 2,  String: 14
+  -parameter PASS
+
+Parameter ID:1236319578
+Name: Monitor
+Parameter Type: Indexed
+Values: Minimum = LR, Default = LR, Maximum = Side
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+Parameter has Value Strings
+Num Strings = 6
+Value: 0,  String: LR
+Value: 1,  String: RL
+Value: 2,  String: L
+Value: 3,  String: R
+Value: 4,  String: Mid
+Value: 5,  String: Side
+  -parameter PASS
+
+Parameter ID:1236449253
+Name: Mono amount
+Parameter Type: Generic
+Values: Minimum = 0.00, Default = 0.00, Maximum = 1.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1245217864
+Name: Single meter
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1305786091
+Name: Drag sensitivity
+Parameter Type: Generic
+Values: Minimum = 0.25, Default = 1.00, Maximum = 4.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1318103218
+Name: Bypass hidden processors
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1355891320
+Name: Weighting
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 5
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1381423568
+Name: Value hold
+Parameter Type: Generic
+Values: Minimum = -1.00, Default = 5.00, Maximum = 30.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1398418379
+Name: Overshoot
+Parameter Type: Generic
+Values: Minimum = 0.20, Default = 1.00, Maximum = 8.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1416263626
+Name: Dynamic depth
+Parameter Type: Generic
+Values: Minimum = 0.00, Default = 0.00, Maximum = 1.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1507833660
+Name: Trim link
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1527827566
+Name: Force mono
+Parameter Type: Boolean
+Values: Minimum = Off, Default = Off, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1808301404
+Name: Show hold
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1827932667
+Name: Peak lamp threshold
+Parameter Type: Generic
+Values: Minimum = -24.00, Default = -6.00, Maximum = -0.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:1925008098
+Name: In place
+Parameter Type: Boolean
+Values: Minimum = Off, Default = On, Maximum = On
+Flags: Values Have Strings, High Resolution, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:2095403582
+Name: Peak hold
+Parameter Type: Generic
+Values: Minimum = -1.00, Default = 3.00, Maximum = 30.00
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Parameter ID:2124391763
+Name: Dynamic type
+Parameter Type: Generic
+Values: Minimum = 0, Default = 0, Maximum = 4
+Flags: Values Have Strings, High Resolution, Can Ramp, Readable, Writable 
+  -parameter PASS
+
+Testing that parameters retain value across reset and initialization
+  PASS
+
+* * PASS
+--------------------------------------------------
+FORMAT TESTS:
+
+Reported Channel Capabilities (explicit):
+      [1, 1]  [2, 2]  
+
+Input/Output Channel Handling:
+1-1   1-2   1-4   1-5   1-6   1-7   1-8   2-2   2-4   2-5   2-6   2-7   2-8   4-4   4-5   5-5   6-6   7-7   8-8
+X                                         X                                                                       
+
+# # AudioChannelLayouts (5), Input Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x640001, 0x650002, 0x660002, 0x670002, 0x6A0002, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+X       X       X                                                                                                               
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x640001, Success - did not reset format with mis-matched layout
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x650002, Successsful
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x6A0002, Successsful
+
+# # AudioChannelLayouts (5), Output Scope:
+ChannelLayout is Writable: T
+The Unit publishes the following Channel Layouts:
+  0x640001, 0x650002, 0x660002, 0x670002, 0x6A0002, 
+
+Is Audio Channel Layout Available:
+Mono    Stereo  Binau.  AU_4    Ambi.   AU_5    AU_5_0  AU_6    AU_6_0  AU_7_0  AU_7_0F AU_8    AU_5_1  AU_6_1  AU_7_1  AU_7_1F 
+X       X       X                                                                                                               
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x640001, Success - did not reset format with mis-matched layout
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x650002, Successsful
+
+Current Format:AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Current Format Tag = 0x650002, New Format Tag = 0x6A0002, Successsful
+
+* * PASS
+--------------------------------------------------
+RENDER TESTS:
+
+Input Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Output Format: AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+Render Test at 512 frames
+Slicing Render Test at 64 frames
+  PASS
+
+
+Render Test at 64 frames, sample rate: 22050 Hz
+Render Test at 137 frames, sample rate: 96000 Hz
+Render Test at 4096 frames, sample rate: 48000 Hz
+Render Test at 4096 frames, sample rate: 192000 Hz
+Render Test at 4096 frames, sample rate: 11025 Hz
+Render Test at 512 frames, sample rate: 44100 Hz
+  PASS
+
+1 Channel Test:
+Render Test at 512 frames
+  PASS
+
+Checking connection semantics:
+Connection format:
+AudioStreamBasicDescription:  2 ch,  44100 Hz, Float32, deinterleaved
+  PASS
+
+Bad Max Frames - Render should fail
+  PASS
+
+Checking parameter setting
+Using AudioUnitSetParameter
+Using AudioUnitScheduleParameter
+  PASS
+
+Checking ramped parameter scheduling
+  PASS
+
+Test MIDI
+  PASS
+
+* * PASS
+--------------------------------------------------
+AU VALIDATION SUCCEEDED.
+--------------------------------------------------

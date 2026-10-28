@@ -1,0 +1,10 @@
+PASS preset file loads
+PASS preset file restores meter type
+PASS preset file restores trim R
+PASS preset file restores dynamic frequency
+PASS preset file restores label
+PASS previous from first wraps to last factory preset
+PASS next returns to factory preset 0
+PASS next moves to factory preset 1
+PASS short preset file is rejected
+FAILURES 0

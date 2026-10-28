@@ -1,0 +1,116 @@
+   Compiling arcvu_dsp v0.1.0 (/Volumes/Developer/Dev Projects/ArcVu/dsp)
+warning: function `lamp_body` is never used
+    --> src/lib.rs:1144:4
+     |
+1144 | fn lamp_body(db: f32, lit: bool) -> Color {
+     |    ^^^^^^^^^
+     |
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `scale_label` is never used
+    --> src/lib.rs:1148:4
+     |
+1148 | fn scale_label(db: f32) -> String {
+     |    ^^^^^^^^^^^
+
+warning: function `led_index` is never used
+    --> src/lib.rs:1320:4
+     |
+1320 | fn led_index(db: f32) -> i32 {
+     |    ^^^^^^^^^
+
+warning: function `led_color` is never used
+    --> src/lib.rs:1324:4
+     |
+1324 | fn led_color(db: f32) -> Color {
+     |    ^^^^^^^^^
+
+warning: function `led_dim` is never used
+    --> src/lib.rs:1331:4
+     |
+1331 | fn led_dim(db: f32) -> Color {
+     |    ^^^^^^^
+
+warning: associated functions `lowpass`, `highpass`, `bandpass`, and `rbj` are never used
+  --> src/extra.rs:56:12
+   |
+55 | impl Biquad {
+   | ----------- associated functions in this implementation
+56 |     pub fn lowpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 0) }
+   |            ^^^^^^^
+57 |     pub fn highpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 1) }
+   |            ^^^^^^^^
+58 |     pub fn bandpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 2) }
+   |            ^^^^^^^^
+...
+83 |     fn rbj(hz: f32, q: f32, sr: f32, kind: i32) -> Self {
+   |        ^^^
+
+warning: function `one_pole_hpf` is never used
+   --> src/extra.rs:167:8
+    |
+167 | pub fn one_pole_hpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `one_pole_lpf` is never used
+   --> src/extra.rs:173:8
+    |
+173 | pub fn one_pole_lpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `cascade` is never used
+   --> src/extra.rs:180:8
+    |
+180 | pub fn cascade(states: &mut [f32], mut x: f32, hz: f32, sr: f32, poles: i32, hp: bool) -> f32 {
+    |        ^^^^^^^
+
+warning: `arcvu_dsp` (lib) generated 9 warnings
+warning: variable does not need to be mutable
+    --> src/lib.rs:1690:13
+     |
+1690 |         let mut block = vec![input; 48];
+     |             ----^^^^^
+     |             |
+     |             help: remove this `mut`
+     |
+     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `n` is assigned to, but never used
+    --> src/lib.rs:1932:45
+     |
+1932 |         let (mut energy_in, mut energy_out, mut n) = (0.0f32, 0.0f32, 0usize);
+     |                                             ^^^^^
+     |
+     = note: consider using `_n` instead
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `n` is never read
+    --> src/lib.rs:1948:21
+     |
+1948 |                     n += 1;
+     |                     ^^^^^^
+     |
+     = help: maybe it is overwritten before being read?
+     = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arcvu_dsp` (lib test) generated 12 warnings (9 duplicates) (run `cargo fix --lib -p arcvu_dsp --tests` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running unittests src/lib.rs (/private/tmp/arcvu-target/debug/deps/arcvu_dsp-87d19c1626aa4334)
+
+running 1 test
+PROBE delay to +8 from +9 onset: Some(0.03825) s
+PROBE freq 31.5 Hz dev -0.00 dB
+PROBE freq 100 Hz dev -0.00 dB
+PROBE freq 4000 Hz dev 0.00 dB
+PROBE freq 8000 Hz dev -0.01 dB
+PROBE freq 16000 Hz dev 0.08 dB
+test tests::tmp_probe_ebu_delay_freq ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 44 filtered out; finished in 0.05s
+
+   Doc-tests arcvu_dsp
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

@@ -1,0 +1,4 @@
+REAPER PID 3512 launched using open -n -g -j with a separate reaper.ini.
+NSRunningApplication reported hidden=false, active=false after launch.
+Stopped only this QA instance immediately, per plugin-daw-test hidden-window requirement.
+Host suite is UNVERIFIED; no existing user DAW session was touched.

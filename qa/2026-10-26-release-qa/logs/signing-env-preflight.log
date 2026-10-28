@@ -1,0 +1,14 @@
+=== 1. Checking Apple Developer ID Certificates ===
+✓ Application identity found: Developer ID Application: Marcos Deida (ZQYU67JUBH)
+✓ Installer identity found: Developer ID Installer: Marcos Deida (ZQYU67JUBH)
+
+=== 2. Checking Apple Notarytool Profile (AC_NOTARY) ===
+✓ Apple notary profile 'AC_NOTARY' is accessible and valid
+
+=== 3. Checking PACE Eden Wraptool ===
+✓ Found wraptool: wraptool - 6.0.1 GM (b6847, rf802503d, Release, 64 bit, built August 25, 2026)
+
+=== 4. Checking PACE Signing Credentials / iLok ===
+✓ PACE signing authorization found on connected iLok
+
+=== All Core Environment Checks Passed ===

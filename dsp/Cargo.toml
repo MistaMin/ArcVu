@@ -1,0 +1,12 @@
+[package]
+name = "arcvu_dsp"
+version = "1.0.0"
+edition = "2021"
+license = "MIT"
+description = "VU ballistic and peak detector for ArcVu"
+
+[lib]
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+goodlookindri = { path = "../../instruments/GoodLookinDri" }

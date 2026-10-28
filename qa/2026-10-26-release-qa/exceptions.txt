@@ -1,0 +1,48 @@
+# Parameters that legitimately do not change the audio output (ArcVu is a meter: it passes audio through).
+# Source: qa/2026-10-26-qa-audit/parameter-inventory.json (audio_or_conditional=false). Each shown as audio: (the visual sweep still applies).
+audio:0 VU reference   # metering, display or preference control; does not alter the audio path
+audio:Peak   # metering, display or preference control; does not alter the audio path
+audio:Meter type   # metering, display or preference control; does not alter the audio path
+audio:Face   # metering, display or preference control; does not alter the audio path
+audio:Single meter   # metering, display or preference control; does not alter the audio path
+audio:AES-17   # metering, display or preference control; does not alter the audio path
+audio:RMS window   # metering, display or preference control; does not alter the audio path
+audio:Clip threshold   # metering, display or preference control; does not alter the audio path
+audio:VU model   # metering, display or preference control; does not alter the audio path
+audio:Rise   # metering, display or preference control; does not alter the audio path
+audio:Fall   # metering, display or preference control; does not alter the audio path
+audio:Overshoot   # metering, display or preference control; does not alter the audio path
+audio:Peak hold   # metering, display or preference control; does not alter the audio path
+audio:Value hold   # metering, display or preference control; does not alter the audio path
+audio:Clip hold   # metering, display or preference control; does not alter the audio path
+audio:Peak lamp threshold   # metering, display or preference control; does not alter the audio path
+audio:Red zone   # metering, display or preference control; does not alter the audio path
+audio:Comfort zone   # metering, display or preference control; does not alter the audio path
+audio:Analog RMS   # metering, display or preference control; does not alter the audio path
+audio:Weighting   # metering, display or preference control; does not alter the audio path
+audio:Show values   # metering, display or preference control; does not alter the audio path
+audio:Show hold   # metering, display or preference control; does not alter the audio path
+audio:Show tools   # metering, display or preference control; does not alter the audio path
+audio:Show label   # metering, display or preference control; does not alter the audio path
+audio:GUI size   # metering, display or preference control; does not alter the audio path
+audio:Drag sensitivity   # metering, display or preference control; does not alter the audio path
+audio:Meter refresh   # metering, display or preference control; does not alter the audio path
+audio:Tooltips   # metering, display or preference control; does not alter the audio path
+audio:Stay above windows   # metering, display or preference control; does not alter the audio path
+Meters only @ Bypass hidden processors=1.0, High-pass slope=1.0, High-pass=1.0   # hides the filter/mono/dynamic panel and, with Bypass hidden processors on, bypasses a high-pass that is audibly active
+# Conditional controls: each acts only while another control is set. Tested with that context instead of random states.
+Trim M @ Mid side=1.0                                    # the mid trim applies in M/S mode
+Trim S @ Mid side=1.0                                    # the side trim applies in M/S mode
+Mid side @ Trim M=1.0                                    # M/S mode changes the sound only through the mid/side trims
+Trim link @ Trim L=1.0                                   # linking only matters once one trim is off zero
+High-pass @ High-pass slope=1.0                          # the cut frequency acts only with a slope
+Low-pass @ Low-pass slope=1.0                            # likewise
+Mono frequency @ Mono amount=1.0                         # the mono maker acts only with an amount
+Dynamic on @ Dynamic depth=1.0, Dynamic type=0.5         # the dynamic filter needs depth and a type
+Dynamic depth @ Dynamic on=1.0, Dynamic type=0.5         # acts only while the filter is on
+Dynamic frequency @ Dynamic on=1.0, Dynamic depth=1.0, Dynamic type=0.5
+Dynamic type @ Dynamic on=1.0, Dynamic depth=1.0
+Dynamic listen @ Dynamic on=1.0, Dynamic depth=1.0, Dynamic type=0.5
+In place @ Monitor=0.4                                   # in place matters when one side is monitored (L)
+audio:Free Wheeling                                      # LV2 host control port, not an ArcVu parameter
+Bypass hidden processors @ Meters only=1.0, High-pass slope=1.0, High-pass=1.0   # bypasses the hidden filters only when the lower panel is hidden and the filter is audible

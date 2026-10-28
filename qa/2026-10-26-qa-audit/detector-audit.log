@@ -1,0 +1,7 @@
+F1 right silence, unweighted=-158.99 weighted=-5.35976 dB
+FAIL weighting isolates stereo channels
+F2 K14 analog reading=31.9952 expected=-4
+FAIL analog K14 scale calibration
+F3 dynamic HPF listen RMS low=0.141258 high=0.0023885
+FAIL dynamic HPF listen passes highs
+FAILURES 3

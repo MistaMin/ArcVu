@@ -1,0 +1,490 @@
+JUCE v9.0.4
+PASS face-0-scale-0.png
+PASS face-0-scale-1.png
+PASS face-0-scale-2.png
+PASS panel 1
+PASS face-0-panel-1-page-0.png
+PASS visible bounds kind
+PASS GUI to host kind
+PASS host to GUI kind
+PASS panel 2
+PASS face-0-panel-2-page-0.png
+PASS visible bounds face
+PASS GUI to host face
+PASS host to GUI face
+PASS visible bounds single
+PASS GUI to host single
+PASS host to GUI single
+PASS visible bounds guiScale
+PASS GUI to host guiScale
+PASS host to GUI guiScale
+PASS visible bounds metersOnly
+PASS GUI to host metersOnly
+PASS host to GUI metersOnly
+PASS visible bounds showValues
+PASS GUI to host showValues
+PASS host to GUI showValues
+PASS visible bounds showHold
+PASS GUI to host showHold
+PASS host to GUI showHold
+PASS face-0-panel-2-page-1.png
+PASS visible bounds showTools
+PASS GUI to host showTools
+PASS host to GUI showTools
+PASS visible bounds showLabel
+PASS GUI to host showLabel
+PASS host to GUI showLabel
+PASS panel 3
+PASS face-0-panel-3-page-0.png
+PASS visible bounds reference
+PASS GUI to host reference
+PASS host to GUI reference
+PASS panel 4
+PASS face-0-panel-4-page-0.png
+PASS visible bounds peak
+PASS GUI to host peak
+PASS host to GUI peak
+PASS visible bounds rmsMs
+PASS GUI to host rmsMs
+PASS host to GUI rmsMs
+PASS visible bounds aes17
+PASS GUI to host aes17
+PASS host to GUI aes17
+PASS visible bounds vuModel
+PASS GUI to host vuModel
+PASS host to GUI vuModel
+PASS visible bounds riseMs
+PASS GUI to host riseMs
+PASS host to GUI riseMs
+PASS visible bounds fallMs
+PASS GUI to host fallMs
+PASS host to GUI fallMs
+PASS face-0-panel-4-page-1.png
+PASS visible bounds overshoot
+PASS GUI to host overshoot
+PASS host to GUI overshoot
+PASS visible bounds peakHold
+PASS GUI to host peakHold
+PASS host to GUI peakHold
+PASS visible bounds valueHold
+PASS GUI to host valueHold
+PASS host to GUI valueHold
+PASS visible bounds clipHold
+PASS GUI to host clipHold
+PASS host to GUI clipHold
+PASS visible bounds clipDb
+PASS GUI to host clipDb
+PASS host to GUI clipDb
+PASS visible bounds peakThresh
+PASS GUI to host peakThresh
+PASS host to GUI peakThresh
+PASS face-0-panel-4-page-2.png
+PASS visible bounds redDb
+PASS GUI to host redDb
+PASS host to GUI redDb
+PASS visible bounds comfort
+PASS GUI to host comfort
+PASS host to GUI comfort
+PASS visible bounds analogRms
+PASS GUI to host analogRms
+PASS host to GUI analogRms
+PASS visible bounds weight
+PASS GUI to host weight
+PASS host to GUI weight
+PASS panel 5
+PASS face-0-panel-5-page-0.png
+PASS visible bounds midSide
+PASS GUI to host midSide
+PASS host to GUI midSide
+PASS visible bounds trimL
+PASS GUI to host trimL
+PASS host to GUI trimL
+PASS visible bounds trimR
+PASS GUI to host trimR
+PASS host to GUI trimR
+PASS visible bounds trimM
+PASS GUI to host trimM
+PASS host to GUI trimM
+PASS visible bounds trimS
+PASS GUI to host trimS
+PASS host to GUI trimS
+PASS visible bounds trimLink
+PASS GUI to host trimLink
+PASS host to GUI trimLink
+PASS face-0-panel-5-page-1.png
+PASS visible bounds polL
+PASS GUI to host polL
+PASS host to GUI polL
+PASS visible bounds polR
+PASS GUI to host polR
+PASS host to GUI polR
+PASS visible bounds muteL
+PASS GUI to host muteL
+PASS host to GUI muteL
+PASS visible bounds muteR
+PASS GUI to host muteR
+PASS host to GUI muteR
+PASS visible bounds monitor
+PASS GUI to host monitor
+PASS host to GUI monitor
+PASS visible bounds forceMono
+PASS GUI to host forceMono
+PASS host to GUI forceMono
+PASS face-0-panel-5-page-2.png
+PASS visible bounds inPlace
+PASS GUI to host inPlace
+PASS host to GUI inPlace
+PASS panel 6
+PASS face-0-panel-6-page-0.png
+PASS visible bounds hpfHz
+PASS GUI to host hpfHz
+PASS host to GUI hpfHz
+PASS visible bounds hpfPoles
+PASS GUI to host hpfPoles
+PASS host to GUI hpfPoles
+PASS visible bounds lpfHz
+PASS GUI to host lpfHz
+PASS host to GUI lpfHz
+PASS visible bounds lpfPoles
+PASS GUI to host lpfPoles
+PASS host to GUI lpfPoles
+PASS visible bounds monoHz
+PASS GUI to host monoHz
+PASS host to GUI monoHz
+PASS visible bounds monoAmt
+PASS GUI to host monoAmt
+PASS host to GUI monoAmt
+PASS face-0-panel-6-page-1.png
+PASS visible bounds dynOn
+PASS GUI to host dynOn
+PASS host to GUI dynOn
+PASS visible bounds dynType
+PASS GUI to host dynType
+PASS host to GUI dynType
+PASS visible bounds dynHz
+PASS GUI to host dynHz
+PASS host to GUI dynHz
+PASS visible bounds dynDepth
+PASS GUI to host dynDepth
+PASS host to GUI dynDepth
+PASS visible bounds dynListen
+PASS GUI to host dynListen
+PASS host to GUI dynListen
+PASS panel 7
+PASS face-0-panel-7-page-0.png
+PASS visible bounds dragSens
+PASS GUI to host dragSens
+PASS host to GUI dragSens
+PASS visible bounds refresh
+PASS GUI to host refresh
+PASS host to GUI refresh
+PASS visible bounds bypassHidden
+PASS GUI to host bypassHidden
+PASS host to GUI bypassHidden
+PASS visible bounds tooltips
+PASS GUI to host tooltips
+PASS host to GUI tooltips
+PASS visible bounds alwaysOnTop
+PASS GUI to host alwaysOnTop
+PASS host to GUI alwaysOnTop
+PASS face-0-panel-1-page-0-scale-2.png
+PASS face-0-panel-2-page-0-scale-2.png
+PASS face-0-panel-2-page-1-scale-2.png
+PASS face-0-panel-3-page-0-scale-2.png
+PASS face-0-panel-4-page-0-scale-2.png
+PASS face-0-panel-4-page-1-scale-2.png
+PASS face-0-panel-4-page-2-scale-2.png
+PASS face-0-panel-5-page-0-scale-2.png
+PASS face-0-panel-5-page-1-scale-2.png
+PASS face-0-panel-5-page-2-scale-2.png
+PASS face-0-panel-6-page-0-scale-2.png
+PASS face-0-panel-6-page-1-scale-2.png
+PASS face-0-panel-7-page-0-scale-2.png
+PASS face-0-single.png
+PASS face-0-midSide.png
+PASS face-0-metersOnly.png
+PASS face-1-scale-0.png
+PASS face-1-scale-1.png
+PASS face-1-scale-2.png
+PASS panel 1
+PASS face-1-panel-1-page-0.png
+PASS visible bounds kind
+PASS panel 2
+PASS face-1-panel-2-page-0.png
+PASS visible bounds face
+PASS visible bounds single
+PASS visible bounds guiScale
+PASS visible bounds metersOnly
+PASS visible bounds showValues
+PASS visible bounds showHold
+PASS visible bounds showTools
+PASS visible bounds showLabel
+PASS panel 3
+PASS face-1-panel-3-page-0.png
+PASS visible bounds reference
+PASS panel 4
+PASS face-1-panel-4-page-0.png
+PASS visible bounds peak
+PASS visible bounds rmsMs
+PASS visible bounds aes17
+PASS visible bounds vuModel
+PASS visible bounds riseMs
+PASS visible bounds fallMs
+PASS visible bounds overshoot
+PASS visible bounds peakHold
+PASS face-1-panel-4-page-1.png
+PASS visible bounds valueHold
+PASS visible bounds clipHold
+PASS visible bounds clipDb
+PASS visible bounds peakThresh
+PASS visible bounds redDb
+PASS visible bounds comfort
+PASS visible bounds analogRms
+PASS visible bounds weight
+PASS panel 5
+PASS face-1-panel-5-page-0.png
+PASS visible bounds midSide
+PASS visible bounds trimL
+PASS visible bounds trimR
+PASS visible bounds trimM
+PASS visible bounds trimS
+PASS visible bounds trimLink
+PASS visible bounds polL
+PASS visible bounds polR
+PASS face-1-panel-5-page-1.png
+PASS visible bounds muteL
+PASS visible bounds muteR
+PASS visible bounds monitor
+PASS visible bounds forceMono
+PASS visible bounds inPlace
+PASS panel 6
+PASS face-1-panel-6-page-0.png
+PASS visible bounds hpfHz
+PASS visible bounds hpfPoles
+PASS visible bounds lpfHz
+PASS visible bounds lpfPoles
+PASS visible bounds monoHz
+PASS visible bounds monoAmt
+PASS visible bounds dynOn
+PASS visible bounds dynType
+PASS face-1-panel-6-page-1.png
+PASS visible bounds dynHz
+PASS visible bounds dynDepth
+PASS visible bounds dynListen
+PASS panel 7
+PASS face-1-panel-7-page-0.png
+PASS visible bounds dragSens
+PASS visible bounds refresh
+PASS visible bounds bypassHidden
+PASS visible bounds tooltips
+PASS visible bounds alwaysOnTop
+PASS face-1-panel-1-page-0-scale-2.png
+PASS face-1-panel-2-page-0-scale-2.png
+PASS face-1-panel-3-page-0-scale-2.png
+PASS face-1-panel-4-page-0-scale-2.png
+PASS face-1-panel-4-page-1-scale-2.png
+PASS face-1-panel-5-page-0-scale-2.png
+PASS face-1-panel-5-page-1-scale-2.png
+PASS face-1-panel-6-page-0-scale-2.png
+PASS face-1-panel-6-page-1-scale-2.png
+PASS face-1-panel-7-page-0-scale-2.png
+PASS face-1-single.png
+PASS face-1-midSide.png
+PASS face-1-metersOnly.png
+PASS face-2-scale-0.png
+PASS face-2-scale-1.png
+PASS face-2-scale-2.png
+PASS panel 1
+PASS face-2-panel-1-page-0.png
+PASS visible bounds kind
+PASS panel 2
+PASS face-2-panel-2-page-0.png
+PASS visible bounds face
+PASS visible bounds single
+PASS visible bounds guiScale
+PASS visible bounds metersOnly
+PASS visible bounds showValues
+PASS visible bounds showHold
+PASS visible bounds showTools
+PASS visible bounds showLabel
+PASS panel 3
+PASS face-2-panel-3-page-0.png
+PASS visible bounds reference
+PASS panel 4
+PASS face-2-panel-4-page-0.png
+PASS visible bounds peak
+PASS visible bounds rmsMs
+PASS visible bounds aes17
+PASS visible bounds vuModel
+PASS visible bounds riseMs
+PASS visible bounds fallMs
+PASS visible bounds overshoot
+PASS visible bounds peakHold
+PASS visible bounds valueHold
+PASS visible bounds clipHold
+PASS visible bounds clipDb
+PASS visible bounds peakThresh
+PASS visible bounds redDb
+PASS visible bounds comfort
+PASS visible bounds analogRms
+PASS visible bounds weight
+PASS panel 5
+PASS face-2-panel-5-page-0.png
+PASS visible bounds midSide
+PASS visible bounds trimL
+PASS visible bounds trimR
+PASS visible bounds trimM
+PASS visible bounds trimS
+PASS visible bounds trimLink
+PASS visible bounds polL
+PASS visible bounds polR
+PASS visible bounds muteL
+PASS visible bounds muteR
+PASS visible bounds monitor
+PASS visible bounds forceMono
+PASS visible bounds inPlace
+PASS panel 6
+PASS face-2-panel-6-page-0.png
+PASS visible bounds hpfHz
+PASS visible bounds hpfPoles
+PASS visible bounds lpfHz
+PASS visible bounds lpfPoles
+PASS visible bounds monoHz
+PASS visible bounds monoAmt
+PASS visible bounds dynOn
+PASS visible bounds dynType
+PASS visible bounds dynHz
+PASS visible bounds dynDepth
+PASS visible bounds dynListen
+PASS panel 7
+PASS face-2-panel-7-page-0.png
+PASS visible bounds dragSens
+PASS visible bounds refresh
+PASS visible bounds bypassHidden
+PASS visible bounds tooltips
+PASS visible bounds alwaysOnTop
+PASS face-2-panel-1-page-0-scale-2.png
+PASS face-2-panel-2-page-0-scale-2.png
+PASS face-2-panel-3-page-0-scale-2.png
+PASS face-2-panel-4-page-0-scale-2.png
+PASS face-2-panel-5-page-0-scale-2.png
+PASS face-2-panel-6-page-0-scale-2.png
+PASS face-2-panel-7-page-0-scale-2.png
+PASS face-2-single.png
+PASS face-2-midSide.png
+PASS face-2-metersOnly.png
+PASS parameter coverage reference
+PASS state roundtrip reference
+PASS parameter coverage peak
+PASS state roundtrip peak
+PASS parameter coverage kind
+PASS state roundtrip kind
+PASS parameter coverage face
+PASS state roundtrip face
+PASS parameter coverage single
+PASS state roundtrip single
+PASS parameter coverage midSide
+PASS state roundtrip midSide
+PASS parameter coverage aes17
+PASS state roundtrip aes17
+PASS parameter coverage rmsMs
+PASS state roundtrip rmsMs
+PASS parameter coverage clipDb
+PASS state roundtrip clipDb
+PASS parameter coverage trimL
+PASS state roundtrip trimL
+PASS parameter coverage trimR
+PASS state roundtrip trimR
+PASS parameter coverage trimM
+PASS state roundtrip trimM
+PASS parameter coverage trimS
+PASS state roundtrip trimS
+PASS parameter coverage polL
+PASS state roundtrip polL
+PASS parameter coverage polR
+PASS state roundtrip polR
+PASS parameter coverage muteL
+PASS state roundtrip muteL
+PASS parameter coverage muteR
+PASS state roundtrip muteR
+PASS parameter coverage monitor
+PASS state roundtrip monitor
+PASS parameter coverage hpfHz
+PASS state roundtrip hpfHz
+PASS parameter coverage hpfPoles
+PASS state roundtrip hpfPoles
+PASS parameter coverage lpfHz
+PASS state roundtrip lpfHz
+PASS parameter coverage lpfPoles
+PASS state roundtrip lpfPoles
+PASS parameter coverage monoHz
+PASS state roundtrip monoHz
+PASS parameter coverage monoAmt
+PASS state roundtrip monoAmt
+PASS parameter coverage dynHz
+PASS state roundtrip dynHz
+PASS parameter coverage dynDepth
+PASS state roundtrip dynDepth
+PASS parameter coverage dynOn
+PASS state roundtrip dynOn
+PASS parameter coverage dynType
+PASS state roundtrip dynType
+PASS parameter coverage dynListen
+PASS state roundtrip dynListen
+PASS parameter coverage vuModel
+PASS state roundtrip vuModel
+PASS parameter coverage riseMs
+PASS state roundtrip riseMs
+PASS parameter coverage fallMs
+PASS state roundtrip fallMs
+PASS parameter coverage overshoot
+PASS state roundtrip overshoot
+PASS parameter coverage peakHold
+PASS state roundtrip peakHold
+PASS parameter coverage valueHold
+PASS state roundtrip valueHold
+PASS parameter coverage clipHold
+PASS state roundtrip clipHold
+PASS parameter coverage peakThresh
+PASS state roundtrip peakThresh
+PASS parameter coverage redDb
+PASS state roundtrip redDb
+PASS parameter coverage comfort
+PASS state roundtrip comfort
+PASS parameter coverage analogRms
+PASS state roundtrip analogRms
+PASS parameter coverage weight
+PASS state roundtrip weight
+PASS parameter coverage forceMono
+PASS state roundtrip forceMono
+PASS parameter coverage trimLink
+PASS state roundtrip trimLink
+PASS parameter coverage inPlace
+PASS state roundtrip inPlace
+PASS parameter coverage showValues
+PASS state roundtrip showValues
+PASS parameter coverage showHold
+PASS state roundtrip showHold
+PASS parameter coverage showTools
+PASS state roundtrip showTools
+PASS parameter coverage showLabel
+PASS state roundtrip showLabel
+PASS parameter coverage metersOnly
+PASS state roundtrip metersOnly
+PASS parameter coverage guiScale
+PASS state roundtrip guiScale
+PASS parameter coverage dragSens
+PASS state roundtrip dragSens
+PASS parameter coverage refresh
+PASS state roundtrip refresh
+PASS parameter coverage bypassHidden
+PASS state roundtrip bypassHidden
+PASS parameter coverage tooltips
+PASS state roundtrip tooltips
+PASS parameter coverage alwaysOnTop
+PASS state roundtrip alwaysOnTop
+PASS state captures host change while stopped
+PASS state overwrites reused MemoryBlock
+PASS coverage count 55
+PASS editor lifecycle 10 reopenings
+FAILURES 0

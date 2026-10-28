@@ -1,0 +1,116 @@
+warning: function `lamp_body` is never used
+    --> src/lib.rs:1160:4
+     |
+1160 | fn lamp_body(db: f32, lit: bool) -> Color {
+     |    ^^^^^^^^^
+     |
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `scale_label` is never used
+    --> src/lib.rs:1164:4
+     |
+1164 | fn scale_label(db: f32) -> String {
+     |    ^^^^^^^^^^^
+
+warning: function `led_index` is never used
+    --> src/lib.rs:1336:4
+     |
+1336 | fn led_index(db: f32) -> i32 {
+     |    ^^^^^^^^^
+
+warning: function `led_color` is never used
+    --> src/lib.rs:1340:4
+     |
+1340 | fn led_color(db: f32) -> Color {
+     |    ^^^^^^^^^
+
+warning: function `led_dim` is never used
+    --> src/lib.rs:1347:4
+     |
+1347 | fn led_dim(db: f32) -> Color {
+     |    ^^^^^^^
+
+warning: associated functions `lowpass`, `highpass`, `bandpass`, and `rbj` are never used
+  --> src/extra.rs:56:12
+   |
+55 | impl Biquad {
+   | ----------- associated functions in this implementation
+56 |     pub fn lowpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 0) }
+   |            ^^^^^^^
+57 |     pub fn highpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 1) }
+   |            ^^^^^^^^
+58 |     pub fn bandpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 2) }
+   |            ^^^^^^^^
+...
+83 |     fn rbj(hz: f32, q: f32, sr: f32, kind: i32) -> Self {
+   |        ^^^
+
+warning: function `one_pole_hpf` is never used
+   --> src/extra.rs:167:8
+    |
+167 | pub fn one_pole_hpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `one_pole_lpf` is never used
+   --> src/extra.rs:173:8
+    |
+173 | pub fn one_pole_lpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `cascade` is never used
+   --> src/extra.rs:180:8
+    |
+180 | pub fn cascade(states: &mut [f32], mut x: f32, hz: f32, sr: f32, poles: i32, hp: bool) -> f32 {
+    |        ^^^^^^^
+
+warning: `arcvu_dsp` (lib) generated 9 warnings
+warning: variable does not need to be mutable
+    --> src/lib.rs:1820:13
+     |
+1820 |         let mut block = vec![input; 48];
+     |             ----^^^^^
+     |             |
+     |             help: remove this `mut`
+     |
+     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: variable `n` is assigned to, but never used
+    --> src/lib.rs:2062:45
+     |
+2062 |         let (mut energy_in, mut energy_out, mut n) = (0.0f32, 0.0f32, 0usize);
+     |                                             ^^^^^
+     |
+     = note: consider using `_n` instead
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: value assigned to `n` is never read
+    --> src/lib.rs:2078:21
+     |
+2078 |                     n += 1;
+     |                     ^^^^^^
+     |
+     = help: maybe it is overwritten before being read?
+     = note: `#[warn(unused_assignments)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arcvu_dsp` (lib test) generated 12 warnings (9 duplicates) (run `cargo fix --lib -p arcvu_dsp --tests` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (/private/tmp/arcvu-target/debug/deps/arcvu_dsp-87d19c1626aa4334)
+
+running 1 test
+test tests::ebu_tone_burst_response_meets_table_2 ... FAILED
+
+failures:
+
+---- tests::ebu_tone_burst_response_meets_table_2 stdout ----
+
+thread 'tests::ebu_tone_burst_response_meets_table_2' (4796845) panicked at src/lib.rs:1798:13:
+10 ms burst reads 4.12, expected 6 +/-0.5
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::ebu_tone_burst_response_meets_table_2
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `--lib`

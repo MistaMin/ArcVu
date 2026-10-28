@@ -1,0 +1,17 @@
+PASS user preset browser lists two files
+PASS starts in the Factory category
+PASS category switches to User
+PASS next in User loads the first file by name
+PASS next in User loads the second file
+PASS next in User wraps to the first file
+PASS back in Factory, next loads factory preset 0
+PASS drag mode defaults to vertical
+PASS global settings restore horizontal drag mode
+PASS global settings restore drag sensitivity
+PASS global settings restore refresh rate
+PASS global settings restore tooltips
+PASS loading a factory preset leaves global drag mode alone
+PASS slow mode starts off
+PASS slow mode row switches on
+PASS slow mode row switches off
+FAILURES 0

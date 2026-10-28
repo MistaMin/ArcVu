@@ -1,0 +1,3 @@
+PASS junk bytes leave the state unchanged
+PASS a real saved state still loads
+FAILURES 0
