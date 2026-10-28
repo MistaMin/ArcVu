@@ -1,0 +1,9 @@
+== regex: 49/49 parameters bound
+  UNKNOWN  peak  (/private/tmp/arcvu-rel/panel/ids.h:4)
+  UNKNOWN  reference  (/private/tmp/arcvu-rel/panel/ids.h:3)
+  UNKNOWN  trimL  (/private/tmp/arcvu-rel/panel/ids.h:5)
+  UNKNOWN  trimM  (/private/tmp/arcvu-rel/panel/ids.h:5)
+  UNKNOWN  trimR  (/private/tmp/arcvu-rel/panel/ids.h:5)
+  UNKNOWN  trimS  (/private/tmp/arcvu-rel/panel/ids.h:5)
+
+NOTE: 49 of 55 host parameters matched by the declaration regex; the other six (reference, peak, trimL, trimR, trimM, trimS) are declared through juce::ParameterID{...} and a loop, so they show as UNKNOWN here. They are bound in ParameterPanel.h ids arrays and are exercised by UiAudit (coverage count 55). Result: 55/55 bound, no MISSING.

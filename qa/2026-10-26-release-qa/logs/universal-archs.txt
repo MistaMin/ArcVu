@@ -1,0 +1,6 @@
+VST3/ArcVu.vst3/Contents/MacOS/ArcVu: x86_64 arm64
+AU/ArcVu.component/Contents/MacOS/ArcVu: x86_64 arm64
+CLAP/ArcVu.clap/Contents/MacOS/ArcVu: x86_64 arm64
+LV2/ArcVu.lv2/libArcVu.so: x86_64 arm64
+AAX/ArcVu.aaxplugin/Contents/MacOS/ArcVu: x86_64 arm64
+Standalone/ArcVu.app/Contents/MacOS/ArcVu: x86_64 arm64

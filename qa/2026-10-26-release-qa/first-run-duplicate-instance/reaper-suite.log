@@ -1,0 +1,69 @@
+PASS     loads VST3: ArcVu (Marcos Deida), 59 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1100x305, 0.6% animates by itself
+  0 VU reference                   audio=excused  visual=ok
+  Peak                             audio=excused  visual=ok
+  Meter type                       audio=excused  visual=ok
+  Face                             audio=excused  visual=ok
+  Single meter                     audio=excused  visual=ok
+  Mid side                         audio=DEAD     visual=ok
+  AES-17                           audio=excused  visual=ok
+  RMS window                       audio=excused  visual=ok
+  Clip threshold                   audio=excused  visual=ok
+  Trim L                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=ok
+  Trim M                           audio=DEAD     visual=ok
+  Trim S                           audio=DEAD     visual=ok
+  Polarity L                       audio=ok       visual=ok
+  Polarity R                       audio=ok       visual=ok
+  Mute L                           audio=ok       visual=ok
+  Mute R                           audio=ok       visual=ok
+  Monitor                          audio=ok       visual=ok
+  High-pass                        audio=DEAD     visual=ok
+  High-pass slope                  audio=ok       visual=ok
+  Low-pass                         audio=DEAD     visual=ok
+  Low-pass slope                   audio=ok       visual=ok
+  Mono frequency                   audio=DEAD     visual=ok
+  Mono amount                      audio=ok       visual=ok
+  Dynamic frequency                audio=DEAD     visual=ok
+  Dynamic depth                    audio=DEAD     visual=ok
+  Dynamic on                       audio=DEAD     visual=ok
+  Dynamic type                     audio=DEAD     visual=ok
+  Dynamic listen                   audio=DEAD     visual=ok
+  VU model                         audio=excused  visual=ok
+  Rise                             audio=excused  visual=ok
+  Fall                             audio=excused  visual=ok
+  Overshoot                        audio=excused  visual=ok
+  Peak hold                        audio=excused  visual=ok
+  Value hold                       audio=excused  visual=ok
+  Clip hold                        audio=excused  visual=ok
+  Peak lamp threshold              audio=excused  visual=ok
+  Red zone                         audio=excused  visual=ok
+  Comfort zone                     audio=excused  visual=ok
+  Analog RMS                       audio=excused  visual=ok
+  Weighting                        audio=excused  visual=ok
+  Force mono                       audio=ok       visual=ok
+  Trim link                        audio=DEAD     visual=ok
+  In place                         audio=DEAD     visual=ok
+  Show values                      audio=excused  visual=ok
+  Show hold                        audio=excused  visual=ok
+  Show tools                       audio=excused  visual=ok
+  Show label                       audio=excused  visual=ok
+  Meters only                      audio=ok       visual=ok
+  GUI size                         audio=excused  visual=ok
+  Drag sensitivity                 audio=excused  visual=ok
+  Meter refresh                    audio=excused  visual=ok
+  Bypass hidden processors         audio=ok       visual=ok
+  Tooltips                         audio=excused  visual=ok
+  Stay above windows               audio=excused  visual=ok
+  Bypass                           audio=ok       visual=ok
+  Bypass                           audio=ok       visual=ok
+  Wet                              audio=ok       visual=ok
+  Delta                            audio=ok       visual=ok
+FAIL     every parameter changes the sound Mid side, Trim M, Trim S, High-pass, Low-pass, Mono frequency, Dynamic frequency, Dynamic depth, Dynamic on, Dynamic type, Dynamic listen, Trim link, In place
+PASS     every parameter is shown in the GUI 
+FAIL     state survives save and reopen 0 VU reference (20 -> 18), Meter type (BBC -> Nordic), Face (Arc -> Vertical), RMS window (1448.40 -> 947.28), Clip threshold (-10.92 -> -0.68), Trim L (-1.92 -> 7.15), Trim R (15.84 -> 19.24), Trim M (-14.40 -> -18.57), Trim S (3.36 -> -1.48), Polarity L (On -> Off), Polarity R (Off -> On), Mute L (On -> Off), Monitor (L -> R), High-pass (399.20 -> 26.29), Low-pass (11070.00 -> 6310.17), Mono frequency (122.60 -> 310.98), Mono amount (0.64 -> 0.16), Dynamic frequency (199.20 -> 9581.99), Dynamic depth (0.38 -> 0.14), Dynamic type (0 -> 1)
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/reaper/report.md

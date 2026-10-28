@@ -1,0 +1,2 @@
+PASS state load with audio running gave the wrong values 0 of 300 times
+FAILURES 0

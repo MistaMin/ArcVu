@@ -1,0 +1,11 @@
+{
+  "CMakeLists.txt": "bdb601ce72a56568124beba47215d3d037ca95042c98f31db997f65684d07b44",
+  "dsp/src/lib.rs": "356068223873480d933f758b543bef8a4831cef193179466e9a0e039e524b8db",
+  "dsp/src/extra.rs": "6ac94460d9e0500420d9ec30f30f850b8b0ba87779a9d8e59e690e5a6685af31",
+  "plugin/arcvu.h": "cb35aa9afed58f747005798d1a2b10d77500190395bfe439d96b4510c623046d",
+  "plugin/PluginEditor.cpp": "d644c39d3f2826c56d174c3a1161e207a4d3ebb38bc6a37249f87c3c91cf4764",
+  "plugin/PluginEditor.h": "2ba23f14eb026142ec95a2341c375847525deddf8f042bd867415ebb2e5b2800",
+  "plugin/PluginProcessor.cpp": "e30fe2ba52d67e98200704e9a9572a374799fa6984ce4f0e2281f003ef406b10",
+  "plugin/ParameterPanel.h": "48a2a288ce9e8d7490e77f98d0476d65bdf8e4ba5f43b72ed5ed96b0d7fd0c66",
+  "qa/UiAudit.cpp": "7fee583c1f5b1faf9dce3f3be76d390773e04b652e496452b71c0a21aa2f0517"
+}

@@ -1,0 +1,84 @@
+PASS     loads CLAP: ArcVu (OpenGrid), 58 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1375x368, 0.0% animates by itself
+  0 VU reference                   audio=excused  visual=ok
+  Peak                             audio=excused  visual=ok
+  Meter type                       audio=excused  visual=ok
+  Face                             audio=excused  visual=ok
+  Single meter                     audio=excused  visual=ok
+  Mid side                         audio=DEAD     visual=ok
+  AES-17                           audio=excused  visual=ok
+  RMS window                       audio=excused  visual=ok
+  Clip threshold                   audio=excused  visual=ok
+  Trim L                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=ok
+  Trim M                           audio=DEAD     visual=ok
+  Trim S                           audio=DEAD     visual=ok
+  Polarity L                       audio=ok       visual=ok
+  Polarity R                       audio=ok       visual=ok
+  Mute L                           audio=ok       visual=ok
+  Mute R                           audio=ok       visual=ok
+  Monitor                          audio=ok       visual=ok
+  High-pass                        audio=DEAD     visual=ok
+  High-pass slope                  audio=ok       visual=ok
+  Low-pass                         audio=DEAD     visual=ok
+  Low-pass slope                   audio=ok       visual=ok
+  Mono frequency                   audio=DEAD     visual=ok
+  Mono amount                      audio=ok       visual=ok
+  Dynamic frequency                audio=DEAD     visual=ok
+  Dynamic depth                    audio=DEAD     visual=ok
+  Dynamic on                       audio=DEAD     visual=ok
+  Dynamic type                     audio=DEAD     visual=ok
+  Dynamic listen                   audio=DEAD     visual=ok
+  VU model                         audio=excused  visual=ok
+  Rise                             audio=excused  visual=ok
+  Fall                             audio=excused  visual=ok
+  Overshoot                        audio=excused  visual=ok
+  Peak hold                        audio=excused  visual=ok
+  Value hold                       audio=excused  visual=ok
+  Clip hold                        audio=excused  visual=ok
+  Peak lamp threshold              audio=excused  visual=ok
+  Red zone                         audio=excused  visual=ok
+  Comfort zone                     audio=excused  visual=ok
+  Analog RMS                       audio=excused  visual=ok
+  Weighting                        audio=excused  visual=ok
+  Force mono                       audio=ok       visual=ok
+  Trim link                        audio=DEAD     visual=ok
+  In place                         audio=DEAD     visual=ok
+  Show values                      audio=excused  visual=ok
+  Show hold                        audio=excused  visual=ok
+  Show tools                       audio=excused  visual=ok
+  Show label                       audio=excused  visual=ok
+  Meters only                      audio=ok       visual=ok
+  GUI size                         audio=excused  visual=ok
+  Drag sensitivity                 audio=excused  visual=ok
+  Meter refresh                    audio=excused  visual=ok
+  Bypass hidden processors         audio=DEAD     visual=ok
+  Tooltips                         audio=excused  visual=ok
+  Stay above windows               audio=excused  visual=ok
+  Bypass                           audio=DEAD     visual=ok
+  Wet                              audio=DEAD     visual=ok
+  Delta                            audio=ok       visual=ok
+  Mid side                         audio=CONDITIONAL (acts in random state 1)
+  High-pass                        audio=CONDITIONAL (acts in random state 1)
+  Dynamic on                       audio=CONDITIONAL (acts in random state 1)
+  Trim link                        audio=CONDITIONAL (acts in random state 1)
+  Bypass hidden processors         audio=CONDITIONAL (acts in random state 1)
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Wet                              audio=CONDITIONAL (acts in random state 1)
+  Low-pass                         audio=CONDITIONAL (acts in random state 3)
+  Mono frequency                   audio=CONDITIONAL (acts in random state 3)
+  Trim M                           audio=CONDITIONAL (acts in random state 5)
+  Trim S                           audio=CONDITIONAL (acts in random state 5)
+  Dynamic frequency                audio=CONDITIONAL (acts in random state 5)
+  Dynamic depth                    audio=CONDITIONAL (acts in random state 5)
+  Dynamic type                     audio=CONDITIONAL (acts in random state 5)
+  Dynamic listen                   audio=CONDITIONAL (acts in random state 5)
+  In place                         audio=CONDITIONAL (acts in random state 5)
+PASS     every parameter changes the sound 
+PASS     every parameter is shown in the GUI 
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/reaper/report.md

@@ -1,0 +1,23 @@
+{
+  "ledger_rows": 126,
+  "status_counts": {
+    "total": 126,
+    "verified": 82,
+    "failed": 19,
+    "unverified": 23,
+    "out of scope": 2
+  },
+  "published_au_parameters": 55,
+  "gui_to_host_bindings": 55,
+  "host_to_gui_bindings": 55,
+  "state_roundtrips": 55,
+  "debug_and_release_ui_audit": "PASS",
+  "rust_debug_tests": 20,
+  "rust_release_tests": 20,
+  "reviewed_release_pngs": 78,
+  "auval": "PASS",
+  "detector_diagnostics": "FAIL (3 confirmed defects)",
+  "source_hashes_match": true,
+  "temporary_user_copies_removed": true,
+  "fixed_in_iteration_01": "Dynamic HPF/LPF selection reversal"
+}

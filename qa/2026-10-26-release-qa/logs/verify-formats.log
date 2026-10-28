@@ -1,0 +1,9 @@
+=== Verifying Built Plugin Formats for 'ArcVu' in 'build/release-macos/ArcVu_artefacts/Release' ===
+  [✓] VST3: build/release-macos/ArcVu_artefacts/Release/VST3/ArcVu.vst3
+  [✓] AU (AudioUnit): build/release-macos/ArcVu_artefacts/Release/AU/ArcVu.component
+  [✓] CLAP: build/release-macos/ArcVu_artefacts/Release/CLAP/ArcVu.clap
+  [✓] LV2: build/release-macos/ArcVu_artefacts/Release/LV2/ArcVu.lv2
+  [✓] AAX: build/release-macos/ArcVu_artefacts/Release/AAX/ArcVu.aaxplugin
+  [✓] Standalone: build/release-macos/ArcVu_artefacts/Release/Standalone/ArcVu.app
+--------------------------------------------------------
+✓ All expected plugin formats are present and ready for signing/packaging.

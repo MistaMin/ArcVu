@@ -1,0 +1,47 @@
+[  2%] Built target arcvu_dsp
+[  4%] Building CXX object CMakeFiles/ArcVu.dir/plugin/PluginEditor.cpp.o
+In file included from /Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.cpp:1:
+/Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.h:18:21: warning: non-static data member 'processor' of 'ArcVuEditor' shadows member inherited from type 'AudioProcessorEditor' [-Wshadow-field]
+   18 |     ArcVuProcessor& processor;
+      |                     ^
+/Volumes/Developer/Dev Projects/audiogridder/JUCE/modules/juce_audio_processors/processors/juce_AudioProcessorEditor.h:69:21: note: declared here
+   69 |     AudioProcessor& processor;
+      |                     ^
+/Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.cpp:251:19: warning: declaration shadows a local variable [-Wshadow]
+  251 |         const int row = juce::jlimit(0, 8, (int) ((p.y - 42.0f) / 21.0f));
+      |                   ^
+/Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.cpp:186:17: note: previous declaration is here
+  186 |     const float row = vh - (compact ? 100.0f : 64.0f);
+      |                 ^
+In file included from /Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.cpp:1:
+/Volumes/Developer/Dev Projects/ArcVu/plugin/PluginEditor.h:19:9: warning: private field 'dragStart' is not used [-Wunused-private-field]
+   19 |     int dragStart = 1;
+      |         ^
+3 warnings generated.
+[  6%] Linking CXX static library ArcVu_artefacts/Release/libArcVu_SharedCode.a
+[ 79%] Built target ArcVu
+[ 79%] Linking CXX executable ArcVu_artefacts/Release/Standalone/ArcVu.app/Contents/MacOS/ArcVu
+[100%] Built target ArcVu_Standalone
+[  2%] Built target arcvu_dsp
+[  4%] Building VST3 manifest helper for ArcVu
+-- Configuring done (0.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Volumes/Developer/Dev Projects/ArcVu/build/vst3_helpers/ArcVu
+[100%] Built target vst3_helper
+[  4%] Built target ArcVu_vst3_helper
+[ 78%] Built target ArcVu
+[ 80%] Linking CXX CFBundle shared module ArcVu_artefacts/Release/VST3/ArcVu.vst3/Contents/MacOS/ArcVu
+/Volumes/Developer/Dev Projects/ArcVu/build/ArcVu_artefacts/Release/VST3/ArcVu.vst3: code has no resources but signature indicates they must be present
+-- Replacing invalid signature with ad-hoc signature
+/Volumes/Developer/Dev Projects/ArcVu/build/ArcVu_artefacts/Release/VST3/ArcVu.vst3: replacing existing signature
+removing moduleinfo.json
+creating /Volumes/Developer/Dev Projects/ArcVu/build/ArcVu_artefacts/Release/VST3/ArcVu.vst3/Contents/Resources/moduleinfo.json
+[100%] Built target ArcVu_VST3
+[  2%] Built target arcvu_dsp
+[ 77%] Built target ArcVu
+[ 80%] Linking CXX CFBundle shared module ArcVu_artefacts/Release/AU/ArcVu.component/Contents/MacOS/ArcVu
+[100%] Built target ArcVu_AU
+[  2%] Built target arcvu_dsp
+[  5%] Building CXX object CMakeFiles/ArcVu_QA.dir/plugin/PluginEditor.cpp.o
+[  8%] Linking CXX executable ArcVu_QA_artefacts/Release/ArcVu_QA
+[100%] Built target ArcVu_QA

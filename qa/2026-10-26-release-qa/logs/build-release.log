@@ -1,0 +1,17 @@
+[  2%] Built target arcvu_dsp
+[ 79%] Built target ArcVu
+[100%] Built target ArcVu_Standalone
+[  4%] Built target arcvu_dsp
+[  4%] Building VST3 manifest helper for ArcVu
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Volumes/Developer/Dev Projects/ArcVu/build/vst3_helpers/ArcVu
+[100%] Built target vst3_helper
+[ 78%] Built target ArcVu
+[ 78%] Built target ArcVu_vst3_helper
+[100%] Built target ArcVu_VST3
+[  2%] Built target arcvu_dsp
+[ 77%] Built target ArcVu
+[100%] Built target ArcVu_AU
+[  2%] Built target arcvu_dsp
+[100%] Built target ArcVu_QA

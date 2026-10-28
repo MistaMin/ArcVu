@@ -1,0 +1,32 @@
+PASS     loads AU: ArcVu (OpenGrid), 58 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1100x305, 0.3% animates by itself
+  Dynamic frequency                audio=ok       visual=ok
+  Dynamic on                       audio=ok       visual=ok
+  High-pass                        audio=ok       visual=ok
+  Low-pass                         audio=ok       visual=ok
+  Trim L                           audio=ok       visual=ok
+  Trim M                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=ok
+  Trim S                           audio=ok       visual=ok
+  High-pass slope                  audio=ok       visual=ok
+  Low-pass slope                   audio=ok       visual=ok
+  Meters only                      audio=ok       visual=ok
+  Mid side                         audio=ok       visual=ok
+  Mono frequency                   audio=ok       visual=ok
+  Dynamic listen                   audio=ok       visual=ok
+  Monitor                          audio=ok       visual=ok
+  Mono amount                      audio=ok       visual=ok
+  Bypass hidden processors         audio=DEAD     visual=ok
+  Dynamic depth                    audio=ok       visual=ok
+  Trim link                        audio=ok       visual=ok
+  In place                         audio=ok       visual=ok
+  Dynamic type                     audio=ok       visual=ok
+  Bypass hidden processors         audio=CONDITIONAL (acts in random state 3)
+PASS     every parameter changes the sound 
+PASS     every parameter is shown in the GUI 
+FAIL     state survives save and reopen Dynamic on (off -> on), Meters only (off -> on), Dynamic listen (off -> on), Trim link (off -> on)
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/reaper/report.md

@@ -1,0 +1,5 @@
+PASS overs count rises on over-full-scale samples (2)
+PASS Clr resets the overs count
+PASS phase R leaves the left channel alone
+PASS phase R inverts the right channel
+FAILURES 0

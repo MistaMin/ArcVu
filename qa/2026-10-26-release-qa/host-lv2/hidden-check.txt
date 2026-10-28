@@ -1,0 +1,1 @@
+REAPER PID 16107, own -cfgfile (/private/tmp/arcvu-reaper-cfg, seeded from a copy of the user settings; license kept out of the repo); hidden after start: True

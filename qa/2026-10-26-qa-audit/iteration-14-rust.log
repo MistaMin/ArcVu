@@ -1,0 +1,122 @@
+   Compiling arcvu_dsp v0.1.0 (/Volumes/Developer/Dev Projects/ArcVu/dsp)
+warning: function `lamp_body` is never used
+    --> src/lib.rs:1136:4
+     |
+1136 | fn lamp_body(db: f32, lit: bool) -> Color {
+     |    ^^^^^^^^^
+     |
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `scale_label` is never used
+    --> src/lib.rs:1140:4
+     |
+1140 | fn scale_label(db: f32) -> String {
+     |    ^^^^^^^^^^^
+
+warning: function `led_index` is never used
+    --> src/lib.rs:1312:4
+     |
+1312 | fn led_index(db: f32) -> i32 {
+     |    ^^^^^^^^^
+
+warning: function `led_color` is never used
+    --> src/lib.rs:1316:4
+     |
+1316 | fn led_color(db: f32) -> Color {
+     |    ^^^^^^^^^
+
+warning: function `led_dim` is never used
+    --> src/lib.rs:1323:4
+     |
+1323 | fn led_dim(db: f32) -> Color {
+     |    ^^^^^^^
+
+warning: associated functions `lowpass`, `highpass`, `bandpass`, and `rbj` are never used
+  --> src/extra.rs:56:12
+   |
+55 | impl Biquad {
+   | ----------- associated functions in this implementation
+56 |     pub fn lowpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 0) }
+   |            ^^^^^^^
+57 |     pub fn highpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 1) }
+   |            ^^^^^^^^
+58 |     pub fn bandpass(hz: f32, q: f32, sr: f32) -> Self { Self::rbj(hz, q, sr, 2) }
+   |            ^^^^^^^^
+...
+83 |     fn rbj(hz: f32, q: f32, sr: f32, kind: i32) -> Self {
+   |        ^^^
+
+warning: function `one_pole_hpf` is never used
+   --> src/extra.rs:167:8
+    |
+167 | pub fn one_pole_hpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `one_pole_lpf` is never used
+   --> src/extra.rs:173:8
+    |
+173 | pub fn one_pole_lpf(state: &mut f32, x: f32, hz: f32, sr: f32) -> f32 {
+    |        ^^^^^^^^^^^^
+
+warning: function `cascade` is never used
+   --> src/extra.rs:180:8
+    |
+180 | pub fn cascade(states: &mut [f32], mut x: f32, hz: f32, sr: f32, poles: i32, hp: bool) -> f32 {
+    |        ^^^^^^^
+
+warning: variable does not need to be mutable
+    --> src/lib.rs:1582:13
+     |
+1582 |         let mut block = vec![input; 48];
+     |             ----^^^^^
+     |             |
+     |             help: remove this `mut`
+     |
+     = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arcvu_dsp` (lib test) generated 10 warnings (9 duplicates) (run `cargo fix --lib -p arcvu_dsp --tests` to apply 1 suggestion)
+warning: `arcvu_dsp` (lib) generated 9 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.93s
+     Running unittests src/lib.rs (/private/tmp/arcvu-target/debug/deps/arcvu_dsp-87d19c1626aa4334)
+
+running 31 tests
+test tests::bbc_marks_sit_on_the_reference_scale ... ok
+test tests::din_scale_is_not_the_vu_scale ... ok
+test tests::compact_face_indicates_nonzero_hidden_ms_trim ... ok
+test tests::ebu_and_nordic_show_test_where_zero_sits ... ok
+test tests::force_mono_copies_left_onto_right ... ok
+test tests::every_face_shows_processing_trim_and_channel_status ... ok
+test tests::captions_are_unique_on_all_scales ... ok
+test tests::highpass_drops_a_low_tone ... ok
+test tests::custom_model_fall_is_slower_than_rise ... ok
+test tests::linked_trim_follows_edits_from_either_side_in_lr_and_ms ... ok
+test tests::quiet_peak_hides_below_the_threshold ... ok
+test tests::paint_fits_the_command_buffer ... ok
+test tests::identical_channels_read_as_correlated ... ok
+test tests::right_and_side_link_sources_change_the_processed_signal ... ok
+test tests::reset_clears_numeric_hold_as_well_as_peak ... ok
+test tests::numeric_peak_and_peak_lamp_use_independent_hold_settings ... ok
+test tests::show_tools_hides_channel_hardware_keys ... ok
+test tests::rise_and_fall_share_the_movement ... ok
+test tests::mono_maker_reduces_low_side ... ok
+test tests::three_full_scale_samples_count_as_one_over ... ok
+test tests::trim_link_copies_left_trim ... ok
+test tests::inverted_channels_read_as_out_of_phase ... ok
+test tests::step_reaches_99_percent_near_300_ms_with_small_overshoot ... ok
+test tests::sine_at_reference_reads_about_zero_vu ... ok
+test tests::single_meter_keeps_the_other_channel ... ok
+test tests::k_scale_analog_and_rms_modes_share_the_same_calibration ... ok
+test tests::a_weight_quiets_a_low_tone_more_than_a_high_one ... ok
+test tests::weighting_history_is_independent_per_stereo_channel ... ok
+test tests::dynamic_lowpass_listen_passes_lows_and_rejects_highs ... ok
+test tests::dynamic_highpass_listen_passes_highs_and_rejects_lows ... ok
+test tests::weighting_filters_match_reference_frequency_responses ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.23s
+
+   Doc-tests arcvu_dsp
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

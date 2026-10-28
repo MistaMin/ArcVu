@@ -1,0 +1,87 @@
+PASS     loads LV2: ArcVu (OpenGrid), 60 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1650x431, 0.2% animates by itself
+  Free Wheeling                    audio=DEAD     visual=ok
+  Enabled                          audio=DEAD     visual=ok
+  0 VU reference                   audio=excused  visual=ok
+  Peak                             audio=excused  visual=ok
+  Meter type                       audio=excused  visual=ok
+  Face                             audio=excused  visual=ok
+  Single meter                     audio=excused  visual=ok
+  Mid side                         audio=DEAD     visual=ok
+  AES-17                           audio=excused  visual=ok
+  RMS window                       audio=excused  visual=ok
+  Clip threshold                   audio=excused  visual=ok
+  Trim L                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=ok
+  Trim M                           audio=DEAD     visual=ok
+  Trim S                           audio=DEAD     visual=ok
+  Polarity L                       audio=ok       visual=ok
+  Polarity R                       audio=ok       visual=ok
+  Mute L                           audio=ok       visual=ok
+  Mute R                           audio=ok       visual=ok
+  Monitor                          audio=ok       visual=ok
+  High-pass                        audio=DEAD     visual=ok
+  High-pass slope                  audio=ok       visual=ok
+  Low-pass                         audio=DEAD     visual=ok
+  Low-pass slope                   audio=ok       visual=ok
+  Mono frequency                   audio=DEAD     visual=ok
+  Mono amount                      audio=ok       visual=ok
+  Dynamic frequency                audio=DEAD     visual=ok
+  Dynamic depth                    audio=DEAD     visual=ok
+  Dynamic on                       audio=DEAD     visual=ok
+  Dynamic type                     audio=DEAD     visual=ok
+  Dynamic listen                   audio=DEAD     visual=ok
+  VU model                         audio=excused  visual=ok
+  Rise                             audio=excused  visual=ok
+  Fall                             audio=excused  visual=ok
+  Overshoot                        audio=excused  visual=ok
+  Peak hold                        audio=excused  visual=ok
+  Value hold                       audio=excused  visual=ok
+  Clip hold                        audio=excused  visual=ok
+  Peak lamp threshold              audio=excused  visual=ok
+  Red zone                         audio=excused  visual=ok
+  Comfort zone                     audio=excused  visual=ok
+  Analog RMS                       audio=excused  visual=ok
+  Weighting                        audio=excused  visual=ok
+  Force mono                       audio=ok       visual=ok
+  Trim link                        audio=DEAD     visual=ok
+  In place                         audio=DEAD     visual=ok
+  Show values                      audio=excused  visual=ok
+  Show hold                        audio=excused  visual=ok
+  Show tools                       audio=excused  visual=ok
+  Show label                       audio=excused  visual=ok
+  Meters only                      audio=ok       visual=ok
+  GUI size                         audio=excused  visual=ok
+  Drag sensitivity                 audio=excused  visual=ok
+  Meter refresh                    audio=excused  visual=ok
+  Bypass hidden processors         audio=DEAD     visual=ok
+  Tooltips                         audio=excused  visual=ok
+  Stay above windows               audio=excused  visual=ok
+  Bypass                           audio=DEAD     visual=ok
+  Wet                              audio=DEAD     visual=ok
+  Delta                            audio=ok       visual=ok
+  Enabled                          audio=CONDITIONAL (acts in random state 1)
+  Mid side                         audio=CONDITIONAL (acts in random state 1)
+  Trim M                           audio=CONDITIONAL (acts in random state 1)
+  Trim S                           audio=CONDITIONAL (acts in random state 1)
+  High-pass                        audio=CONDITIONAL (acts in random state 1)
+  Low-pass                         audio=CONDITIONAL (acts in random state 1)
+  Mono frequency                   audio=CONDITIONAL (acts in random state 1)
+  Dynamic frequency                audio=CONDITIONAL (acts in random state 1)
+  Dynamic depth                    audio=CONDITIONAL (acts in random state 1)
+  Dynamic on                       audio=CONDITIONAL (acts in random state 1)
+  Dynamic type                     audio=CONDITIONAL (acts in random state 1)
+  Dynamic listen                   audio=CONDITIONAL (acts in random state 1)
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Wet                              audio=CONDITIONAL (acts in random state 1)
+  Trim link                        audio=CONDITIONAL (acts in random state 3)
+  In place                         audio=CONDITIONAL (acts in random state 3)
+  Bypass hidden processors         audio=CONDITIONAL (acts in random state 3)
+FAIL     every parameter changes the sound Free Wheeling
+PASS     every parameter is shown in the GUI 
+FAIL     state survives save and reopen 0 VU reference (1.74000001 -> 2.00000000), Peak (0.47999999 -> 0.00000000), Meter type (4.88000011 -> 5.00000000), Face (1.96000004 -> 2.00000000), Single meter (0.34999999 -> 0.00000000), Mid side (0.72000003 -> 1.00000000), AES-17 (0.09000000 -> 0.00000000), Polarity L (0.68000001 -> 1.00000000), Polarity R (0.05000000 -> 0.00000000), Mute L (0.41999999 -> 0.00000000), Mute R (0.79000002 -> 1.00000000), Monitor (0.80000001 -> 1.00000000), High-pass slope (3.59999990 -> 4.00000000), Low-pass slope (2.55999994 -> 3.00000000), Dynamic on (0.49000001 -> 0.00000000), Dynamic type (3.44000006 -> 3.00000000), Dynamic listen (0.23000000 -> 0.00000000), VU model (1.20000005 -> 1.00000000), Overshoot (5.73799992 -> 5.73999977), Analog RMS (0.30000001 -> 0.00000000)
+PASS     editor reopens 5 close/open cycles
+report: /Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/reaper/report.md
