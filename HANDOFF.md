@@ -1,74 +1,60 @@
-# Handoff: ArcVu GUI
+# Handoff: ArcVu for iOS
 
-Version: 0.1.2 Alpha. The 0.1.2 build is the QA-complete detector and plug-in (ledger: 138 verified, 2 out of scope). The next work is the GUI.
+Version 1.0.0 of the desktop plug-in is built, signed and tested (macOS VST3, Audio Unit, CLAP, LV2, AAX and Standalone; Windows and Linux builds exist from earlier CI). **The job now is an iOS version**: an Audio Unit extension (AUv3) and a standalone app that meter audio on iPhone and iPad, sharing the same Rust detector and drawing code. The repository is **private** and nothing is published. 1.0.0 has no public release yet.
 
-## QA continuation — 2026-10-26 (uncommitted)
+## Ground rules from the owner
 
-The current ledger is `qa/2026-10-26-qa-audit/ledger.md`; it supersedes the old unsupported "done"
-claims. Read `report.md`, `findings.md` and `qa/PROJECT.md` before continuing.
+- Keep the repository private. Do not publish a release, tag, or make anything public unless the owner says so in plain words.
+- Ask before pushing. Never force-push without being asked. Make commits in coherent chunks.
+- No third-party product or brand names in code, comments, docs, commit messages or file names (format and platform names such as iOS, AUv3, AAX and JUCE, and licence texts, are fine).
+- No AI tool or assistant names and no co-author or "generated with" lines anywhere, including commit messages.
+- Do not change the 55 host parameter IDs or the layout of `ArcVuSetup`. Saved projects depend on them.
+- Be honest in the QA ledger: list what ran, what did not, and why. "Skipped" is not "passed".
 
-The face work now has an original tight arc ribbon (1100×220), dense horizontal face (1100×248),
-and compact vertical face (420×700) with wrapped keys/header. C++ `ParameterPanel.h` provides paged,
-direct JUCE parameter bindings for all 55 existing IDs; no IDs or ArcVuSetup fields changed. The Rust
-face still draws the meter and keys. Settings pages scale with the editor and remain reachable in
-meters-only mode. Preset drawing/hits remain in Rust/editor code; the other header menus open the
-new C++ parameter panels.
+## What is in the repository
 
-The UI/state harness passes Debug and Release, with 78 Release PNGs. This does not mean native
-mouse/popup or DAW QA passed. Final auval passes. Three actual detector diagnostic failures and
-remaining feature/UI gaps are listed in findings.md. Do not call the product 100% verified.
+| Path | What it is |
+|---|---|
+| `dsp/` | Rust static library with a C ABI (`plugin/arcvu.h`). The detector (VU, RMS, K, PPM), the loudness engine (`loudness.rs`), the loudness panel drawing (`loudness_panel.rs`) and the drawing list for every face (`lib.rs`). No JUCE, no allocation on the audio path. |
+| `plugin/` | JUCE glue. `PluginProcessor` owns the meter and the 55 parameters, `PluginEditor` replays the drawing list and handles clicks, `ParameterPanel.h` is the paged settings menu. |
+| `qa/UiAudit.cpp` | Console app that builds the editor off screen, checks every parameter path and writes screenshots (`--manual-shots` writes the manual images). |
+| `installer/`, `tools/` | macOS and Windows packaging, licence collection, the PDF manual builder. |
+| `docs/` | `USER_MANUAL.md` (source of the PDF), `RELEASE.md`, images. |
+| `qa/<date>-*/` | QA ledgers and logs. Read `qa/PROJECT.md` and `qa/2026-10-28-loudness/ledger.md` first. |
 
-New regression fixes: UTF-8 label byte limit, save captures host changes while audio is stopped,
-state replaces a reused MemoryBlock, restored state closes stale panels, and reset clears numeric
-hold. Detector signal behavior/host IDs/layout remain as handed off, apart from that reset fix.
-No version bump, commit, push, tag, signing, public exposure or system install occurred.
+Build layout expected next to the repository: JUCE at `../audiogridder/JUCE` (JUCE 8), the drawing toolkit at `../instruments/GoodLookinDri` (private), CLAP extensions at `../clap-juce-extensions`. Rust (`cargo`) and CMake 3.22 or later are required.
 
-## Historical 0.1.1 baseline handoff (superseded where noted above)
+## How it works
 
-Version: 0.1.1 Alpha. Repo: private `https://github.com/MistaMin/ArcVu`. Do not make it public. Do not decompile, or copy the wordmarks, logos or skins of, any third-party meter product. One metal finish is the look. Eight copied skins stay out.
+- The audio thread calls `arcvu_process` with interleaved samples. Parameters are copied into an `ArcVuSetup` struct (`arcvu_setup`) every block. The loudness meter reads the raw input, the bounce log reads the output.
+- The editor does not draw widgets. It calls `arcvu_paint`, which returns a list of drawing commands (`ArcVuPaint`, at most 8192 per frame, text up to 47 bytes) that JUCE replays. Clicks are hit-tested in view coordinates (`PluginEditor::mouseDown`), using the same rectangles the Rust code draws. Face sizes come from `arcvu_view_size`: Arc 1100×252 (440 on the Classic skin), Horizontal 1100×292 (340 Classic) and Vertical 380×700, plus 168 points (252 on the Vertical face) when the loudness panel is on.
+- Interface settings (skin, colour, peak scale, loudness panel, bounce log, window zoom) are not host parameters. They live in a small text file (`global.txt`, `ArcVuProcessor::saveGlobalKey`), shared by all instances.
+- Offline renders are detected with `AudioProcessor::isNonRealtime()`. The bounce log is written by `ArcVuProcessor::finishBounce`, which runs on the message thread.
 
-## What you are taking over
+## Plan for iOS
 
-The detector and the host parameters are in place. The job is the face. A person comparing ArcVu with a hardware lamp loudness meter should recognise the instrument: brushed metal, a black window only as big as the lamps, short square lamps, dense scale figures, and a hardware key row. The current faces are the right structure and still look like a software meter.
+1. **Rust targets.** `rustup target add aarch64-apple-ios aarch64-apple-ios-sim x86_64-apple-ios`. Extend the `arcvu_dsp` rule in `CMakeLists.txt` to build the right slice for the iOS SDK, as it does for universal macOS. Xcode 16 is installed on the owner's Mac.
+2. **JUCE formats.** Add `AUv3` and `Standalone` for iOS (`juce_add_plugin` supports both). Choose the deployment target, bundle ids (`com.opengrid.arcvu` for the app, a child id for the extension), the icon set, and the microphone permission text already in `CMakeLists.txt`.
+3. **Touch and layout.** JUCE turns touches into mouse events, so the hit-testing works, but the faces are fixed-size desktop layouts. Decide how they fit: Vertical for iPhone portrait, Horizontal and Arc for landscape and iPad, scaling the whole view to the screen. The window constrainer, `setAlwaysOnTop` and tooltips do nothing on iOS; leave them out for that target. Drag-to-set knobs in the Tools menu need a touch check.
+4. **Files and menus.** `juce::FileChooser` (preset load and save), `PopupMenu` and the user preset folder behave differently on iOS (document picker, sandbox). `userApplicationDataDirectory` for `global.txt` and `userDocumentsDirectory` for the bounce logs resolve inside the app container: enable file sharing (`UIFileSharingEnabled`) if the logs should be reachable in Files, or drop the log on iOS.
+5. **Audio.** Standalone needs the microphone permission and an audio session category. As an AUv3 inside a host, offline rendering is reported through the host's offline flag; check that `isNonRealtime()` is true there before trusting the bounce log.
+6. **QA.** Extend `qa/UiAudit.cpp` for the iOS build where it can run, run the simulator, then a real device. Record every step in a new `qa/<date>-ios/ledger.md`. Desktop checks to rerun after any shared change: `cargo test --manifest-path dsp/Cargo.toml` (72 tests), the UI audit (0 failures), and the host suites in `qa/PROJECT.md`.
 
-Screenshots from this version are in `qa/2026-10-26-face-qa/`:
+Do not fork the detector or the drawing code for iOS. Keep one Rust library; add `cfg(target_os = "ios")` only where unavoidable.
 
-- `arcvu-arc.png` — shallow ribbon, figures on the lamps, empty black inside the window beside the ribbon, metal under the window.
-- `arcvu-horiz.png` — the closest. Two dense rows, a figure on every lamp, keys underneath.
-- `arcvu-vert.png` — 860×620. Two columns fill their plates. The lamps are wide bars, not a narrow hardware column. Scale figures repeat because they are rounded.
+## Things that already cost time
 
-## Where the drawing lives
+- `CMakeLists.txt` lists the Rust source files that trigger a rebuild (`ARCVU_RUST_SOURCES`). A new `.rs` file must be added there or edits to it will not rebuild the library.
+- JUCE `FileOutputStream` appends to an existing file, so delete old screenshot files before rerunning the UI audit.
+- `ArcVuPaint.text` holds 47 bytes. Longer labels are cut silently; split them.
+- `Meter::process` is only the metering step. Test the whole path through `Meter::process_io`.
+- The loudness meter is checked against the EBU test signals in `loudness.rs` tests. Do not change its gating or windows without rerunning them; the standards are ITU-R BS.1770-5 and EBU Tech 3341 and 3342.
 
-The face is not drawn in C++. `dsp/src/lib.rs` `paint()` builds a GoodLookinDri `Scene`. `plugin/PluginEditor.cpp` replays those commands. Change the look in Rust, then rebuild.
+## Open items on the desktop version
 
-- `view_size(face)` is the window. Arc 1100×300, horizontal 1100×248, vertical 860×620. The editor reads this through `arcvu_view_size` and resizes. GUI scale 100/125/150 multiplies that.
-- Arc geometry is `well()`. Horizontal is `horizontal_meter()`. Vertical is `vertical_meter()`.
-- Keys are `hardware_row()`. Hit testing is a second copy of those x positions in `PluginEditor.cpp` `mouseDown`. If you move a key, change both.
-- Menu hit rectangles are also duplicated between `paint()` and `mouseDown`. Keep them in sync.
-- Text size ≥ 15 uses Avenir Next, otherwise Avenir Next Condensed, in the editor replay of command kind 10. `box` is a Rust keyword. Do not name a local that.
-- Colour is `0xAARRGGBB`. Lit lamps: red, yellow, green. Dim lamps stay visible in the same hue.
-
-## Build
-
-```text
-export PATH="/opt/homebrew/bin:$PATH"
-cargo test --manifest-path dsp/Cargo.toml --offline --lib
-cmake --build build --config Release --target ArcVu_Standalone ArcVu_VST3 ArcVu_AU
-```
-
-JUCE is `/Volumes/Developer/Dev Projects/audiogridder/JUCE`. GoodLookinDri is `../../instruments/GoodLookinDri`. A normal configure leaves `ARCVU_BUILD_AAX` off. Do not sign, notarize, or install system-wide unless asked. Standalone binary: `build/ArcVu_artefacts/Release/Standalone/ArcVu.app`.
-
-Screenshot the window with `screencapture -l <CGWindowID>`, not a rectangle. Window id comes from `CGWindowListCopyWindowInfo` for owner ArcVu. Clicks that the editor must see go through `CGEvent` after activating ArcVu. The standalone shows a yellow “Audio input is muted” banner, so editor y=0 is about 64 px below the window top when the window is at (60, 80).
-
-## What to improve
-
-1. Arc: the ribbon is short and the black window is wider than the lamps. Figures collide. Make the lamps a shallow hardware ribbon and put the figures on the curve without overlap.
-2. Vertical: a tall narrow column of square lamps, green at the bottom, red at the top, scale beside it. The column should be the product. The current slot is 58% of a wide plate, so the lamps read as thick bars.
-3. Horizontal: tighten the gap between the two rows and the key row. Keep a figure on every lamp.
-4. Keys should read as hardware buttons, not rounded software chips. Overs is the three-digit key. Phase is the strip to its right: 0 correlated, −20 uncorrelated, −39 out of phase, red when poor.
-5. Menus (Type, Face, Preset, Meter, I/O, Tools, More) are how the deluxe controls are reached. Restyle them so they do not fight the meter. Do not remove a control to make the face prettier. Every host parameter needs a visible control.
-6. Look at the screenshot yourself before calling a face done. The ledger is `qa/2026-10-26-face-qa/ledger.md`. Look rows are L1–L10.
-
-## Do not redo
-
-Company Marcos Deida, bundle `com.marcosdeida.arcvu`, codes Mdei/ArcV. State is the `ArcVuSetup` blob plus the host parameters. `processBlock` calls `pullSetup()` from the parameters. The editor writes `setup` and then `noteSetup()`. If you add a control, add the parameter and both directions. The Rust struct and `plugin/arcvu.h` must stay the same layout.
+- No 1.0.0 release is published yet. The owner tests it privately first (`dist/release-1.0.0/macos/`, Developer ID signed, notarised, with the AAX PACE-signed).
+- The AAX Validator page-table test fails (no page table is shipped); the validator's other tests crash on the owner's Mac. The AAX is not yet verified in Pro Tools for this build.
+- The VST3 editor check was skipped in the host suite on the first run after the plug-ins were replaced, twice, and passed on repeats. The cause is not found.
+- The offline bounce log is verified only in one host and format.
+- Windows and Linux 1.0.0 packages are not built yet (the owner builds Windows on a laptop; the Linux CI is blocked by a GitHub billing limit).
+- `qa/2026-10-26-face-qa/ledger.md` and `report.md` carry uncommitted edits that are not part of this work. Leave them for the owner.
