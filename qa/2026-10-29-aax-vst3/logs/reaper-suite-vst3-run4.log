@@ -1,0 +1,45 @@
+PASS     loads VST3: ArcVu (OpenGrid), 59 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+SKIPPED  editor opens no editor window found (no Screen Recording permission, or no editor)
+  0 VU reference                   audio=excused  visual=-
+  Peak                             audio=excused  visual=-
+  Meter type                       audio=excused  visual=-
+  Face                             audio=excused  visual=-
+  Single meter                     audio=excused  visual=-
+  Mid side                         audio=ok       visual=-
+  AES-17                           audio=excused  visual=-
+  RMS window                       audio=excused  visual=-
+  Clip threshold                   audio=excused  visual=-
+  Trim L                           audio=ok       visual=-
+  Trim R                           audio=ok       visual=-
+  Trim M                           audio=ok       visual=-
+  Trim S                           audio=ok       visual=-
+  Polarity L                       audio=ok       visual=-
+  Polarity R                       audio=ok       visual=-
+  Mute L                           audio=ok       visual=-
+  Mute R                           audio=ok       visual=-
+  Monitor                          audio=ok       visual=-
+  High-pass                        audio=ok       visual=-
+  High-pass slope                  audio=ok       visual=-
+  Low-pass                         audio=ok       visual=-
+  Low-pass slope                   audio=ok       visual=-
+  Mono frequency                   audio=ok       visual=-
+  Mono amount                      audio=ok       visual=-
+  Dynamic frequency                audio=ok       visual=-
+Traceback (most recent call last):
+  File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 58, in <module>
+    rq.main()
+    ~~~~~~~^^
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
+    return suite(args)
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 320, in suite
+    diffs.append(difference_db(ref, render("p%d_%d" % (p["index"], int(v)))))
+                                    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 254, in render
+    path = b.call("render", seconds=args.seconds, name=name)["file"]
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 79, in call
+    raise TimeoutError("REAPER did not answer '%s' within %ds (modal dialog open? crashed?)" % (cmd, timeout))
+TimeoutError: REAPER did not answer 'render' within 120s (modal dialog open? crashed?)

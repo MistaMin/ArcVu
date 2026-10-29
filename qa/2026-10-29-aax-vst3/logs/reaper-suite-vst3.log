@@ -1,0 +1,71 @@
+PASS     loads VST3: ArcVu (OpenGrid), 59 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+SKIPPED  editor opens no editor window found (no Screen Recording permission, or no editor)
+  0 VU reference                   audio=excused  visual=-
+  Peak                             audio=excused  visual=-
+  Meter type                       audio=excused  visual=-
+  Face                             audio=excused  visual=-
+  Single meter                     audio=excused  visual=-
+  Mid side                         audio=ok       visual=-
+  AES-17                           audio=excused  visual=-
+  RMS window                       audio=excused  visual=-
+  Clip threshold                   audio=excused  visual=-
+  Trim L                           audio=ok       visual=-
+  Trim R                           audio=ok       visual=-
+  Trim M                           audio=ok       visual=-
+  Trim S                           audio=ok       visual=-
+  Polarity L                       audio=ok       visual=-
+  Polarity R                       audio=ok       visual=-
+  Mute L                           audio=ok       visual=-
+  Mute R                           audio=ok       visual=-
+  Monitor                          audio=ok       visual=-
+  High-pass                        audio=ok       visual=-
+  High-pass slope                  audio=ok       visual=-
+  Low-pass                         audio=ok       visual=-
+  Low-pass slope                   audio=ok       visual=-
+  Mono frequency                   audio=ok       visual=-
+  Mono amount                      audio=ok       visual=-
+  Dynamic frequency                audio=ok       visual=-
+  Dynamic depth                    audio=ok       visual=-
+  Dynamic on                       audio=ok       visual=-
+  Dynamic type                     audio=ok       visual=-
+  Dynamic listen                   audio=ok       visual=-
+  VU model                         audio=excused  visual=-
+  Rise                             audio=excused  visual=-
+  Fall                             audio=excused  visual=-
+  Overshoot                        audio=excused  visual=-
+  Peak hold                        audio=excused  visual=-
+  Value hold                       audio=excused  visual=-
+  Clip hold                        audio=excused  visual=-
+  Peak lamp threshold              audio=excused  visual=-
+  Red zone                         audio=excused  visual=-
+  Comfort zone                     audio=excused  visual=-
+  Analog RMS                       audio=excused  visual=-
+  Weighting                        audio=excused  visual=-
+  Force mono                       audio=ok       visual=-
+  Trim link                        audio=ok       visual=-
+  In place                         audio=ok       visual=-
+  Show values                      audio=excused  visual=-
+  Show hold                        audio=excused  visual=-
+  Show tools                       audio=excused  visual=-
+  Show label                       audio=excused  visual=-
+  Meters only                      audio=ok       visual=-
+  GUI size                         audio=excused  visual=-
+  Drag sensitivity                 audio=excused  visual=-
+  Meter refresh                    audio=excused  visual=-
+  Bypass hidden processors         audio=ok       visual=-
+  Tooltips                         audio=excused  visual=-
+  Stay above windows               audio=excused  visual=-
+  Bypass                           audio=DEAD     visual=-
+  Bypass                           audio=DEAD     visual=-
+  Wet                              audio=DEAD     visual=-
+  Delta                            audio=ok       visual=-
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Wet                              audio=CONDITIONAL (acts in random state 1)
+PASS     every parameter changes the sound 
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: /private/tmp/arcvu-q/reaper/report.md

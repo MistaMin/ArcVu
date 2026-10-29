@@ -1,0 +1,57 @@
+PASS     loads VST3: ArcVu (OpenGrid), 59 parameters
+PASS     finite output peak -3.8 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1375x368, 0.5% animates by itself
+  0 VU reference                   audio=excused  visual=ok
+  Peak                             audio=excused  visual=ok
+  Meter type                       audio=excused  visual=ok
+  Face                             audio=excused  visual=ok
+  Single meter                     audio=excused  visual=ok
+  Mid side                         audio=ok       visual=ok
+  AES-17                           audio=excused  visual=ok
+  RMS window                       audio=excused  visual=ok
+  Clip threshold                   audio=excused  visual=ok
+  Trim L                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=ok
+  Trim M                           audio=ok       visual=ok
+  Trim S                           audio=ok       visual=ok
+  Polarity L                       audio=ok       visual=ok
+  Polarity R                       audio=ok       visual=ok
+  Mute L                           audio=ok       visual=ok
+  Mute R                           audio=ok       visual=ok
+  Monitor                          audio=ok       visual=ok
+  High-pass                        audio=ok       visual=ok
+  High-pass slope                  audio=ok       visual=ok
+  Low-pass                         audio=ok       visual=ok
+  Low-pass slope                   audio=ok       visual=ok
+  Mono frequency                   audio=ok       visual=ok
+  Mono amount                      audio=ok       visual=ok
+  Dynamic frequency                audio=ok       visual=ok
+  Dynamic depth                    audio=ok       visual=ok
+  Dynamic on                       audio=ok       visual=ok
+  Dynamic type                     audio=ok       visual=ok
+  Dynamic listen                   audio=ok       visual=ok
+  VU model                         audio=excused  visual=ok
+  Rise                             audio=excused  visual=ok
+  Fall                             audio=excused  visual=ok
+  Overshoot                        audio=excused  visual=ok
+  Peak hold                        audio=excused  visual=ok
+  Value hold                       audio=excused  visual=ok
+  Clip hold                        audio=excused  visual=ok
+  Peak lamp threshold              audio=excused  visual=ok
+Traceback (most recent call last):
+  File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 58, in <module>
+    rq.main()
+    ~~~~~~~^^
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
+    return suite(args)
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 329, in suite
+    img = capture(visual["win"]["id"], os.path.join(out_dir, "editor_p%d.png" % p["index"]))
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 194, in capture
+    subprocess.run(["screencapture", "-x", "-o", "-l%d" % window_id, path], check=True, capture_output=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['screencapture', '-x', '-o', '-l10663', '/private/tmp/arcvu-q/reaper/editor_p37.png']' returned non-zero exit status 1.

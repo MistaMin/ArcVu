@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 58, in <module>
+    rq.main()
+    ~~~~~~~^^
+  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 476, in main
+    print(json.dumps({"pid": launch(args.qa_dir)}))
+                             ~~~~~~^^^^^^^^^^^^^
+  File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 52, in launch_hidden
+    raise TimeoutError("bridge not ready after 120 s (hidden seen: %s)" % seen_hidden)
+TimeoutError: bridge not ready after 120 s (hidden seen: True)
