@@ -53,6 +53,17 @@ def launch_hidden(qa_dir):
 
 
 rq.launch = launch_hidden
+def winlist_all_tool(qa_dir):
+    """A hidden app has no on-screen windows, so the stock window list can come back empty and the editor
+    check is skipped. This variant lists every window of the process."""
+    exe = os.path.join(qa_dir, "winlist_all")
+    if not os.path.exists(exe):
+        subprocess.run(["swiftc", "-O", os.path.join(os.path.dirname(os.path.abspath(__file__)), "winlist_all.swift"),
+                        "-o", exe], check=True, capture_output=True)
+    return exe
+
+
+rq.winlist_tool = winlist_all_tool
 if __name__ == "__main__":
     sys.argv[0] = "reaper_qa.py"
     rq.main()
