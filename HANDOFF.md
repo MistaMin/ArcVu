@@ -53,8 +53,8 @@ Do not fork the detector or the drawing code for iOS. Keep one Rust library; add
 ## Open items on the desktop version
 
 - No public 1.0.0 release exists. A private pre-release v1.0.0 holds the macOS binaries, which the owner tests first (`dist/release-1.0.0/macos/`, Developer ID signed, notarised, with the AAX PACE-signed).
-- The AAX Validator page-table test fails (no page table is shipped); the validator's other tests crash on the owner's Mac. The AAX is not yet verified in Pro Tools for this build.
-- The VST3 editor check was skipped in the host suite on the first run after the plug-ins were replaced, twice, and passed on repeats. The cause is not found.
+- The AAX now ships a page table (`Resources/ArcVu.xml`); the Validator's page-table tests pass on the unsigned build. The signed bundle has to be rebuilt and checked, the Validator warns that most parameters are not on a page, and the AAX is not yet verified in Pro Tools (`qa/2026-10-29-aax-vst3/ledger.md`).
+- The VST3 editor check used to be skipped on some host-suite runs: the harness hides REAPER and its window list was empty. `qa/2026-10-26-release-qa/hidden_reaper.py` now lists hidden windows, and three runs pass all 9 checks.
 - The offline bounce log is verified only in one host and format.
 - Windows and Linux 1.0.0 packages are not built yet (the owner builds Windows on a laptop; the Linux CI is blocked by a GitHub billing limit).
 - `qa/2026-10-26-face-qa/ledger.md` and `report.md` carry uncommitted edits that are not part of this work. Leave them for the owner.
