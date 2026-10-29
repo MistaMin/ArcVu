@@ -10,7 +10,7 @@ Build: 1.0.0 sources plus the page-table change (`Resources/ArcVu.xml`, `ArcVuAA
 | AAX Validator `test.page_table.automation_list` | FAIL without the XML, PASS with it. Warning: 56 automatable parameters are not on a page of the table (it lists 8 controls) | passes; warning open |
 | AAX Validator `test.describe_validation` | PASS, warning "gaps between registered fields" | passes; warning open |
 | Other validator tests (`test.parameters`, `test.parameter_traversal`, `test.load_unload`, DTT-based tests) | not run in this pass | not run |
-| PACE-signed AAX still carries the XML and passes | the page table is copied after JUCE's build; the signed release bundle was not rebuilt | not run |
+| Signed AAX (Developer ID + `wraptool sign`, run by the owner with `SIGN=1 installer/build_macos.sh`) | bundle still holds `Contents/Resources/ArcVu.xml`; `codesign --verify --deep --strict` clean; `wraptool verify` read the signature ("signed, but not wrapped": a signing-only account); AAX Validator on a copy of the signed bundle: `test.page_table.load`, `test.page_table.automation_list`, `test.describe_validation`, `test.load_unload` PASS (logs/aax-signed). The pkg and dmg were rebuilt, notarised (Accepted) and stapled | verified; the other Validator tests, Pro Tools and the install into the system folder were not run |
 | AAX in Pro Tools | not run | not run |
 | Windows page-table layout and plug-in IDs | the IDs `jcbb` and `jccc` come from reading the JUCE source and match the validator's pass on macOS | not run on Windows |
 | `cargo test --manifest-path dsp/Cargo.toml` | 72 passed | verified |
