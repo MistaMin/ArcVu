@@ -116,6 +116,12 @@ target_sources(ArcVu PRIVATE
     plugin/PluginProcessor.cpp
     plugin/PluginEditor.cpp)
 target_include_directories(ArcVu PRIVATE plugin)
+# The AAX page table (control-surface layout) is read from the bundle's Contents/Resources.
+if(TARGET ArcVu_AAX)
+    add_custom_command(TARGET ArcVu_AAX POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:ArcVu_AAX>/../Resources"
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/Resources/ArcVu.xml" "$<TARGET_FILE_DIR:ArcVu_AAX>/../Resources/ArcVu.xml")
+endif()
 target_compile_definitions(ArcVu PUBLIC
     JUCE_WEB_BROWSER=0
     JUCE_USE_CURL=0

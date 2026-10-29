@@ -3,6 +3,10 @@
 #include "arcvu.h"
 #include <vector>
 
+struct ArcVuAAXExtensions : juce::AAXClientExtensions {
+    juce::String getPageFileName() const override { return "ArcVu.xml"; }
+};
+
 class ArcVuProcessor : public juce::AudioProcessor, private juce::Timer {
 public:
     ArcVuProcessor();
@@ -12,6 +16,7 @@ public:
     void releaseResources() override { finishBounce(); }
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
     bool isBusesLayoutSupported(const BusesLayout& layouts) const override;
+    juce::AAXClientExtensions& getAAXClientExtensions() override { return aaxExtensions; }
 
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override { return true; }
@@ -87,6 +92,7 @@ public:
     int paint(ArcVuPaint* out, int cap) const;
 
 private:
+    ArcVuAAXExtensions aaxExtensions;
     ArcVuSetup initialSetup {};
     int factoryIndex = -1;
     int userIndex = -1;
