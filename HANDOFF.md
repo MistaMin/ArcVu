@@ -1,6 +1,6 @@
 # Handoff: ArcVu for iOS
 
-Version 1.0.0 of the desktop plug-in is built, signed and tested (macOS VST3, Audio Unit, CLAP, LV2, AAX and Standalone; Windows and Linux builds exist from earlier CI). **The job now is an iOS version**: an Audio Unit extension (AUv3) and a standalone app that meter audio on iPhone and iPad, sharing the same Rust detector and drawing code. The repository is **private** and nothing is published. 1.0.0 has no public release yet.
+Version 1.0.0 of the desktop plug-in is built, signed and tested (macOS VST3, Audio Unit, CLAP, LV2, AAX and Standalone; Windows and Linux builds exist from earlier CI). **The job now is an iOS version**: an Audio Unit extension (AUv3) and a standalone app that meter audio on iPhone and iPad, sharing the same Rust detector and drawing code. The repository is **private**. A private pre-release v1.0.0 carries the signed macOS binaries; there is no public release.
 
 ## Ground rules from the owner
 
@@ -52,7 +52,7 @@ Do not fork the detector or the drawing code for iOS. Keep one Rust library; add
 
 ## Open items on the desktop version
 
-- No 1.0.0 release is published yet. The owner tests it privately first (`dist/release-1.0.0/macos/`, Developer ID signed, notarised, with the AAX PACE-signed).
+- No public 1.0.0 release exists. A private pre-release v1.0.0 holds the macOS binaries, which the owner tests first (`dist/release-1.0.0/macos/`, Developer ID signed, notarised, with the AAX PACE-signed).
 - The AAX Validator page-table test fails (no page table is shipped); the validator's other tests crash on the owner's Mac. The AAX is not yet verified in Pro Tools for this build.
 - The VST3 editor check was skipped in the host suite on the first run after the plug-ins were replaced, twice, and passed on repeats. The cause is not found.
 - The offline bounce log is verified only in one host and format.
