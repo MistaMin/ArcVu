@@ -13,3 +13,4 @@ qa/**/*.ppm
 qa/**/*.rpp
 qa/**/*.pid
 qa/**/*.reapeaks
+qa/**/stage-formats/

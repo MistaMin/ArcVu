@@ -1,0 +1,260 @@
+[
+  {
+    "name": "Peak",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "AES-17",
+    "result": "ok",
+    "pct": 3.3043,
+    "px": 35852
+  },
+  {
+    "name": "RMS window",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Clip threshold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Trim R",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Polarity L",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Polarity R",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Mute R",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Monitor",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "High-pass",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "High-pass slope",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Low-pass",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Low-pass slope",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Mono frequency",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Mono amount",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Dynamic frequency",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Dynamic depth",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Dynamic on",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Dynamic type",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Dynamic listen",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "VU model",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Rise",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Fall",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Overshoot",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Peak hold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Value hold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Clip hold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Peak lamp threshold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Comfort zone",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Analog RMS",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Weighting",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Force mono",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "In place",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Show values",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Show hold",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Show tools",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Show label",
+    "result": "ok",
+    "pct": 4.2448,
+    "px": 46056
+  },
+  {
+    "name": "Meters only",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Drag sensitivity",
+    "result": "ok",
+    "pct": 17.3024,
+    "px": 187731
+  },
+  {
+    "name": "Meter refresh",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Bypass hidden processors",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  },
+  {
+    "name": "Tooltips",
+    "result": "ok",
+    "pct": 17.3024,
+    "px": 187731
+  },
+  {
+    "name": "Stay above windows",
+    "result": "ok",
+    "pct": 3.2072,
+    "px": 34798
+  }
+]
