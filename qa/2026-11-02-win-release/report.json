@@ -1,0 +1,710 @@
+{
+ "fx": "VST3: ArcVu",
+ "checks": [
+  {
+   "check": "loads",
+   "status": "PASS",
+   "detail": "VST3: ArcVu (OpenGrid), 59 parameters"
+  },
+  {
+   "check": "finite output",
+   "status": "PASS",
+   "detail": "peak -3.2 dBFS"
+  },
+  {
+   "check": "not silent",
+   "status": "PASS",
+   "detail": "rms -14.9 dBFS"
+  },
+  {
+   "check": "deterministic render",
+   "status": "PASS",
+   "detail": "repeat differs by -240.0 dB"
+  },
+  {
+   "check": "editor opens",
+   "status": "PASS",
+   "detail": "1115x315, 0.0% animates by itself"
+  },
+  {
+   "check": "every parameter changes the sound",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "every parameter is shown in the GUI",
+   "status": "FAIL",
+   "detail": "Peak, AES-17, RMS window, Clip threshold, Trim R, Polarity L, Polarity R, Mute R, Monitor, High-pass, High-pass slope, Low-pass, Low-pass slope, Mono frequency, Mono amount, Dynamic frequency, Dynamic depth, Dynamic on, Dynamic type, Dynamic listen, VU model, Rise, Fall, Overshoot, Peak hold, Value hold, Clip hold, Peak lamp threshold, Comfort zone, Analog RMS, Weighting, Force mono, In place, Show values, Show hold, Show tools, Show label, Meters only, Drag sensitivity, Meter refresh, Bypass hidden processors, Tooltips, Stay above windows, Bypass, Wet, Delta"
+  },
+  {
+   "check": "state survives save and reopen",
+   "status": "PASS",
+   "detail": ""
+  },
+  {
+   "check": "editor reopens",
+   "status": "PASS",
+   "detail": "5 close/open cycles"
+  }
+ ],
+ "params": [
+  {
+   "index": 0,
+   "name": "0 VU reference",
+   "ident": "0:1222328139",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.04,
+   "visual": "ok"
+  },
+  {
+   "index": 1,
+   "name": "Peak",
+   "ident": "1:3436767",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 2,
+   "name": "Meter type",
+   "ident": "2:3292052",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 8.39,
+   "visual": "ok"
+  },
+  {
+   "index": 3,
+   "name": "Face",
+   "ident": "3:3135069",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 4,
+   "name": "Single meter",
+   "ident": "4:1245217864",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 2.331,
+   "visual": "ok"
+  },
+  {
+   "index": 5,
+   "name": "Mid side",
+   "ident": "5:1054643135",
+   "default": 0,
+   "context": "Trim M=1",
+   "audioDiffDb": 1.5,
+   "audio": "ok",
+   "visualChange": 0.122,
+   "visual": "ok"
+  },
+  {
+   "index": 6,
+   "name": "AES-17",
+   "ident": "6:92702517",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 7,
+   "name": "RMS window",
+   "ident": "7:108641630",
+   "default": 0.1370558441,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 8,
+   "name": "Clip threshold",
+   "ident": "8:789780462",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 9,
+   "name": "Trim L",
+   "ident": "9:110628970",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -0.6,
+   "audio": "ok",
+   "visualChange": 0.051,
+   "visual": "ok"
+  },
+  {
+   "index": 10,
+   "name": "Trim R",
+   "ident": "10:110628976",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -0.6,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 11,
+   "name": "Trim M",
+   "ident": "11:110628971",
+   "default": 0.5,
+   "context": "Mid side=1",
+   "audioDiffDb": 1.5,
+   "audio": "ok",
+   "visualChange": 0.122,
+   "visual": "ok"
+  },
+  {
+   "index": 12,
+   "name": "Trim S",
+   "ident": "12:110628977",
+   "default": 0.5,
+   "context": "Mid side=1",
+   "audioDiffDb": 2.6,
+   "audio": "ok",
+   "visualChange": 0.071,
+   "visual": "ok"
+  },
+  {
+   "index": 13,
+   "name": "Polarity L",
+   "ident": "13:3446687",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": 2.8,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 14,
+   "name": "Polarity R",
+   "ident": "14:3446693",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": 1.5,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 15,
+   "name": "Mute L",
+   "ident": "15:104264019",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.2,
+   "audio": "ok",
+   "visualChange": 0.034,
+   "visual": "ok"
+  },
+  {
+   "index": 16,
+   "name": "Mute R",
+   "ident": "16:104264025",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -4.5,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 17,
+   "name": "Monitor",
+   "ident": "17:1236319578",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.8,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 18,
+   "name": "High-pass",
+   "ident": "18:99483152",
+   "default": 0.125,
+   "context": "High-pass slope=1",
+   "audioDiffDb": -6.8,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 19,
+   "name": "High-pass slope",
+   "ident": "19:182314493",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -4.4,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 20,
+   "name": "Low-pass",
+   "ident": "20:103177236",
+   "default": 0.7894737124,
+   "context": "Low-pass slope=1",
+   "audioDiffDb": -5.1,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 21,
+   "name": "Low-pass slope",
+   "ident": "21:711104889",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -14.7,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 22,
+   "name": "Mono frequency",
+   "ident": "22:1078990677",
+   "default": 0.2631579041,
+   "context": "Mono amount=1",
+   "audioDiffDb": -15.9,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 23,
+   "name": "Mono amount",
+   "ident": "23:1236449253",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -14.0,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 24,
+   "name": "Dynamic frequency",
+   "ident": "24:96064875",
+   "default": 0.328859061,
+   "context": "Dynamic on=1, Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -5.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 25,
+   "name": "Dynamic depth",
+   "ident": "25:1416263626",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic type=0.5",
+   "audioDiffDb": -5.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 26,
+   "name": "Dynamic on",
+   "ident": "26:96065080",
+   "default": 0,
+   "context": "Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -5.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 27,
+   "name": "Dynamic type",
+   "ident": "27:2124391763",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic depth=1",
+   "audioDiffDb": -7.8,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 28,
+   "name": "Dynamic listen",
+   "ident": "28:1187316128",
+   "default": 0,
+   "context": "Dynamic on=1, Dynamic depth=1, Dynamic type=0.5",
+   "audioDiffDb": -3.6,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 29,
+   "name": "VU model",
+   "ident": "29:775379882",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 30,
+   "name": "Rise",
+   "ident": "30:1216734799",
+   "default": 0.2631579041,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 31,
+   "name": "Fall",
+   "ident": "31:865595009",
+   "default": 0.1282051355,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 32,
+   "name": "Overshoot",
+   "ident": "32:1398418379",
+   "default": 0.1025640965,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 33,
+   "name": "Peak hold",
+   "ident": "33:2095403582",
+   "default": 0.1290322542,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 34,
+   "name": "Value hold",
+   "ident": "34:1381423568",
+   "default": 0.1935483813,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 35,
+   "name": "Clip hold",
+   "ident": "35:917431343",
+   "default": 0.09677419066,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 36,
+   "name": "Peak lamp threshold",
+   "ident": "36:1827932667",
+   "default": 0.75,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 37,
+   "name": "Red zone",
+   "ident": "37:108388591",
+   "default": 0.5,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 4.463,
+   "visual": "ok"
+  },
+  {
+   "index": 38,
+   "name": "Comfort zone",
+   "ident": "38:950199756",
+   "default": 0.2727272809,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 39,
+   "name": "Analog RMS",
+   "ident": "39:444822152",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 40,
+   "name": "Weighting",
+   "ident": "40:1355891320",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 41,
+   "name": "Force mono",
+   "ident": "41:1527827566",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -4.5,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 42,
+   "name": "Trim link",
+   "ident": "42:1507833660",
+   "default": 0,
+   "context": "Trim L=1",
+   "audioDiffDb": -0.6,
+   "audio": "ok",
+   "visualChange": 0.051,
+   "visual": "ok"
+  },
+  {
+   "index": 43,
+   "name": "In place",
+   "ident": "43:1925008098",
+   "default": 1,
+   "context": "Monitor=0.4",
+   "audioDiffDb": -3.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 44,
+   "name": "Show values",
+   "ident": "44:851276415",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 45,
+   "name": "Show hold",
+   "ident": "45:1808301404",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 46,
+   "name": "Show tools",
+   "ident": "46:233854174",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 47,
+   "name": "Show label",
+   "ident": "47:226036215",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 48,
+   "name": "Meters only",
+   "ident": "48:1009075414",
+   "default": 0,
+   "context": "Bypass hidden processors=1, High-pass slope=1, High-pass=1",
+   "audioDiffDb": -4.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 49,
+   "name": "GUI size",
+   "ident": "49:817829071",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 100.0,
+   "visual": "ok"
+  },
+  {
+   "index": 50,
+   "name": "Drag sensitivity",
+   "ident": "50:1305786091",
+   "default": 0.200000003,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 51,
+   "name": "Meter refresh",
+   "ident": "51:1085444827",
+   "default": 0.400000006,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 52,
+   "name": "Bypass hidden processors",
+   "ident": "52:1318103218",
+   "default": 0,
+   "context": "Meters only=1, High-pass slope=1, High-pass=1",
+   "audioDiffDb": -4.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 53,
+   "name": "Tooltips",
+   "ident": "53:1164849360",
+   "default": 1,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 54,
+   "name": "Stay above windows",
+   "ident": "54:190900775",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -240.0,
+   "audio": "excused",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 55,
+   "name": "Bypass",
+   "ident": "55:1652125811",
+   "default": 0,
+   "context": "random state 1",
+   "audioDiffDb": -3.2,
+   "audio": "CONDITIONAL",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 56,
+   "name": "Bypass",
+   "ident": "56:bypass",
+   "default": 0,
+   "context": "random state 1",
+   "audioDiffDb": -3.2,
+   "audio": "CONDITIONAL",
+   "visualChange": 0.776,
+   "visual": "ok"
+  },
+  {
+   "index": 57,
+   "name": "Wet",
+   "ident": "57:wet",
+   "default": 1,
+   "context": "random state 1",
+   "audioDiffDb": -3.2,
+   "audio": "CONDITIONAL",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  },
+  {
+   "index": 58,
+   "name": "Delta",
+   "ident": "58:delta",
+   "default": 0,
+   "context": "",
+   "audioDiffDb": -3.2,
+   "audio": "ok",
+   "visualChange": 0.0,
+   "visual": "NOT SHOWN"
+  }
+ ],
+ "info": {
+  "latency": "0",
+  "name": "VST3: ArcVu (OpenGrid)",
+  "numParams": 59,
+  "fx": 0
+ },
+ "failed": [
+  "every parameter is shown in the GUI"
+ ]
+}

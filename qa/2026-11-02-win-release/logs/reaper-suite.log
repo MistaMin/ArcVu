@@ -1,0 +1,72 @@
+PASS     loads VST3: ArcVu (OpenGrid), 59 parameters
+PASS     finite output peak -3.2 dBFS
+PASS     not silent rms -14.9 dBFS
+PASS     deterministic render repeat differs by -240.0 dB
+PASS     editor opens 1115x315, 0.0% animates by itself
+  0 VU reference                   audio=excused  visual=ok
+  Peak                             audio=excused  visual=NOT SHOWN
+  Meter type                       audio=excused  visual=ok
+  Face                             audio=excused  visual=ok
+  Single meter                     audio=excused  visual=ok
+  Mid side                         audio=ok       visual=ok
+  AES-17                           audio=excused  visual=NOT SHOWN
+  RMS window                       audio=excused  visual=NOT SHOWN
+  Clip threshold                   audio=excused  visual=NOT SHOWN
+  Trim L                           audio=ok       visual=ok
+  Trim R                           audio=ok       visual=NOT SHOWN
+  Trim M                           audio=ok       visual=ok
+  Trim S                           audio=ok       visual=ok
+  Polarity L                       audio=ok       visual=NOT SHOWN
+  Polarity R                       audio=ok       visual=NOT SHOWN
+  Mute L                           audio=ok       visual=ok
+  Mute R                           audio=ok       visual=NOT SHOWN
+  Monitor                          audio=ok       visual=NOT SHOWN
+  High-pass                        audio=ok       visual=NOT SHOWN
+  High-pass slope                  audio=ok       visual=NOT SHOWN
+  Low-pass                         audio=ok       visual=NOT SHOWN
+  Low-pass slope                   audio=ok       visual=NOT SHOWN
+  Mono frequency                   audio=ok       visual=NOT SHOWN
+  Mono amount                      audio=ok       visual=NOT SHOWN
+  Dynamic frequency                audio=ok       visual=NOT SHOWN
+  Dynamic depth                    audio=ok       visual=NOT SHOWN
+  Dynamic on                       audio=ok       visual=NOT SHOWN
+  Dynamic type                     audio=ok       visual=NOT SHOWN
+  Dynamic listen                   audio=ok       visual=NOT SHOWN
+  VU model                         audio=excused  visual=NOT SHOWN
+  Rise                             audio=excused  visual=NOT SHOWN
+  Fall                             audio=excused  visual=NOT SHOWN
+  Overshoot                        audio=excused  visual=NOT SHOWN
+  Peak hold                        audio=excused  visual=NOT SHOWN
+  Value hold                       audio=excused  visual=NOT SHOWN
+  Clip hold                        audio=excused  visual=NOT SHOWN
+  Peak lamp threshold              audio=excused  visual=NOT SHOWN
+  Red zone                         audio=excused  visual=ok
+  Comfort zone                     audio=excused  visual=NOT SHOWN
+  Analog RMS                       audio=excused  visual=NOT SHOWN
+  Weighting                        audio=excused  visual=NOT SHOWN
+  Force mono                       audio=ok       visual=NOT SHOWN
+  Trim link                        audio=ok       visual=ok
+  In place                         audio=ok       visual=NOT SHOWN
+  Show values                      audio=excused  visual=NOT SHOWN
+  Show hold                        audio=excused  visual=NOT SHOWN
+  Show tools                       audio=excused  visual=NOT SHOWN
+  Show label                       audio=excused  visual=NOT SHOWN
+  Meters only                      audio=ok       visual=NOT SHOWN
+  GUI size                         audio=excused  visual=ok
+  Drag sensitivity                 audio=excused  visual=NOT SHOWN
+  Meter refresh                    audio=excused  visual=NOT SHOWN
+  Bypass hidden processors         audio=ok       visual=NOT SHOWN
+  Tooltips                         audio=excused  visual=NOT SHOWN
+  Stay above windows               audio=excused  visual=NOT SHOWN
+  Bypass                           audio=DEAD     visual=NOT SHOWN
+  Bypass                           audio=DEAD     visual=ok
+  Wet                              audio=DEAD     visual=NOT SHOWN
+  Delta                            audio=ok       visual=NOT SHOWN
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Bypass                           audio=CONDITIONAL (acts in random state 1)
+  Wet                              audio=CONDITIONAL (acts in random state 1)
+PASS     every parameter changes the sound 
+FAIL     every parameter is shown in the GUI Peak, AES-17, RMS window, Clip threshold, Trim R, Polarity L, Polarity R, Mute R, Monitor, High-pass, High-pass slope, Low-pass, Low-pass slope, Mono frequency, Mono amount, Dynamic frequency, Dynamic depth, Dynamic on, Dynamic type, Dynamic listen, VU model, Rise, Fall, Overshoot, Peak hold, Value hold, Clip hold, Peak lamp threshold, Comfort zone, Analog RMS, Weighting, Force mono, In place, Show values, Show hold, Show tools, Show label, Meters only, Drag sensitivity, Meter refresh, Bypass hidden processors, Tooltips, Stay above windows, Bypass, Wet, Delta
+PASS     state survives save and reopen 
+PASS     editor reopens 5 close/open cycles
+report: C:\Users\marco\Developer\ArcVu\qa\2026-11-02-win-release\report.md
