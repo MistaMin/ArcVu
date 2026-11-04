@@ -9,6 +9,12 @@
 #include <thread>
 #include <vector>
 
+#if defined(_WIN32)
+// MSVC has no POSIX setenv/unsetenv; _putenv_s with an empty value deletes the variable.
+static int setenv(const char* name, const char* value, int) { return _putenv_s(name, value); }
+static int unsetenv(const char* name) { return _putenv_s(name, ""); }
+#endif
+
 namespace {
 int failures = 0;
 void check(bool ok, const juce::String& text) {
@@ -28,7 +34,11 @@ void process(ArcVuProcessor& p) {
 }
 void snapshot(juce::Component& c, const juce::File& file) {
     juce::Image image(juce::Image::ARGB, c.getWidth(), c.getHeight(), true);
-    juce::Graphics g(image); c.paintEntireComponent(g, true);
+    {
+        // JUCE 9's software renderer defers drawing until the context is destroyed; scope g so the
+        // image is complete before it is written out (Windows renders blank otherwise).
+        juce::Graphics g(image); c.paintEntireComponent(g, true);
+    }
     juce::FileOutputStream stream(file); juce::PNGImageFormat png;
     check(stream.openedOk() && png.writeImageToStream(image, stream), file.getFileName());
 }
