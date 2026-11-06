@@ -48,6 +48,7 @@ public:
         std::unique_ptr<juce::SliderParameterAttachment> sa;
         std::unique_ptr<juce::ComboBoxParameterAttachment> ca;
         std::unique_ptr<juce::ButtonParameterAttachment> ba;
+        std::unique_ptr<juce::ParameterAttachment> zoomAttachment;
         juce::RangedAudioParameter* parameterPtr = nullptr;
         juce::RangedAudioParameter& parameter;
         juce::String customId;
@@ -191,21 +192,42 @@ public:
         const juce::StringArray ids = group == 1 ? juce::StringArray{"kind"}
             : group == 2 ? juce::StringArray{"face", "single", "guiScale", "metersOnly", "showValues", "showHold", "showTools", "showLabel"}
             : group == 3 ? juce::StringArray{"reference"}
-            : group == 4 ? juce::StringArray{"peak", "rmsMs", "aes17", "vuModel", "riseMs", "fallMs", "overshoot", "peakHold", "valueHold", "clipHold", "clipDb", "peakThresh", "redDb", "comfort", "analogRms", "weight"}
+            : group == 4 ? juce::StringArray{"kind", "reference", "peak", "rmsMs", "aes17", "vuModel", "riseMs", "fallMs", "overshoot", "peakHold", "valueHold", "clipHold", "clipDb", "peakThresh", "redDb", "comfort", "analogRms", "weight"}
             : group == 5 ? juce::StringArray{"midSide", "trimL", "trimR", "trimM", "trimS", "trimLink", "polL", "polR", "muteL", "muteR", "monitor", "forceMono", "inPlace"}
             : group == 6 ? juce::StringArray{"hpfHz", "hpfPoles", "lpfHz", "lpfPoles", "monoHz", "monoAmt", "dynHz", "dynDepth", "dynOn", "dynType", "dynListen"}
+            : group == 9 ? juce::StringArray{}
             : juce::StringArray{"dragSens", "refresh", "bypassHidden", "tooltips", "alwaysOnTop"};
         for (auto& id : ids) {
             for (auto* param : p.getParameters()) {
                 if (auto* rp = dynamic_cast<juce::RangedAudioParameter*>(param); rp && rp->paramID == id) {
                     auto row = std::make_unique<Row>(*rp, toolsMode && !dynamic_cast<juce::AudioParameterBool*>(rp) && rp->paramID != "dynType", toolsMode);
                     row->slider.setLookAndFeel(&knobLook);
+                    if (id == "guiScale") {
+                        row->ca.reset();
+                        row->name.setText("Window size", juce::dontSendNotification);
+                        row->choice.clear(juce::dontSendNotification);
+                        row->choice.addItem("50%", 5); row->choice.addItem("75%", 4);
+                        row->choice.addItem("100%", 1); row->choice.addItem("125%", 2); row->choice.addItem("150%", 3);
+                        const float sizes[] = {1.0f, 1.25f, 1.5f, 0.75f, 0.5f};
+                        for (int i = 0; i < 5; ++i)
+                            if (std::abs(p.zoom() - sizes[i]) < 0.005f) row->choice.setSelectedId(i + 1, juce::dontSendNotification);
+                        auto* r = row.get();
+                        row->zoomAttachment = std::make_unique<juce::ParameterAttachment>(*rp, [r](float v) {
+                            r->choice.setSelectedId(juce::roundToInt(v) + 1, juce::dontSendNotification);
+                        }, nullptr);
+                        row->choice.onChange = [r, &p] {
+                            const int selected = r->choice.getSelectedId();
+                            if (selected <= 3) r->zoomAttachment->setValueAsCompleteGesture((float) (selected - 1));
+                            const float sizes[] = {1.0f, 1.25f, 1.5f, 0.75f, 0.5f};
+                            if (selected >= 1 && selected <= 5) p.setZoom(sizes[selected - 1]);
+                        };
+                    }
                     addChildComponent(*row);
                     rows.push_back(std::move(row));
                 }
             }
         }
-        if (group == 2) {
+        if (group == 2 || group == 9) {
             auto* anchor = dynamic_cast<juce::RangedAudioParameter*>(p.getParameters()[0]);
             auto skin = std::make_unique<Row>("Skin", juce::StringArray{"Modern", "Classic"}, p.skin(), [&p](int i) { p.setSkin(i); ArcVuProcessor::saveGlobalKey("skin", juce::String(i)); }, *anchor);
             auto colour = std::make_unique<Row>("Colour", juce::StringArray{"Graphite / Ivory", "Amber", "Ice"}, p.theme(), [&p](int i) { p.setTheme(i); ArcVuProcessor::saveGlobalKey("theme", juce::String(i)); }, *anchor);
@@ -219,20 +241,35 @@ public:
             auto bounceLog = std::make_unique<Row>("Bounce log", p.bounceLog(), [&p](bool on) { p.setBounceLog(on); }, *anchor);
             auto loudScale = std::make_unique<Row>("Loudness scale", juce::StringArray{"EBU +9", "EBU +18"}, p.loudness().scale, [loudSet](int i) { loudSet([i](ArcVuLoudSettings& s) { s.scale = i; }); }, *anchor);
             auto loudUnit = std::make_unique<Row>("Loudness unit", juce::StringArray{"LUFS (absolute)", "LU (to target)"}, p.loudness().unit, [loudSet](int i) { loudSet([i](ArcVuLoudSettings& s) { s.unit = i; }); }, *anchor);
-            for (auto* r : { skin.get(), colour.get(), peakScale.get(), loudOn.get(), loudTarget.get(), loudCeiling.get(), loudWindow.get(), loudScale.get(), loudUnit.get(), bounceLog.get() }) addChildComponent(*r);
-            // The loudness rows go last, so the look choices and the face choices stay on the first page of the Display menu.
-            rows.push_back(std::move(loudOn)); rows.push_back(std::move(loudTarget)); rows.push_back(std::move(loudCeiling));
-            rows.push_back(std::move(loudWindow)); rows.push_back(std::move(loudScale)); rows.push_back(std::move(loudUnit)); rows.push_back(std::move(bounceLog));
-            rows.insert(rows.begin(), std::move(peakScale));
-            rows.insert(rows.begin(), std::move(colour));
-            rows.insert(rows.begin(), std::move(skin));
+            if (group == 2) {
+                for (auto* r : {skin.get(), colour.get(), peakScale.get()}) addChildComponent(*r);
+                rows.insert(rows.begin(), std::move(peakScale));
+                rows.insert(rows.begin(), std::move(colour));
+                rows.insert(rows.begin(), std::move(skin));
+            } else {
+                for (auto* r : {loudOn.get(), loudTarget.get(), loudCeiling.get(), loudWindow.get(), loudScale.get(), loudUnit.get(), bounceLog.get()}) addChildComponent(*r);
+                rows.push_back(std::move(loudOn)); rows.push_back(std::move(loudUnit));
+                rows.push_back(std::move(loudTarget)); rows.push_back(std::move(loudCeiling));
+                rows.push_back(std::move(loudWindow)); rows.push_back(std::move(loudScale)); rows.push_back(std::move(bounceLog));
+            }
         }
         const char* titles[] = {"", "Meter type", "Display", "Reference", "Meter settings", "Channel tools", "Processing tools", "Preferences"};
-        title.setText(titles[juce::jlimit(1, 7, group)], juce::dontSendNotification);
+        title.setText(group == 9 ? "Loudness" : titles[juce::jlimit(1, 7, group)], juce::dontSendNotification);
         title.setColour(juce::Label::textColourId, juce::Colour(0xffedf2f4));
         addAndMakeVisible(title);
         for (auto* b : {&previous, &next, &close}) addAndMakeVisible(b);
         addAndMakeVisible(pages);
+        setOpaque(true);
+        if (group == 2 || group == 9 || group == 5 || group == 6) {
+            const bool display = group == 2 || group == 9;
+            tabA.setButtonText(display ? "Appearance" : "Channels");
+            tabB.setButtonText(display ? "Loudness" : "Processing");
+            tabA.setToggleState(group == 2 || group == 5, juce::dontSendNotification);
+            tabB.setToggleState(group == 9 || group == 6, juce::dontSendNotification);
+            tabA.onClick = [this, display] { if (onNavigate) onNavigate(display ? 2 : 5); };
+            tabB.onClick = [this, display] { if (onNavigate) onNavigate(display ? 9 : 6); };
+            addAndMakeVisible(tabA); addAndMakeVisible(tabB);
+        }
         if (toolsMode) { previous.setVisible(false); next.setVisible(false); pages.setVisible(false); }
         previous.onClick = [this] { setPage(page - 1); };
         next.onClick = [this] { setPage(page + 1); };
@@ -259,7 +296,7 @@ public:
     ~ArcVuParameterPanel() override { for (auto& row : rows) row->slider.setLookAndFeel(nullptr); }
     // Knob grid for the Tools dropdown: four groups of two knobs, then the dynamic-filter switches.
     void layoutTools() {
-        const int cellW = 62, cellH = 92, groupGap = 10;
+        const int cellW = 62, cellH = 72, groupGap = 10;
         const int perRow = getWidth() >= 540 ? 4 : 2;
         const int groupW = cellW * 2;
         const int left = (getWidth() - (perRow * groupW + (perRow - 1) * groupGap)) / 2;
@@ -267,10 +304,10 @@ public:
             const int group = i / 2, inGroup = i % 2;
             const int col = group % perRow, line = group / perRow;
             rows[(size_t) i]->setVisible(true);
-            rows[(size_t) i]->setBounds(left + col * (groupW + groupGap) + inGroup * cellW, 52 + line * (cellH + 18), cellW, cellH);
+            rows[(size_t) i]->setBounds(left + col * (groupW + groupGap) + inGroup * cellW, 84 + line * (cellH + 12), cellW, cellH);
         }
         const int lines = (4 + perRow - 1) / perRow;
-        const int y = 52 + lines * (cellH + 18) + 2;
+        const int y = 84 + lines * (cellH + 12) + 2;
         int x = 12, line = 0;
         for (size_t i = 8; i < rows.size(); ++i) {
             const int w = stripWidth(rows[i]->id());
@@ -288,13 +325,16 @@ public:
             if (x + w > getWidth() - 8) { x = 12; ++lines; }
             x += w + 6;
         }
-        return 52 + (getWidth() >= 540 ? 1 : 2) * 110 + 2 + lines * 32 + 8;
+        return 84 + (getWidth() >= 540 ? 1 : 2) * 84 + 2 + lines * 32 + 8;
     }
     void resized() override {
         title.setBounds(12, 4, getWidth() - 120, 24);
         close.setBounds(getWidth() - 88, 5, 76, 22);
+        const int tabHeight = tabA.isVisible() ? 32 : 0;
+        tabA.setBounds(12, 36, (getWidth() - 30) / 2, 26);
+        tabB.setBounds(18 + (getWidth() - 30) / 2, 36, (getWidth() - 30) / 2, 26);
         if (toolsMode) { layoutTools(); return; }
-        perColumn = juce::jmax(1, (getHeight() - 70) / 32);
+        perColumn = juce::jmax(1, (getHeight() - 70 - tabHeight) / 32);
         const int columns = getWidth() >= 650 ? 2 : 1;
         pageSize = perColumn * columns;
         page = juce::jlimit(0, pageCount() - 1, page);
@@ -302,23 +342,27 @@ public:
             int slot = i - page * pageSize;
             rows[(size_t)i]->setVisible(slot >= 0 && slot < pageSize);
             if (slot >= 0 && slot < pageSize)
-                rows[(size_t)i]->setBounds(8 + slot / perColumn * (getWidth() - 16) / columns, 36 + slot % perColumn * 32, (getWidth() - 16) / columns, 30);
+                rows[(size_t)i]->setBounds(8 + slot / perColumn * (getWidth() - 16) / columns, 36 + tabHeight + slot % perColumn * 32, (getWidth() - 16) / columns, 30);
         }
         previous.setBounds(12, getHeight() - 29, 90, 22);
         next.setBounds(getWidth() - 102, getHeight() - 29, 90, 22);
         pages.setBounds(110, getHeight() - 29, getWidth() - 220, 22);
         pages.setJustificationType(juce::Justification::centred);
         pages.setText("Page " + juce::String(page + 1) + " / " + juce::String(pageCount()) + "   •   Drag or type a value", juce::dontSendNotification);
+        previous.setVisible(pageCount() > 1); next.setVisible(pageCount() > 1);
+        pages.setText(pageCount() > 1 ? juce::String(page + 1) + " / " + juce::String(pageCount()) : juce::String(), juce::dontSendNotification);
         previous.setEnabled(page > 0); next.setEnabled(page + 1 < pageCount());
     }
     int pageCount() const { return juce::jmax(1, ((int) rows.size() + pageSize - 1) / pageSize); }
     void setPage(int n) { page = juce::jlimit(0, pageCount() - 1, n); resized(); }
     std::function<void()> onClose;
+    std::function<void(int)> onNavigate;
     std::vector<std::unique_ptr<Row>> rows;
 private:
     bool toolsMode = false;
     ArcVuKnobLook knobLook;
     juce::Label title, pages;
+    juce::TextButton tabA, tabB;
     juce::TextButton previous{"Previous"}, next{"Next"}, close{"Close"};
     int page = 0, perColumn = 1, pageSize = 2;
 };
