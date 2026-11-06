@@ -40,8 +40,8 @@ See the [release page](https://github.com/MistaMin/ArcVu/releases/tag/v1.0.0) fo
 ## Quick start
 
 1. Install ArcVu and put it **last** in the channel or on the master bus. It appears as **ArcVu** by **OpenGrid**.
-2. Choose a **meter type** (VU, RMS, K-12, K-14, K-20, DIN, Nordic, BBC or EBU) and a **reference level** (−20, −18 or −14 dBFS) in the header.
-3. For loudness, open **More > Display** and switch on **Loudness panel**. Set the target you deliver to.
+2. Choose a **meter type** (VU, RMS, K-12, K-14, K-20, DIN, Nordic, BBC or EBU) and a **reference level** (−20, −18 or −14 dBFS) in the Meter menu.
+3. For loudness, open **Display > Loudness** and switch on **Loudness panel**. Set the target you deliver to.
 4. Bounce as usual. The report appears in `Documents/ArcVu Bounce Logs`.
 
 ## Features

@@ -243,6 +243,66 @@ int main(int argc, char** argv) {
     }
 
     juce::ScopedJuceInitialiser_GUI gui;
+    if (argc > 2 && juce::String(argv[1]) == "--display-test") {
+        const juce::File out(argv[2]); out.createDirectory();
+        setenv("ARCVU_QA_DEFAULT_FILE", out.getChildFile("default.arcvu").getFullPathName().toRawUTF8(), 1);
+        setenv("ARCVU_QA_GLOBAL_FILE", out.getChildFile("global.txt").getFullPathName().toRawUTF8(), 1);
+        ArcVuProcessor p; p.prepareToPlay(48000, 512);
+        std::unique_ptr<ArcVuEditor> e(static_cast<ArcVuEditor*>(p.createEditor()));
+        for (int skin = 0; skin < 2; ++skin) {
+            p.setSkin(skin);
+            for (int face = 0; face < 3; ++face) {
+                parameter(p, "face")->setValueNotifyingHost(parameter(p, "face")->convertTo0to1((float) face));
+                process(p); pump();
+                for (int id : {5, 4, 1, 2, 3}) {
+                    e->showPanel(2); pump();
+                    for (auto& row : e->parameterPanel()->rows)
+                        if (row->id() == "guiScale") row->choice.setSelectedId(id, juce::sendNotificationSync);
+                    pump(); pump();
+                    const float scales[] = {1.0f, 1.25f, 1.5f, 0.75f, 0.5f};
+                    float w = 0, h = 0; arcvu_view_size(face, &w, &h);
+                    check(e->getWidth() == juce::roundToInt(w * scales[id - 1]) && e->getHeight() == juce::roundToInt(h * scales[id - 1]), "size choice skin " + juce::String(skin) + " face " + juce::String(face) + " id " + juce::String(id));
+                    const auto base = "skin-" + juce::String(skin) + "-face-" + juce::String(face) + "-size-" + juce::String(id);
+                    snapshot(*e, out.getChildFile(base + "-appearance.png"));
+                    e->parameterPanel()->onNavigate(9); pump();
+                    auto* panel = e->parameterPanel();
+                    check(panel && panel->getComponentID() == "9", "Display opens Loudness tab");
+                    for (auto& row : panel->rows) {
+                        if (row->id() == "Loudness panel") {
+                            check(row->isVisible(), "loudness visibility on first page");
+                            row->toggle.setToggleState(true, juce::dontSendNotification); row->toggle.onClick();
+                        }
+                        if (row->id() == "Loudness unit") {
+                            check(row->isVisible(), "loudness unit on first page");
+                            row->choice.setSelectedItemIndex(1, juce::sendNotificationSync);
+                        }
+                    }
+                    pump();
+                    check(p.loudness().on == 1 && p.loudness().unit == 1 && p.loudnessHeight(face) > 0, "visibility and LU controls change loudness settings");
+                    snapshot(*e, out.getChildFile(base + "-loudness.png"));
+                    for (auto& row : panel->rows) if (row->id() == "Loudness panel") {
+                        row->toggle.setToggleState(false, juce::dontSendNotification); row->toggle.onClick();
+                    }
+                    pump();
+                    check(p.loudnessHeight(face) == 0, "visibility switch hides loudness panel");
+                    e->showPanel(9); pump();
+                }
+                e->showPanel(6); pump();
+                check(e->getLocalBounds().contains(e->parameterPanel()->getBoundsInParent()), "processing tools fit inside face");
+                snapshot(*e, out.getChildFile("tools-skin-" + juce::String(skin) + "-face-" + juce::String(face) + ".png"));
+                e->parameterPanel()->onNavigate(5); pump();
+                check(e->parameterPanel()->getComponentID() == "5", "Tools opens Channels tab");
+                snapshot(*e, out.getChildFile("channels-skin-" + juce::String(skin) + "-face-" + juce::String(face) + ".png"));
+                e->showPanel(5); pump();
+            }
+        }
+        p.setZoom(0.5f); pump(); pump();
+        ArcVuProcessor restored;
+        check(std::abs(restored.zoom() - 0.5f) < 0.005f, "small zoom persists for new instances");
+        check(parameter(p, "guiScale")->getNumSteps() == 3, "legacy host size range stays compatible");
+        std::cout << "FAILURES " << failures << std::endl;
+        return failures ? 1 : 0;
+    }
     // Default to scratch settings files so audits never read or overwrite the user's own ArcVu settings.
     setenv("ARCVU_QA_DEFAULT_FILE", "/private/tmp/arcvu-qa-audit-default.arcvu", 0);
     setenv("ARCVU_QA_GLOBAL_FILE", "/private/tmp/arcvu-qa-audit-global.txt", 0);
@@ -629,6 +689,11 @@ int main(int argc, char** argv) {
                         check(std::abs(rp.getValue() - rp.convertTo0to1((float)row->slider.getValue())) < 0.001f, "GUI to host " + rp.paramID);
                         rp.setValueNotifyingHost(rp.convertTo0to1(rp.convertFrom0to1(0.21f))); pump();
                         check(std::abs((float)row->slider.getValue() - rp.convertFrom0to1(rp.getValue())) < 0.02f, "host to GUI " + rp.paramID);
+                    } else if (row->zoomAttachment) {
+                        row->choice.setSelectedId(3, juce::sendNotificationSync); pump();
+                        check(rp.getValue() > 0.99f, "GUI to host size");
+                        rp.setValueNotifyingHost(0); pump();
+                        check(row->choice.getSelectedId() == 1, "host to GUI size");
                     } else if (row->ca) {
                         if (rp.paramID == "monitor") {
                             rp.setValueNotifyingHost(rp.convertTo0to1(4.0f)); pump();
