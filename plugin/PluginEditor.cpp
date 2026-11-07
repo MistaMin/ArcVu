@@ -108,7 +108,7 @@ void replay(juce::Graphics& g, const ArcVuPaint& cmd) {
 
 ArcVuEditor::ArcVuEditor(ArcVuProcessor& p) : AudioProcessorEditor(p), arcvu(p) {
     // Free resizing: the window keeps the face's aspect ratio and everything scales with it.
-    constrainer.setMinimumSize(380, 200);
+    constrainer.setMinimumSize(190, 100);
     constrainer.setMaximumSize(4000, 4000);
     setConstrainer(&constrainer);
     setResizable(true, true);
@@ -150,7 +150,12 @@ void ArcVuEditor::resized() {
             controls->setSize(panelW, 400);
             controls->setBounds(arcvu.setup.face == 2 ? 12 : (int) vw - 12 - panelW, top - (arcvu.setup.face == 2 ? 0 : 2), panelW, controls->toolsHeight());
         } else {
-            controls->setBounds(12, top, (int)vw - 24, (int)vh - top - 8);
+            const int panelWidth = (int) vw - 24;
+            const int columns = panelWidth >= 650 ? 2 : 1;
+            const int rowCount = ((int) controls->rows.size() + columns - 1) / columns;
+            const bool hasTabs = controls->getComponentID() == "2" || controls->getComponentID() == "9" || controls->getComponentID() == "5";
+            const int panelHeight = juce::jmin((int) vh - top - 8, 70 + (hasTabs ? 32 : 0) + rowCount * 32);
+            controls->setBounds(12, top, panelWidth, panelHeight);
         }
     }
 }
@@ -162,6 +167,11 @@ void ArcVuEditor::showPanel(int group) {
     }
     controls = std::make_unique<ArcVuParameterPanel>(arcvu, group);
     controls->setComponentID(juce::String(group));
+    controls->onNavigate = [safe = juce::Component::SafePointer<ArcVuEditor>(this)](int target) {
+        juce::MessageManager::callAsync([safe, target] {
+            if (safe && safe->controls && safe->controls->getComponentID() != juce::String(target)) safe->showPanel(target);
+        });
+    };
     controls->onClose = [safe = juce::Component::SafePointer<ArcVuEditor>(this)] {
         juce::MessageManager::callAsync([safe] { if (safe) safe->controls.reset(); });
     };
@@ -172,12 +182,14 @@ void ArcVuEditor::showPanel(int group) {
 void ArcVuEditor::timerCallback() {
     float vw = 1100.0f, vh = 500.0f;
     arcvu_view_size(arcvu.setup.face, &vw, &vh);
+    const bool zoomChanged = !zoomDirty && std::abs(arcvu.zoom() - userScale) > 0.005f;
+    if (zoomChanged) userScale = arcvu.zoom();
     const float scales[] = { 1.0f, 1.25f, 1.5f };
     const int step = juce::jlimit(0, 2, arcvu.setup.gui_scale);
     // The 100/125/150% choice jumps to that size; dragging the window corner sets any other size and is kept.
     if (lastStep >= 0 && step != lastStep) userScale = scales[step];
     const float extra = arcvu.loudnessHeight(arcvu.setup.face);
-    if (step != lastStep || arcvu.setup.face != lastFace || arcvu.skin() != lastSkin || extra != lastExtra) {
+    if (zoomChanged || step != lastStep || arcvu.setup.face != lastFace || arcvu.skin() != lastSkin || extra != lastExtra) {
         lastExtra = extra;
         lastSkin = arcvu.skin();
         lastStep = step;
@@ -304,9 +316,9 @@ void ArcVuEditor::mouseDown(const juce::MouseEvent& e) {
     if (compact) {
         int group = 0;
         if (p.y >= 5 && p.y <= 31) {
-            group = p.x >= 88 && p.x < 156 ? 1 : p.x >= 162 && p.x < 254 ? 2 : p.x >= 260 && p.x < 308 ? 3 : p.x >= 314 && p.x < 374 ? 7 : 0;
+            group = p.x >= 88 && p.x < 170 ? 4 : p.x >= 178 && p.x < 274 ? 2 : p.x >= 282 && p.x < 374 ? 7 : 0;
         } else if (p.y >= 41 && p.y <= 67) {
-            group = p.x >= 12 && p.x < 102 ? 8 : p.x >= 114 && p.x < 194 ? 4 : p.x >= 206 && p.x < 266 ? 5 : p.x >= 278 && p.x < 358 ? 6 : 0;
+            group = p.x >= 12 && p.x < 102 ? 8 : p.x >= 114 && p.x < 194 ? 6 : 0;
         }
         if (group == 8) { controls.reset(); s.panel = s.panel == 8 ? 0 : 8; return; }
         if (group) { showPanel(group); return; }
@@ -326,7 +338,7 @@ void ArcVuEditor::mouseDown(const juce::MouseEvent& e) {
         else if (p.x < 128.0f) s.peak_mode = s.peak_mode == 2 ? 0 : 2;
         else if (p.x < 188.0f) arcvu.resetPeaks();
         else if (p.x >= 248.0f && p.x < 292.0f) arcvu.resetOvers();
-        else if (!compact && p.x >= vw - 70.0f) { showPanel(7); return; }
+        else if (!compact && p.x >= vw - 86.0f) { showPanel(7); return; }
         else if (p.x >= 296.0f && p.x < 332.0f) s.pol_l ^= 1;
         else if (p.x >= 336.0f && p.x < 372.0f) s.pol_r ^= 1;
         else if (p.x >= 376.0f && p.x < 424.0f) s.mid_side = 0;
@@ -347,16 +359,14 @@ void ArcVuEditor::mouseDown(const juce::MouseEvent& e) {
         return;
     }
     const int bar = !compact && p.y >= 5.0f && p.y <= 31.0f
-        ? (p.x >= 90.0f && p.x < 170.0f ? 1
+        ? (p.x >= 90.0f && p.x < 170.0f ? 4
         : p.x >= 178.0f && p.x < 278.0f ? 2
-        : p.x >= 286.0f && p.x < 342.0f ? 3
-        : p.x >= 350.0f && p.x < 428.0f ? 8
-        : p.x >= 436.0f && p.x < 506.0f ? 4
-        : p.x >= 514.0f && p.x < 566.0f ? 5
-        : p.x >= 574.0f && p.x < 644.0f ? 6 : 0) : 0;
+        : p.x >= 286.0f && p.x < 364.0f ? 8
+        : p.x >= 372.0f && p.x < 442.0f ? 6
+        : p.x >= 450.0f && p.x < 538.0f ? 7 : 0) : 0;
     if (bar != 0 && bar != 8) { showPanel(bar); return; }
     if (bar == 8) { controls.reset(); s.panel = s.panel == 8 ? 0 : 8; return; }
-    if (!compact && p.y >= 5.0f && p.y <= 31.0f && p.x >= 652.0f && p.x < 720.0f) { showPanel(7); return; }
+
 
     if (s.panel == 8 && !compact && p.x >= 358.0f && p.x < 1078.0f && p.y >= 42.0f && p.y < 42.0f + 6 * 21.0f) {
         const int column = (int) ((p.x - 358.0f) / 240.0f);

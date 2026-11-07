@@ -1003,27 +1003,18 @@ pub fn paint(meter: &Meter, _reference_norm: f32) -> Scene {
     scene.fill_rect(Rect::new(0.0, 35.0, face_w, 1.0), Color(0xff2a3034), Color(0xff2a3034), true);
     scene.text(Point::new(16.0, 25.0), "ArcVu", Color(0xfff2f6f3), 17.0, false);
 
-    let kinds = ["VU", "RMS", "K-12", "K-14", "K-20", "DIN", "Nordic", "BBC", "EBU"];
-    let faces = ["Arc", "Horizontal", "Vertical"];
-    let reference = if (meter.reference_db + 20.0).abs() < 0.2 { "−20" } else if (meter.reference_db + 14.0).abs() < 0.2 { "−14" } else { "−18" };
     let bars = if meter.face == 2 {
-        vec![(Rect::new(88.0, 5.0, 68.0, 26.0), kinds[meter.kind as usize], 1),
-             (Rect::new(162.0, 5.0, 92.0, 26.0), faces[meter.face as usize], 2),
-             (Rect::new(260.0, 5.0, 48.0, 26.0), reference, 3),
-             (Rect::new(314.0, 5.0, 60.0, 26.0), "More", 7),
+        vec![(Rect::new(88.0, 5.0, 82.0, 26.0), "Meter", 4),
+             (Rect::new(178.0, 5.0, 96.0, 26.0), "Display", 2),
+             (Rect::new(282.0, 5.0, 92.0, 26.0), "Settings", 7),
              (Rect::new(12.0, 41.0, 90.0, 26.0), "Preset", 8),
-             (Rect::new(114.0, 41.0, 80.0, 26.0), "Meter", 4),
-             (Rect::new(206.0, 41.0, 60.0, 26.0), "I/O", 5),
-             (Rect::new(278.0, 41.0, 80.0, 26.0), "Tools", 6)]
+             (Rect::new(114.0, 41.0, 80.0, 26.0), "Tools", 6)]
     } else {
-        vec![(Rect::new(90.0, 5.0, 80.0, 26.0), kinds[meter.kind as usize], 1),
-             (Rect::new(178.0, 5.0, 100.0, 26.0), faces[meter.face as usize], 2),
-             (Rect::new(286.0, 5.0, 56.0, 26.0), reference, 3),
-             (Rect::new(350.0, 5.0, 78.0, 26.0), "Preset", 8),
-             (Rect::new(436.0, 5.0, 70.0, 26.0), "Meter", 4),
-             (Rect::new(514.0, 5.0, 52.0, 26.0), "I/O", 5),
-             (Rect::new(574.0, 5.0, 70.0, 26.0), "Tools", 6),
-             (Rect::new(652.0, 5.0, 68.0, 26.0), "More", 7)]
+        vec![(Rect::new(90.0, 5.0, 80.0, 26.0), "Meter", 4),
+             (Rect::new(178.0, 5.0, 100.0, 26.0), "Display", 2),
+             (Rect::new(286.0, 5.0, 78.0, 26.0), "Preset", 8),
+             (Rect::new(372.0, 5.0, 70.0, 26.0), "Tools", 6),
+             (Rect::new(450.0, 5.0, 88.0, 26.0), "Settings", 7)]
     };
     for (rect, caption, panel) in bars { menu_bar(&mut scene, rect, caption, meter.panel == panel); }
     let names = if meter.mid_side { ["M", "S"] } else { ["L", "R"] };
@@ -1334,7 +1325,7 @@ fn hardware_row(scene: &mut Scene, meter: &Meter, y: f32, face_w: f32) {
     let phase_x = 598.0;
     let phase_w = (face_w - 78.0 - phase_x).max(40.0);
     phase_gauge(scene, Rect::new(phase_x, y + 3.0, phase_w, 24.0), meter.correlation);
-    value_chip(scene, Rect::new(face_w - 70.0, y, 60.0, 28.0), "More", meter.panel == 7);
+    value_chip(scene, Rect::new(face_w - 86.0, y, 76.0, 28.0), "Settings", meter.panel == 7);
     let hidden = if meter.mid_side { meter.trim[0].abs().max(meter.trim[1].abs()) } else { meter.trim[2].abs().max(meter.trim[3].abs()) };
     if hidden > 0.05 {
         scene.fill_ellipse(Rect::new(452.0, y + 35.0, 7.0, 7.0), Color(0xff3dcc4a), Color(0xff3dcc4a));
