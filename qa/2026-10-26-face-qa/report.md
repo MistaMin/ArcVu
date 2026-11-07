@@ -1,3 +1,5 @@
+> Historical report. Its conflicting completion claims are superseded by [the current audit](../2026-10-26-qa-audit/report.md).
+
 # ArcVu QA report — 2026-10-26
 
 Scope: 39 rows (S1–S29, L1–L10). None are marked verified. Host and validator checks were skipped. The look rows are still open because the black meter window is larger than the lamp ribbon.
