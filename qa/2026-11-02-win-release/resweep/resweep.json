@@ -1,0 +1,174 @@
+[
+  {
+    "name": "Peak",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "AES-17",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "RMS window",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Clip threshold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Trim R",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Polarity L",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Polarity R",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Mute R",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Monitor",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "High-pass",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "High-pass slope",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Low-pass",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Low-pass slope",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Mono frequency",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Mono amount",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Dynamic frequency",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Dynamic depth",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Dynamic on",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Dynamic type",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Dynamic listen",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "VU model",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Rise",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Fall",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Overshoot",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Peak hold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Value hold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Clip hold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Peak lamp threshold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Comfort zone",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Analog RMS",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Weighting",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Force mono",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "In place",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Show values",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Show hold",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Show tools",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Show label",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Meters only",
+    "result": "ok (7.829%)"
+  },
+  {
+    "name": "Drag sensitivity",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Meter refresh",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Bypass hidden processors",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Tooltips",
+    "result": "NOT SHOWN (0.000%)"
+  },
+  {
+    "name": "Stay above windows",
+    "result": "NOT SHOWN (0.000%)"
+  }
+]

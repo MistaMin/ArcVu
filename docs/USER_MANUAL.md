@@ -9,8 +9,8 @@ ArcVu is a digital analogue meter by OpenGrid. It shows the level of your signal
 ## Quick start
 
 1. Put ArcVu **last** in the channel or on the master bus, so it measures what you hear and what you bounce.
-2. Pick a **meter type** and a **reference level** in the header bar. For a mix, VU at -18 is a good start; for broadcast, choose EBU or DIN.
-3. For loudness, open **More > Display** and switch on **Loudness panel**, then set the **target** you deliver to (for example -14 LUFS for streaming, -23 for broadcast).
+2. Pick a **meter type** and a **reference level** in the Meter menu. For a mix, VU at -18 is a good start; for broadcast, choose EBU or DIN.
+3. For loudness, open **Display > Loudness** and switch on **Loudness panel**, then set the **target** you deliver to (for example -14 LUFS for streaming, -23 for broadcast).
 4. Bounce or export as usual. When the host renders offline, ArcVu writes a report to `Documents/ArcVu Bounce Logs`.
 
 > **Tip.** Everything here is saved with your project except the interface settings (skin, colour, window size, loudness panel and bounce log settings), which are shared by all instances and kept in your user folder.
@@ -23,15 +23,15 @@ ArcVu comes as VST3, Audio Unit, CLAP, LV2 and AAX plug-ins and a Standalone app
 
 ![ArcVu Classic skin](images/arcvu-classic-arc.png)
 
-The header bar holds the menus. From left to right: the **meter type**, the **face**, the **reference level**, **Preset**, **Meter**, **I/O**, **Tools** and **More**. On the wide faces the digital PEAK/HOLD display sits at the right end of the header.
+The header bar holds the menus. From left to right: **Meter**, **Display**, **Preset**, **Tools** and **Settings**. Meter combines the meter type, reference level and meter behaviour. Display has Appearance and Loudness tabs; Tools has Channels and Processing tabs. On the wide faces the digital PEAK/HOLD display sits at the right end of the header.
 
 - **Faces.** *Arc* (two dials or arc meters side by side), *Horizontal* (two bars one above the other) and *Vertical* (two tall bars side by side with a shared scale).
 
 ![Horizontal face](images/arcvu-modern-horizontal.png)
-- **Skin** (More > Display). *Modern* draws 40-lamp meters. *Classic* draws analogue needle dials for all nine meter types.
-- **Colour** (More > Display). Graphite/Ivory, Amber (a dark dial with orange markings in Classic) and Ice. Skin and colour are saved with your interface settings, not with presets or projects.
-- **Peak scale** (More > Display). *Meter scale* shows the digital PEAK number relative to the meter's own zero (the reference level on VU and PPM, the K zero on K meters). *dBFS* shows the sample peak against full scale, so 0 dBFS reads 0 on every meter type; the label then reads PEAK FS. HOLD always follows the meter scale. The choice is saved with your interface settings.
-- **Size.** Drag the window corner to any size; the face keeps its proportions and ArcVu remembers the size. The 100%, 125% and 150% choice in the Display menu jumps to those sizes.
+- **Skin** (Display > Appearance). *Modern* draws 40-lamp meters. *Classic* draws analogue needle dials for all nine meter types.
+- **Colour** (Display > Appearance). Graphite/Ivory, Amber (a dark dial with orange markings in Classic) and Ice. Skin and colour are saved with your interface settings, not with presets or projects.
+- **Peak scale** (Display > Appearance). *Meter scale* shows the digital PEAK number relative to the meter's own zero (the reference level on VU and PPM, the K zero on K meters). *dBFS* shows the sample peak against full scale, so 0 dBFS reads 0 on every meter type; the label then reads PEAK FS. HOLD always follows the meter scale. The choice is saved with your interface settings.
+- **Size.** Drag the window corner to any size; the face keeps its proportions and ArcVu remembers the size. The 50%, 75%, 100%, 125% and 150% choice in Display > Appearance jumps to those sizes.
 - **Digital readout.** PEAK and HOLD are shown as green seven-segment numbers. They stay on screen for the *Value hold* time (Meter menu, 5 seconds by default; set it from 0 to 30 seconds, or to -1 to hold until reset) so you can read them. The Values and Hold switches in the Display menu show or hide them.
 - **Phase line.** A glowing line moves from out of phase (left) to mono (right). It turns red when the channels are mostly out of phase.
 - **Keys row.** *Auto* makes the white peak lamp hold for the Peak hold time and then fall, *Hold* keeps it until you reset it, and with neither on (Follow) it follows the signal without holding. *Reset* clears peaks, the *OVERS* counter counts samples at or above full scale and *Clr* clears it, the polarity keys invert one channel for metering, *L/R* and *M/S* choose the channel mode, and *20*, *18* and *14* set the reference level in dBFS. The small lamps FX, TR and CH light when the processing tools, trims, or polarity/mute are active.
@@ -60,7 +60,7 @@ The needle or lamp bar follows the meter's own ballistic. The white lamp (Modern
 
 ## Loudness
 
-Switch on **Loudness panel** (More > Display) to add a loudness readout under the face. It measures the input with the ITU-R BS.1770-5 K-weighting and follows the EBU Tech 3341 time scales and the EBU Tech 3342 loudness range.
+Switch on **Loudness panel** (Display > Loudness) to add a loudness readout under the face. It measures the input with the ITU-R BS.1770-5 K-weighting and follows the EBU Tech 3341 time scales and the EBU Tech 3342 loudness range.
 
 ![Loudness panel under the Horizontal face](images/arcvu-loudness.png)
 
@@ -71,7 +71,7 @@ Switch on **Loudness panel** (More > Display) to add a loudness readout under th
 - **Momentary** is the last 0.4 s and **Short-term 3 s** the last 3 s; neither is gated. **Sliding** is a third window you choose, 1 to 30 s (10 s by default). It is not a BS.1770 or EBU time scale and is not gated.
 - **Integrated** is the loudness of everything since the last reset, using the BS.1770 gates (absolute −70 LUFS, relative −10 LU). **Loudness range** (LRA) is the spread of the 3 s values between the 10th and 95th percentile (gates −70 LUFS and −20 LU). The LRA is marked *settling* until 60 s have been measured.
 - **True peak** is the highest inter-sample peak since the reset, from the 4× oversampling of BS.1770 Annex 2, in dBTP. It is red above the ceiling.
-- The numbers are green within ±1 LU of the **target**, amber up to 3 LU over, red beyond that, and blue-grey below it. Choose any target in Display (−40 to −5 LUFS); the Target button steps through −23 (EBU R128 broadcast), −18, −16 (podcasts and some streaming) and −14 (most streaming services). The Ceiling button steps the true-peak limit through −1, −2 and −3 dBTP. Streaming services change their targets from time to time: check the one you deliver to.
+- The numbers are green within ±1 LU of the **target**, amber up to 3 LU over, red beyond that, and blue-grey below it. Choose any target in Display > Loudness (−40 to −5 LUFS); the Target button steps through −23 (EBU R128 broadcast), −18, −16 (podcasts and some streaming) and −14 (most streaming services). The Ceiling button steps the true-peak limit through −1, −2 and −3 dBTP. Streaming services change their targets from time to time: check the one you deliver to.
 - The bar shows the loudness against the target (0 in the middle of the scale) on the **EBU +9** scale (−18 to +9 LU) or the **EBU +18** scale (−36 to +18 LU). The fill is momentary, the white tick short-term and the cyan tick integrated. **LUFS | LU** switches the numbers between absolute LUFS and LU relative to the target.
 - **Reset I / LRA** clears the integrated loudness, the range, the maxima and the true peak. A stereo input is measured as left plus right with weight 1 each; a mono input is one channel, as BS.1770 defines it, so it reads 3 dB below the same signal on both channels.
 - The loudness is measured on the input before the trims, polarity, mute, filters and monitor choices. The panel's settings are interface settings kept with the skin and colour, not in presets or projects, and they add no host parameters.
@@ -92,23 +92,23 @@ When the host renders offline (a bounce, export or freeze that runs faster than 
 
 The figures are measured on the plug-in's output, after the trims, filters and monitor choice, with the same BS.1770-5 method as the panel. The log does not need the loudness panel to be on. Put ArcVu last in the chain, so the log describes the bounced file.
 
-A render shorter than one second writes nothing, and a render that runs in real time is not logged. The log is written when the host releases the plug-in or stops sending audio, so a host that keeps the plug-in loaded can take up to two seconds to write it. Switch it off with **Bounce log** in More > Display. Hosts report offline rendering differently: if a host does not mark its bounce as offline, no log is written.
+A render shorter than one second writes nothing, and a render that runs in real time is not logged. The log is written when the host releases the plug-in or stops sending audio, so a host that keeps the plug-in loaded can take up to two seconds to write it. Switch it off with **Bounce log** in Display > Loudness. Hosts report offline rendering differently: if a host does not mark its bounce as offline, no log is written.
 
 ## Menus
 
 **Preset.** Step through factory presets (Broadcast VU, K-14, DIN peak, Podcast -14), switch between Factory and User presets, copy and paste settings, save and load preset files, save your own default (Save default / Load default), save global settings (drag mode, drag sensitivity, refresh rate, tooltips), and turn on the EBU slow mode.
 
-**Meter.** Peak lamp behaviour (Follow, Auto, Hold), Reset peak and Reset overs, the RMS window, AES-17, the VU model (Ideal 300 ms, Model 2, Custom), rise, fall, overshoot, peak hold, value hold, clip hold and clip threshold, the peak lamp threshold, the red zone, the comfort zone (K meters), analog RMS and the weighting filter.
+**Meter.** Meter type and reference level, peak lamp behaviour (Follow, Auto, Hold), Reset peak and Reset overs, the RMS window, AES-17, the VU model (Ideal 300 ms, Model 2, Custom), rise, fall, overshoot, peak hold, value hold, clip hold and clip threshold, the peak lamp threshold, the red zone, the comfort zone (K meters), analog RMS and the weighting filter.
 
-**I/O.** Mid/side mode, trims for left, right, mid and side (with link), polarity, mute, the monitor selection (L, R, mid, side), Force mono and In place.
+**Tools > Channels.** Mid/side mode, trims for left, right, mid and side (with link), polarity, mute, the monitor selection (L, R, mid, side), Force mono and In place.
 
-**Tools.** A dropdown of knobs. *High-pass* and *Low-pass* have a frequency and a slope (Off, 6, 12, 18 or 24 dB per octave). *Mono maker* narrows the side signal below its frequency by the amount you set. *Dynamic* is a band-limited downward gain with frequency, depth, type (high-pass, low-pass, narrow band, wide band), an on switch and a Listen switch to hear the band. Frequencies show at most three digits: 12.5 means 12.5 kHz, 380 means 380 Hz. The tools change what you monitor; with every tool off the audio is untouched.
+**Tools > Processing.** A dropdown of knobs. *High-pass* and *Low-pass* have a frequency and a slope (Off, 6, 12, 18 or 24 dB per octave). *Mono maker* narrows the side signal below its frequency by the amount you set. *Dynamic* is a band-limited downward gain with frequency, depth, type (high-pass, low-pass, narrow band, wide band), an on switch and a Listen switch to hear the band. Frequencies show at most three digits: 12.5 means 12.5 kHz, 380 means 380 Hz. The tools change what you monitor; with every tool off the audio is untouched.
 
 ![Tools dropdown](images/arcvu-tools.png)
 
 ![The Display menu, first page](images/arcvu-display-menu.png)
 
-**More.** Display (face, skin, colour, peak scale, loudness panel and its target, ceiling, window, scale and unit, bounce log, size, Single, Meters only, and the Values, Hold, Tools and Label switches), Preferences (drag sensitivity, meter refresh rate, bypass of hidden processors, tooltips, stay above windows).
+**Display.** Appearance groups face, skin, colour, peak scale, window size, Single, Meters only and the Values, Hold, Tools and Label switches. Loudness groups the panel visibility switch, LUFS/LU units, target, ceiling, window, scale and bounce log. **Settings** holds drag sensitivity, meter refresh rate, bypass of hidden processors, tooltips and stay above windows.
 
 ## Notes
 
