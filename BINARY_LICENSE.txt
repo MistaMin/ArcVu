@@ -1,5 +1,5 @@
 ArcVu Binary Freeware License
-Copyright (c) 2026 OpenGrid
+Copyright (c) 2026 Marcos Quirino Deida
 
 Scope
 This license applies to the official compiled ArcVu plug-ins, standalone
