@@ -231,6 +231,7 @@ void ArcVuEditor::paint(juce::Graphics& g) {
     arcvu_view_size(arcvu.setup.face, &vw, &vh);
     g.addTransform(juce::AffineTransform::scale(getWidth() / vw, getHeight() / vh));
     std::vector<ArcVuPaint> cmds(8192);
+    arcvu.pushUi();
     const int n = arcvu.paint(cmds.data(), (int) cmds.size());
     for (int i = 0; i < n; ++i) replay(g, cmds[(size_t) i]);
     if (arcvu.setup.panel == 8) {

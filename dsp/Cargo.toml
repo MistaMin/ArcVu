@@ -9,4 +9,4 @@ description = "VU ballistic and peak detector for ArcVu"
 crate-type = ["staticlib", "rlib"]
 
 [dependencies]
-goodlookindri = { path = "../../instruments/GoodLookinDri" }
+goodlookindri = { git = "https://github.com/MistaMin/GoodLookinDri", rev = "9a1d6212324fc6c6eeca56d099af690d8142023f" }

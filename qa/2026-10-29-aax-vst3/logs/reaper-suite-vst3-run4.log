@@ -32,14 +32,14 @@ Traceback (most recent call last):
   File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 58, in <module>
     rq.main()
     ~~~~~~~^^
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
     return suite(args)
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 320, in suite
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 320, in suite
     diffs.append(difference_db(ref, render("p%d_%d" % (p["index"], int(v)))))
                                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 254, in render
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 254, in render
     path = b.call("render", seconds=args.seconds, name=name)["file"]
            ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 79, in call
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 79, in call
     raise TimeoutError("REAPER did not answer '%s' within %ds (modal dialog open? crashed?)" % (cmd, timeout))
 TimeoutError: REAPER did not answer 'render' within 120s (modal dialog open? crashed?)

@@ -70,7 +70,7 @@ public:
     ArcVuLoudness loudnessReadings() const;
     // Offline bounce log: while the host renders offline the output is measured, and when the render ends a text
     // summary and a per-second CSV are written to the Documents/ArcVu Bounce Logs folder.
-    bool bounceLog() const { return bounceLogOn; }
+    bool bounceLog() const { return bounceLogOn.load(); }
     void setBounceLog(bool on);
     bool bounceActive() const { return bounceRunning.load(); }
     // Ends a running bounce and writes its log; returns the summary file, or an empty File when nothing was written.
@@ -87,9 +87,16 @@ public:
     // Changes one key of the global settings file and leaves every other line as it is.
     static void saveGlobalKey(const juce::String& key, const juce::String& value);
     void loadGlobalSettings();
+    // Writes settings that are saved lazily (the window zoom). The 1 s timer and the destructor call it too.
+    void flushSettings();
     ArcVuSetup setup {};
     ArcVuLevels levels(int channel) const;
+    // Reads a saved state (versioned, or the bare 1.0.0 struct) into `out` when every value is plausible.
+    static bool decodeState(const void* data, int size, ArcVuSetup& out);
+    static bool plausibleSetup(const ArcVuSetup& s);
     int paint(ArcVuPaint* out, int cap) const;
+    // Hands the editor-only state (open panel, label) to the meter. Call on the message thread before painting.
+    void pushUi() { arcvu_set_ui(meter, setup.panel, setup.label); }
 
 private:
     ArcVuAAXExtensions aaxExtensions;
@@ -102,7 +109,7 @@ private:
     int themeIndex = 0;
     int skinIndex = 0;
     int peakScaleIndex = 0;
-    bool bounceLogOn = true;
+    std::atomic<bool> bounceLogOn { true };  // read by the audio thread, written by the editor
     double preparedRate = 48000.0;
     std::atomic<bool> bounceRunning { false };
     std::atomic<bool> lastBlockOffline { false };
@@ -111,8 +118,10 @@ private:
     void timerCallback() override;
     ArcVuLoudSettings loud { 0, -14.0f, -1.0f, 0, 0, 10.0f };
     float zoomValue = 0.0f;
+    std::atomic<bool> zoomDirty { false };
     ArcVuSetup audioSetup {};
-    std::vector<float> interleaved;  // reused every block so processBlock never allocates
+    static constexpr int maxSliceFrames = 8192;
+    std::vector<float> interleaved;  // maxSliceFrames x 2, sized in prepareToPlay so processBlock never allocates
     Meter* meter = nullptr;
     juce::AudioParameterChoice* referenceDb = nullptr;
     juce::AudioParameterChoice* peakModeParam = nullptr;

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Saved sessions, presets and the copy/paste setup now carry a small header and a version number, so later builds can add settings without dropping the ones you saved. Sessions saved by 1.0.0 still load. A saved state with values no setup can hold is refused.
+- Fixes for rare crashes and glitches: the meter is now locked between the audio thread and the editor (a loudness setting changed while audio runs could corrupt the sliding-window reading), a panic inside the meter can no longer take the host down, blocks larger than the host promised no longer allocate on the audio thread, and the window zoom is saved once a second instead of on every resize step.
+- Interface: the bottom-row keys are lit keys from GoodLookin DRI 0.2.1 (green when on, grey when off) and the FX / TR / CH indicators are jewel lamps.
+- The drawing library, GoodLookin DRI, is now public and pinned in `dsp/Cargo.toml`, so the source builds without private repositories.
+
 ## 1.0.0
 
 First release by OpenGrid.

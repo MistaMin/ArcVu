@@ -40,15 +40,15 @@ before the release is published.
 ## Windows and Linux (GitHub Actions)
 
 `.github/workflows/build.yml` builds both on every push and on tags `v*`, and attaches the archives to the release. The job checks out
-JUCE (public `MistaMin/JUCE`, pinned commit) and GoodLookinDri (private `MistaMin/GoodLookinDri`, pinned commit) beside the ArcVu
-checkout. Add the repository secret `OPENGRID_CI_TOKEN` (a fine-grained token with read access to GoodLookinDri) before the first run.
-The pinned commits are in the workflow's `env`; update them when the dependencies change.
+JUCE (public `MistaMin/JUCE`, pinned commit) beside the ArcVu checkout. GoodLookin DRI (public `MistaMin/GoodLookinDri`) is a git
+dependency in `dsp/Cargo.toml`, pinned by `rev` and by `Cargo.lock`, so cargo fetches it and no token is needed. The JUCE commit is in the
+workflow's `env`; update it and the DRI `rev` when the dependencies change.
 
 ## Publishing
 
 Tag `v<version>`, push the tag, check that the Windows and Linux assets appear, upload the macOS files from `dist`, and compare
 every SHA-256 with the file on the release page. State in the notes which hosts and platforms were tested and which were not.
-The ArcVu repository is private; a release on it is visible only to its members until the repository is made public.
+The ArcVu repository is public, so a release on it is visible to everyone as soon as it is published.
 
 ## Checklist
 

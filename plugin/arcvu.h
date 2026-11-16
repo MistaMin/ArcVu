@@ -69,6 +69,8 @@ typedef struct ArcVuSetup {
 } ArcVuSetup;
 
 void arcvu_setup(Meter* meter, const ArcVuSetup* setup);
+// Editor-only state (open panel, label text): set on the message thread, never read from the audio thread.
+void arcvu_set_ui(Meter* meter, int panel, const unsigned char* label);
 void arcvu_set_peak_mode(Meter* meter, int mode);
 void arcvu_reset_peaks(Meter* meter);
 void arcvu_reset_overs(Meter* meter);

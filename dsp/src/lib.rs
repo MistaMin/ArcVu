@@ -235,7 +235,7 @@ impl Meter {
             configured_weight: -1,
             configured_weight_sr: 0.0,
             bypass_hidden: false,
-            scratch: Vec::with_capacity(16384),
+            scratch: Vec::with_capacity(MAX_SLICE_FRAMES * 2),
             channels: [Channel::silent(); MAX_CHANNELS],
         };
         meter.set_sample_rate(sample_rate);
@@ -335,7 +335,6 @@ impl Meter {
         self.dyn_hz = s.dyn_hz.clamp(80.0, 12000.0);
         self.dyn_depth = s.dyn_depth.clamp(0.0, 1.0);
         self.dyn_on = s.dyn_on != 0;
-        self.panel = s.panel.clamp(0, 8);
         self.vu_model = s.vu_model.clamp(0, 2);
         self.rise_ms = s.rise_ms.clamp(50.0, 1000.0);
         self.fall_ms = s.fall_ms.clamp(50.0, 2000.0);
@@ -360,7 +359,6 @@ impl Meter {
         self.dyn_type = s.dyn_type.clamp(0, 4);
         self.dyn_listen = s.dyn_listen != 0;
         self.gui_scale = s.gui_scale.clamp(0, 2);
-        self.label = s.label;
         self.bypass_hidden = s.bypass_hidden != 0;
         self.tooltips = s.tooltips != 0;
         self.always_on_top = s.always_on_top != 0;
@@ -763,32 +761,44 @@ pub struct ArcVuLevels {
     pub peak_pos: c_float,
 }
 
-#[no_mangle]
-pub extern "C" fn arcvu_create(sample_rate: f64) -> *mut Meter {
-    Box::into_raw(Box::new(Meter::new(sample_rate)))
+/// What C++ holds as `Meter*`. The audio thread and the editor thread both reach the meter, so every call goes
+/// through this lock. The sections are short (the longest is building one scene); the audio thread never waits on
+/// disk or on the host.
+pub struct Handle {
+    meter: std::sync::Mutex<Meter>,
+}
+
+/// Runs `f` on the meter under the lock. A null handle or a panic inside `f` gives `fallback`: a panic must not
+/// unwind into the host, which would abort the whole DAW.
+fn with<R>(handle: *const Handle, fallback: R, f: impl FnOnce(&mut Meter) -> R) -> R {
+    let Some(handle) = (unsafe { handle.as_ref() }) else { return fallback };
+    let mut meter = handle.meter.lock().unwrap_or_else(|poisoned| poisoned.into_inner());
+    std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| f(&mut meter))).unwrap_or(fallback)
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_destroy(meter: *mut Meter) {
+pub extern "C" fn arcvu_create(sample_rate: f64) -> *mut Handle {
+    std::panic::catch_unwind(|| Box::into_raw(Box::new(Handle { meter: std::sync::Mutex::new(Meter::new(sample_rate)) })))
+        .unwrap_or(std::ptr::null_mut())
+}
+
+#[no_mangle]
+pub extern "C" fn arcvu_destroy(meter: *mut Handle) {
     if !meter.is_null() {
         unsafe { drop(Box::from_raw(meter)) }
     }
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_set_sample_rate(meter: *mut Meter, sample_rate: f64) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.set_sample_rate(sample_rate);
-    }
+pub extern "C" fn arcvu_set_sample_rate(meter: *mut Handle, sample_rate: f64) {
+    with(meter, (), |meter| meter.set_sample_rate(sample_rate));
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_set_skin(meter: *mut Meter, skin: c_int) {
+pub extern "C" fn arcvu_set_skin(meter: *mut Handle, skin: c_int) {
     let skin = skin.clamp(0, 1);
     SKIN.store(skin, std::sync::atomic::Ordering::Relaxed);
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.skin = skin;
-    }
+    with(meter, (), |meter| meter.skin = skin);
 }
 
 #[repr(C)]
@@ -796,10 +806,10 @@ pub struct ArcVuLoudSettings { pub on: c_int, pub target: c_float, pub ceiling: 
 
 /// Show the panel and set its target, true-peak ceiling, EBU scale (0 = +9, 1 = +18), unit (0 = LUFS, 1 = LU) and sliding window.
 #[no_mangle]
-pub extern "C" fn arcvu_set_loudness(meter: *mut Meter, settings: *const ArcVuLoudSettings) {
+pub extern "C" fn arcvu_set_loudness(meter: *mut Handle, settings: *const ArcVuLoudSettings) {
     let Some(s) = (unsafe { settings.as_ref() }) else { return };
     LOUDNESS.store((s.on != 0) as i32, std::sync::atomic::Ordering::Relaxed);
-    if let Some(meter) = unsafe { meter.as_mut() } {
+    with(meter, (), |meter| {
         meter.loud_on = s.on != 0;
         meter.loud_target = s.target.clamp(-40.0, -5.0);
         meter.loud_ceiling = s.ceiling.clamp(-12.0, 0.0);
@@ -807,26 +817,26 @@ pub extern "C" fn arcvu_set_loudness(meter: *mut Meter, settings: *const ArcVuLo
         meter.loud_unit = s.unit.clamp(0, 1);
         meter.loud_window = s.window.clamp(1.0, 30.0);
         meter.loud.set_window(meter.loud_window);
-    }
+    });
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_get_loudness(meter: *const Meter, out: *mut ArcVuLoudSettings) {
+pub extern "C" fn arcvu_get_loudness(meter: *const Handle, out: *mut ArcVuLoudSettings) {
     if out.is_null() { return; }
-    if let Some(meter) = unsafe { meter.as_ref() } {
+    with(meter, (), |meter| {
         unsafe { *out = ArcVuLoudSettings { on: meter.loud_on as c_int, target: meter.loud_target, ceiling: meter.loud_ceiling, scale: meter.loud_scale, unit: meter.loud_unit, window: meter.loud_window }; }
-    }
+    });
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_loudness(meter: *const Meter, out: *mut loudness::Readings) {
+pub extern "C" fn arcvu_loudness(meter: *const Handle, out: *mut loudness::Readings) {
     if out.is_null() { return; }
-    if let Some(meter) = unsafe { meter.as_ref() } { unsafe { *out = meter.loud.readings(); } }
+    with(meter, (), |meter| unsafe { *out = meter.loud.readings(); });
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_reset_loudness(meter: *mut Meter) {
-    if let Some(meter) = unsafe { meter.as_mut() } { meter.loud.reset(); }
+pub extern "C" fn arcvu_reset_loudness(meter: *mut Handle) {
+    with(meter, (), |meter| meter.loud.reset());
 }
 
 /// Height the panel adds under the face (0 while it is off), so the editor can tell the face from the panel.
@@ -835,89 +845,92 @@ pub extern "C" fn arcvu_loudness_height(face: c_int) -> c_float { loudness_heigh
 
 /// A click at view coordinates: 0 = not on the panel, 1 = reset, 2 = a setting changed (read it back with arcvu_get_loudness).
 #[no_mangle]
-pub extern "C" fn arcvu_loudness_click(meter: *mut Meter, x: c_float, y: c_float) -> c_int {
-    match unsafe { meter.as_mut() } { Some(meter) if meter.loud_on => loudness_panel::click(meter, x, y), _ => 0 }
+pub extern "C" fn arcvu_loudness_click(meter: *mut Handle, x: c_float, y: c_float) -> c_int {
+    with(meter, 0, |meter| if meter.loud_on { loudness_panel::click(meter, x, y) } else { 0 })
 }
 
 /// One row per second of an offline bounce, ten hours at most.
 const BOUNCE_ROWS: usize = 36_000;
 
 #[no_mangle]
-pub extern "C" fn arcvu_bounce(meter: *mut Meter, on: c_int) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
+pub extern "C" fn arcvu_bounce(meter: *mut Handle, on: c_int) {
+    with(meter, (), |meter| {
         if on != 0 && !meter.bounce_on {
             meter.bounce.reset();
             meter.bounce_frames = 0;
             meter.bounce_rows.clear();
         }
         meter.bounce_on = on != 0;
-    }
+    });
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_bounce_readings(meter: *const Meter, out: *mut loudness::Readings, frames: *mut u64) {
-    if let Some(meter) = unsafe { meter.as_ref() } {
-        unsafe {
-            if !out.is_null() { *out = meter.bounce.readings(); }
-            if !frames.is_null() { *frames = meter.bounce_frames; }
-        }
-    }
+pub extern "C" fn arcvu_bounce_readings(meter: *const Handle, out: *mut loudness::Readings, frames: *mut u64) {
+    with(meter, (), |meter| unsafe {
+        if !out.is_null() { *out = meter.bounce.readings(); }
+        if !frames.is_null() { *frames = meter.bounce_frames; }
+    });
 }
 
 /// Copies up to `cap` rows of (seconds, momentary, short-term, integrated, true peak); returns the number copied.
 #[no_mangle]
-pub extern "C" fn arcvu_bounce_rows(meter: *const Meter, out: *mut c_float, cap: c_int) -> c_int {
-    let Some(meter) = (unsafe { meter.as_ref() }) else { return 0 };
+pub extern "C" fn arcvu_bounce_rows(meter: *const Handle, out: *mut c_float, cap: c_int) -> c_int {
     if out.is_null() || cap <= 0 { return 0; }
-    let n = meter.bounce_rows.len().min(cap as usize);
-    let dest = unsafe { std::slice::from_raw_parts_mut(out, n * 5) };
-    for (i, row) in meter.bounce_rows.iter().take(n).enumerate() { dest[i * 5..i * 5 + 5].copy_from_slice(row); }
-    n as c_int
+    with(meter, 0, |meter| {
+        let n = meter.bounce_rows.len().min(cap as usize);
+        let dest = unsafe { std::slice::from_raw_parts_mut(out, n * 5) };
+        for (i, row) in meter.bounce_rows.iter().take(n).enumerate() { dest[i * 5..i * 5 + 5].copy_from_slice(row); }
+        n as c_int
+    })
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_set_peak_scale(meter: *mut Meter, scale: c_int) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.peak_scale = scale.clamp(0, 1);
+pub extern "C" fn arcvu_set_peak_scale(meter: *mut Handle, scale: c_int) {
+    with(meter, (), |meter| { meter.peak_scale = scale.clamp(0, 1); });
+}
+
+#[no_mangle]
+pub extern "C" fn arcvu_set_theme(meter: *mut Handle, theme: c_int) {
+    with(meter, (), |meter| { meter.theme = theme.clamp(0, THEME_COUNT - 1); });
+}
+
+#[no_mangle]
+pub extern "C" fn arcvu_set_slow_mode(meter: *mut Handle, on: c_int) {
+    with(meter, (), |meter| { meter.slow_mode = on != 0; });
+}
+
+#[no_mangle]
+pub extern "C" fn arcvu_set_reference_db(meter: *mut Handle, db: c_float) {
+    with(meter, (), |meter| { meter.set_reference_db(db); });
+}
+
+#[no_mangle]
+pub extern "C" fn arcvu_setup(meter: *mut Handle, setup: *const ArcVuSetup) {
+    let Some(setup) = (unsafe { setup.as_ref() }) else { return };
+    with(meter, (), |meter| meter.apply_setup(setup));
+}
+
+/// What only the editor decides: the open menu panel and the label text. It is set from the editor thread right
+/// before each paint, so the audio thread never reads editor state.
+#[no_mangle]
+pub extern "C" fn arcvu_set_ui(meter: *mut Handle, panel: c_int, label: *const u8) {
+    let mut text = [0u8; 32];
+    if !label.is_null() {
+        let bytes = unsafe { std::slice::from_raw_parts(label, 31) };
+        let n = bytes.iter().position(|&b| b == 0).unwrap_or(31);
+        text[..n].copy_from_slice(&bytes[..n]);
     }
+    with(meter, (), |meter| { meter.panel = panel.clamp(0, 8); meter.label = text; });
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_set_theme(meter: *mut Meter, theme: c_int) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.theme = theme.clamp(0, THEME_COUNT - 1);
-    }
+pub extern "C" fn arcvu_set_peak_mode(meter: *mut Handle, mode: c_int) {
+    with(meter, (), |meter| meter.set_peak_mode(mode));
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_set_slow_mode(meter: *mut Meter, on: c_int) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.slow_mode = on != 0;
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn arcvu_set_reference_db(meter: *mut Meter, db: c_float) {
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        meter.set_reference_db(db);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn arcvu_setup(meter: *mut Meter, setup: *const ArcVuSetup) {
-    if let (Some(meter), Some(setup)) = unsafe { (meter.as_mut(), setup.as_ref()) } {
-        meter.apply_setup(setup);
-    }
-}
-
-#[no_mangle]
-pub extern "C" fn arcvu_set_peak_mode(meter: *mut Meter, mode: c_int) {
-    if let Some(meter) = unsafe { meter.as_mut() } { meter.set_peak_mode(mode); }
-}
-
-#[no_mangle]
-pub extern "C" fn arcvu_reset_peaks(meter: *mut Meter) {
-    if let Some(meter) = unsafe { meter.as_mut() } { meter.reset_peaks(); }
+pub extern "C" fn arcvu_reset_peaks(meter: *mut Handle) {
+    with(meter, (), |meter| meter.reset_peaks());
 }
 
 #[no_mangle]
@@ -930,30 +943,38 @@ pub extern "C" fn arcvu_view_size(face: c_int, w: *mut c_float, h: *mut c_float)
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_reset_clip(meter: *mut Meter) {
-    if let Some(meter) = unsafe { meter.as_mut() } { meter.reset_clip(); }
+pub extern "C" fn arcvu_reset_clip(meter: *mut Handle) {
+    with(meter, (), |meter| meter.reset_clip());
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_reset_overs(meter: *mut Meter) {
-    if let Some(meter) = unsafe { meter.as_mut() } { meter.reset_overs(); }
+pub extern "C" fn arcvu_reset_overs(meter: *mut Handle) {
+    with(meter, (), |meter| meter.reset_overs());
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_overs(meter: *const Meter) -> c_int {
-    unsafe { meter.as_ref() }.map(|meter| meter.overs() as c_int).unwrap_or(0)
+pub extern "C" fn arcvu_overs(meter: *const Handle) -> c_int {
+    with(meter, 0, |meter| meter.overs() as c_int)
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_process(meter: *mut Meter, samples: *const c_float, frames: c_int, channels: c_int) {
-    if samples.is_null() || frames <= 0 || channels <= 0 {
+pub extern "C" fn arcvu_process(meter: *mut Handle, samples: *const c_float, frames: c_int, channels: c_int) {
+    if samples.is_null() || frames <= 0 || !(1..=2).contains(&channels) {
         return;
     }
-    if let Some(meter) = unsafe { meter.as_mut() } {
-        let count = frames as usize * channels as usize;
-        meter.process_io(unsafe { std::slice::from_raw_parts_mut(samples as *mut c_float, count) }, channels as usize);
-    }
+    with(meter, (), |meter| {
+        let channels = channels as usize;
+        let all = unsafe { std::slice::from_raw_parts_mut(samples as *mut c_float, frames as usize * channels) };
+        // Slices of at most MAX_SLICE_FRAMES keep the scratch buffer at its reserved size, so a host that sends a
+        // huge block never makes the audio thread allocate.
+        for slice in all.chunks_mut(MAX_SLICE_FRAMES * channels) {
+            meter.process_io(slice, channels);
+        }
+    });
 }
+
+/// Largest block `process_io` sees at once; `scratch` is reserved for this many frames of two channels.
+const MAX_SLICE_FRAMES: usize = 8192;
 
 /// The skin is a UI-wide setting, so the C entry point that sizes the window reads it from here.
 static SKIN: std::sync::atomic::AtomicI32 = std::sync::atomic::AtomicI32::new(0);
@@ -1112,14 +1133,17 @@ fn menu_row(scene: &mut Scene, r: Rect, label: &str, on: bool) {
     scene.text(Point::new(r.x + 14.0, r.center().y + 5.0), label, if on { Color(0xfff7f1e6) } else { Color(0xffb7b0a4) }, 13.0, false);
 }
 
+/// A key from GoodLookin DRI 0.2: a cap lit from inside, green when it is on.
 fn value_chip(scene: &mut Scene, r: Rect, label: &str, on: bool) {
-    scene.fill_rect(r, Color(0xff0b1013), Color(0xff0b1013), true);
-    let cap = r.reduced(2.0, 2.0);
-    scene.fill_rect(cap, if on { Color(0xff53656c) } else { Color(0xff3e494f) }, Color(0xff20292e), true);
-    scene.fill_rect(Rect::new(cap.x, cap.y, cap.w, 1.0), Color(0xff819198), Color(0xff819198), true);
-    scene.fill_rect(Rect::new(cap.x, cap.bottom() - 1.0, cap.w, 1.0), Color(0xff101619), Color(0xff101619), true);
-    if on { scene.fill_rect(Rect::new(cap.x + 5.0, cap.y + 2.0, cap.w - 10.0, 3.0), Color(0xff70ef87), Color(0xff70ef87), true); }
-    scene.text(Point::new(r.center().x, r.center().y + 1.0), label, if on { Color(0xfff4fff7) } else { Color(0xffe3eaed) }, 13.0, true);
+    // Green when on, a neutral milky cap when off. The label is drawn here, larger than the part's own.
+    let lamp = if on { Color(0xff3dcc4a) } else { Color(0xff8c979c) };
+    goodlookindri::meters::draw_lit_key(scene, r.reduced(1.0, 1.0), "", on, lamp, false);
+    scene.text(Point::new(r.center().x, r.center().y + 1.0), label, if on { Color(0xff04200a) } else { Color(0xffeef3f5) }, 13.0, true);
+}
+
+/// A jewel lamp from GoodLookin DRI 0.2, `size` wide.
+fn status_lamp(scene: &mut Scene, x: f32, y: f32, size: f32, on: bool) {
+    goodlookindri::meters::draw_lamp(scene, Point::new(x + size * 0.5, y + size * 0.5), size * 0.5, Color(0xff3dcc4a), on);
 }
 
 fn type_menu(scene: &mut Scene, meter: &Meter) {
@@ -1266,8 +1290,7 @@ fn activity_status(scene: &mut Scene, meter: &Meter, x: f32, y: f32, gap: f32) {
     let channel = meter.polarity.iter().any(|on| *on) || meter.mute.iter().any(|on| *on);
     for (i, (label, active)) in [("FX", processing), ("TR", trims), ("CH", channel)].iter().enumerate() {
         let left = x + gap * i as f32;
-        let color = if *active { Color(0xff3dcc4a) } else { Color(0xff33413b) };
-        scene.fill_ellipse(Rect::new(left, y, 8.0, 8.0), color, color);
+        status_lamp(scene, left, y, 9.0, *active);
         scene.text(Point::new(left + 11.0, y + 8.5), *label, Color(0xffe6edf0), 10.5, false);
     }
 }
@@ -1292,7 +1315,7 @@ fn hardware_row(scene: &mut Scene, meter: &Meter, y: f32, face_w: f32) {
         }
         let hidden_trim = if meter.mid_side { meter.trim[0].abs().max(meter.trim[1].abs()) } else { meter.trim[2].abs().max(meter.trim[3].abs()) };
         if hidden_trim > 0.05 {
-            scene.fill_ellipse(Rect::new(221.0, y + 40.0, 7.0, 7.0), Color(0xff3dcc4a), Color(0xff3dcc4a));
+            status_lamp(scene, 221.0, y + 40.0, 8.0, true);
         }
         phase_gauge(scene, Rect::new(230.0, y + 35.0, 112.0, 24.0), meter.correlation);
         scene.text(Point::new(230.0, y + 79.0), "PHASE −39 / −20 / 0", Color(0xffe6edf0), 10.5, false);
@@ -1886,31 +1909,35 @@ fn pack(cmd: &goodlookindri::scene::Cmd) -> ArcVuPaint {
             out.x = rect.x; out.y = rect.y; out.w = rect.w; out.h = rect.h; out.radius = *radius;
         }
         PopClip => out.kind = 12,
+        // `lower_basic` removes the 0.2 commands before packing.
+        _ => {}
     }
     out
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_paint(meter: *const Meter, reference_norm: c_float, out: *mut ArcVuPaint, cap: c_int) -> c_int {
+pub extern "C" fn arcvu_paint(meter: *const Handle, reference_norm: c_float, out: *mut ArcVuPaint, cap: c_int) -> c_int {
     if out.is_null() || cap <= 0 {
         return 0;
     }
-    let Some(meter) = (unsafe { meter.as_ref() }) else { return 0 };
-    let scene = paint(meter, reference_norm);
-    let n = scene.cmds.len().min(cap as usize);
-    let dest = unsafe { std::slice::from_raw_parts_mut(out, n) };
-    for (slot, cmd) in dest.iter_mut().zip(scene.cmds.iter()) {
-        *slot = pack(cmd);
-    }
-    n as c_int
+    with(meter, 0, |meter| {
+        // The 0.2 parts use shaded fills, shadows and glow; the JUCE side replays the original commands.
+        let scene = paint(meter, reference_norm).lower_basic();
+        let n = scene.cmds.len().min(cap as usize);
+        let dest = unsafe { std::slice::from_raw_parts_mut(out, n) };
+        for (slot, cmd) in dest.iter_mut().zip(scene.cmds.iter()) {
+            *slot = pack(cmd);
+        }
+        n as c_int
+    })
 }
 
 #[no_mangle]
-pub extern "C" fn arcvu_levels(meter: *const Meter, channel: c_int, out: *mut ArcVuLevels) {
+pub extern "C" fn arcvu_levels(meter: *const Handle, channel: c_int, out: *mut ArcVuLevels) {
     if out.is_null() {
         return;
     }
-    if let Some(meter) = unsafe { meter.as_ref() } {
+    with(meter, (), |meter| {
         let levels = meter.levels(channel.max(0) as usize);
         unsafe {
             *out = ArcVuLevels {
@@ -1920,7 +1947,7 @@ pub extern "C" fn arcvu_levels(meter: *const Meter, channel: c_int, out: *mut Ar
                 peak_pos: levels.peak_pos,
             };
         }
-    }
+    });
 }
 
 #[cfg(test)]
@@ -2537,37 +2564,61 @@ mod tests {
 
     #[test]
     fn bounce_log_measures_the_output_and_writes_a_row_per_second() {
-        let mut meter = Meter::new(48_000.0);
-        arcvu_bounce(&mut meter, 1);
+        let meter = arcvu_create(48_000.0);
+        arcvu_bounce(meter, 1);
         // A -23 dBFS tone through the plug-in: the log must read the output.
         let mut s = ArcVuSetup::default();
         s.reference_db = -18.0; s.trim_l = 0.0; s.trim_r = 0.0; s.trim_m = 0.0; s.trim_s = 0.0;
         s.hpf_hz = 20.0; s.lpf_hz = 20000.0; s.mono_hz = 100.0; s.dyn_hz = 1000.0; s.rms_ms = 300.0; s.clip_db = 0.0;
         s.value_hold_s = 5.0; s.peak_hold_s = 3.0; s.rise_ms = 300.0; s.fall_ms = 300.0; s.refresh_hz = 30;
         s.trim_l = 0.0;
-        arcvu_setup(&mut meter, &s);
+        arcvu_setup(meter, &s);
         let mut tone: Vec<f32> = (0..48_000 * 5).flat_map(|i| { let v = 0.070794578 * (std::f32::consts::TAU * 1000.0 * i as f32 / 48_000.0).sin(); [v, v] }).collect();
-        meter.process_io(&mut tone, 2);
+        arcvu_process(meter, tone.as_ptr(), (tone.len() / 2) as c_int, 2);
         let mut readings = std::mem::MaybeUninit::<loudness::Readings>::uninit();
         let mut frames = 0u64;
-        arcvu_bounce_readings(&meter, readings.as_mut_ptr(), &mut frames);
+        arcvu_bounce_readings(meter, readings.as_mut_ptr(), &mut frames);
         let r = unsafe { readings.assume_init() };
         assert_eq!(frames, 48_000 * 5);
         assert!((r.short_term + 23.0).abs() < 0.3, "S {}", r.short_term);
         assert!(r.sample_peak > -23.1 && r.sample_peak < -22.9, "sample peak {}", r.sample_peak);
         let mut rows = [0.0f32; 5 * 10];
-        let n = arcvu_bounce_rows(&meter, rows.as_mut_ptr(), 10);
+        let n = arcvu_bounce_rows(meter, rows.as_mut_ptr(), 10);
         assert_eq!(n, 5);
         assert_eq!(rows[0], 1.0);
         assert_eq!(rows[5 * 4], 5.0);
         // Off stops the measurement, a new start clears it.
-        arcvu_bounce(&mut meter, 0);
+        arcvu_bounce(meter, 0);
         let mut more = vec![0.5f32; 4800];
-        meter.process_io(&mut more, 2);
-        arcvu_bounce_readings(&meter, readings.as_mut_ptr(), &mut frames);
+        arcvu_process(meter, more.as_ptr(), (more.len() / 2) as c_int, 2);
+        arcvu_bounce_readings(meter, readings.as_mut_ptr(), &mut frames);
         assert_eq!(frames, 48_000 * 5);
-        arcvu_bounce(&mut meter, 1);
-        assert_eq!(arcvu_bounce_rows(&meter, rows.as_mut_ptr(), 10), 0);
+        arcvu_bounce(meter, 1);
+        assert_eq!(arcvu_bounce_rows(meter, rows.as_mut_ptr(), 10), 0);
+        arcvu_destroy(meter);
+    }
+
+    #[test]
+    fn a_huge_block_does_not_grow_the_scratch_buffer() {
+        let meter = arcvu_create(48_000.0);
+        let before = with(meter, 0, |m| m.scratch.capacity());
+        let mut block = vec![0.25f32; 100_000 * 2];
+        arcvu_process(meter, block.as_ptr(), 100_000, 2);
+        let after = with(meter, 0, |m| m.scratch.capacity());
+        arcvu_destroy(meter);
+        assert_eq!(before, after);
+        block.clear();
+    }
+
+    #[test]
+    fn a_null_handle_and_a_panic_inside_are_survived() {
+        arcvu_set_theme(std::ptr::null_mut(), 1);
+        let meter = arcvu_create(48_000.0);
+        let got = with(meter, -1, |_| -> i32 { panic!("boom") });
+        assert_eq!(got, -1);
+        // The meter still works afterwards: the lock was not left poisoned.
+        assert_eq!(with(meter, -1, |m| m.overs() as i32), 0);
+        arcvu_destroy(meter);
     }
 
     #[test]
@@ -3014,17 +3065,20 @@ mod tests {
     #[test]
     fn compact_face_indicates_nonzero_hidden_ms_trim() {
         use goodlookindri::scene::Cmd;
-        let mut meter = Meter::new(48_000.0);
-        meter.face = 2;
-        meter.trim[2] = 6.0;
-        meter.show_tools = false;
-        let scene = paint(&meter, 0.5);
-        assert!(scene.cmds.iter().any(|cmd| matches!(cmd,
-            Cmd::FillEllipse { rect, top, .. } if (rect.x - 221.0).abs() < 0.01 && top.0 == 0xff3dcc4a
-        )));
+        // The lit lamp is drawn as a stack of ellipses around x = 225, y = row + 44 (row = face_h - 160 here).
+        let lamp_ellipses = |trim: f32| {
+            let mut meter = Meter::new(48_000.0);
+            meter.face = 2;
+            meter.trim[2] = trim;
+            meter.show_tools = false;
+            paint(&meter, 0.5).lower_basic().cmds.iter().filter(|cmd| matches!(cmd,
+                Cmd::FillEllipse { rect, .. } if (rect.center().x - 225.0).abs() < 0.6 && rect.w <= 12.0
+            )).count()
+        };
+        assert!(lamp_ellipses(6.0) > lamp_ellipses(0.0), "the hidden-trim lamp is missing");
     }
 
-    fn painted_texts(meter: &Meter) -> Vec<String> {
+        fn painted_texts(meter: &Meter) -> Vec<String> {
         use goodlookindri::scene::Cmd;
         paint(meter, 0.5).cmds.iter().filter_map(|cmd| match cmd {
             Cmd::Text { text, .. } => Some(text.clone()),

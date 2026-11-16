@@ -1,9 +1,9 @@
 Started validating: /private/tmp/arcvu-validate/ArcVu.vst3
-error: failed to open file /Users/marcosdeida/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl (Not a directory)
-lilv_world_load_file(): error: Error loading file `file:///Users/marcosdeida/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl'
-lilv_world_load_bundle(): error: Error reading file:///Users/marcosdeida/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl
+error: failed to open file /Users/<user>/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl (Not a directory)
+lilv_world_load_file(): error: Error loading file `file:///Users/<user>/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl'
+lilv_world_load_bundle(): error: Error reading file:///Users/<user>/Library/Audio/Plug-Ins/LV2/.DS_Store/manifest.ttl
 lilv_world_load_bundle(): warning: Ignoring bundle <file:///Library/Audio/Plug-Ins/LV2/OpenPreamp.lv2/>
-lilv_world_load_bundle(): note: Newer version of <https://github.com/MistaMin/OpenPreamp> loaded from <file:///Users/marcosdeida/Library/Audio/Plug-Ins/LV2/OpenPreamp.lv2/>
+lilv_world_load_bundle(): note: Newer version of <https://github.com/MistaMin/OpenPreamp> loaded from <file:///Users/<user>/Library/Audio/Plug-Ins/LV2/OpenPreamp.lv2/>
 Random seed: 0x27673b1
 Validation started
 Strictness level: 5

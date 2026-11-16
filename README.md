@@ -30,7 +30,7 @@ See the [changelog](CHANGELOG.md).
 
 ## Download
 
-ArcVu **1.0.0** is a pre-release for testing. The repository is private, so the files below are visible to people with access to it. Windows and Linux packages are not built yet.
+ArcVu **1.0.0** is a pre-release for testing. Windows and Linux packages are not built yet.
 
 - **macOS 11 or later (Apple Silicon and Intel):** [ArcVu-1.0.0-macos.dmg](https://github.com/MistaMin/ArcVu/releases/download/v1.0.0/ArcVu-1.0.0-macos.dmg) · [ArcVu-1.0.0-macos.pkg](https://github.com/MistaMin/ArcVu/releases/download/v1.0.0/ArcVu-1.0.0-macos.pkg) · [bundles zip](https://github.com/MistaMin/ArcVu/releases/download/v1.0.0/ArcVu-1.0.0-macos-bundles.zip) ([SHA-256](https://github.com/MistaMin/ArcVu/releases/download/v1.0.0/ArcVu-1.0.0-macos.sha256)). Signed and notarised. The installer offers **VST3, Audio Unit, CLAP, LV2, AAX** and the **Standalone** app.
 - **User manual (PDF):** [ArcVu-User-Manual.pdf](https://github.com/MistaMin/ArcVu/releases/download/v1.0.0/ArcVu-User-Manual.pdf).

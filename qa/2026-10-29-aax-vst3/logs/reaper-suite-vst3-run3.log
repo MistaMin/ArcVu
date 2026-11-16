@@ -44,11 +44,11 @@ Traceback (most recent call last):
   File "/Volumes/Developer/Dev Projects/ArcVu/qa/2026-10-26-release-qa/hidden_reaper.py", line 58, in <module>
     rq.main()
     ~~~~~~~^^
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 494, in main
     return suite(args)
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 329, in suite
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 329, in suite
     img = capture(visual["win"]["id"], os.path.join(out_dir, "editor_p%d.png" % p["index"]))
-  File "/Users/marcosdeida/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 194, in capture
+  File "/Users/<user>/.agent/skills/plugin-daw-test/scripts/reaper_qa.py", line 194, in capture
     subprocess.run(["screencapture", "-x", "-o", "-l%d" % window_id, path], check=True, capture_output=True)
     ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 578, in run

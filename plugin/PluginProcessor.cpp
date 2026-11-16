@@ -128,6 +128,7 @@ ArcVuProcessor::ArcVuProcessor()
 
 ArcVuProcessor::~ArcVuProcessor() {
     stopTimer();
+    flushSettings();
     finishBounce();
     arcvu_destroy(meter);
 }
@@ -136,7 +137,9 @@ void ArcVuProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     finishBounce();
     preparedRate = sampleRate;
     arcvu_set_sample_rate(meter, sampleRate);
-    interleaved.reserve((size_t) juce::jmax(1, samplesPerBlock) * 2);
+    juce::ignoreUnused(samplesPerBlock);
+    // One fixed buffer for every block size: larger blocks are metered in slices, so processBlock never allocates.
+    interleaved.assign((size_t) maxSliceFrames * 2, 0.0f);
 }
 
 bool ArcVuProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
@@ -152,7 +155,7 @@ void ArcVuProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBu
 
     // An offline render starts a bounce log; it ends when the host releases the plug-in or stops sending blocks.
     const bool offline = isNonRealtime();
-    if (offline && bounceLogOn && !bounceRunning.load()) {
+    if (offline && bounceLogOn.load() && !bounceRunning.load()) {
         arcvu_bounce(meter, 1);
         bounceStartMs = juce::Time::currentTimeMillis();
         bounceRunning = true;
@@ -162,22 +165,25 @@ void ArcVuProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBu
         lastBlockMs = juce::Time::getMillisecondCounter();
     }
 
-    // Message-thread code owns `setup`; the audio thread works from its own copy plus the parameters.
-    audioSetup = setup;
+    // The audio thread reads only the parameters (they are atomic), never the editor's `setup`.
     readParams(audioSetup);
     arcvu_setup(meter, &audioSetup);
 
     const int channels = juce::jlimit(1, 2, buffer.getNumChannels());
     const int frames = buffer.getNumSamples();
-    interleaved.resize((size_t) frames * (size_t) channels);
     auto* dest = interleaved.data();
-    for (int i = 0; i < frames; ++i)
-        for (int ch = 0; ch < channels; ++ch)
-            dest[i * channels + ch] = buffer.getReadPointer(ch)[i];
-    arcvu_process(meter, dest, frames, channels);
-    for (int i = 0; i < frames; ++i)
-        for (int ch = 0; ch < channels; ++ch)
-            buffer.getWritePointer(ch)[i] = dest[i * channels + ch];
+    for (int start = 0; start < frames; start += maxSliceFrames) {
+        const int count = juce::jmin(maxSliceFrames, frames - start);
+        for (int ch = 0; ch < channels; ++ch) {
+            const float* in = buffer.getReadPointer(ch) + start;
+            for (int i = 0; i < count; ++i) dest[i * channels + ch] = in[i];
+        }
+        arcvu_process(meter, dest, count, channels);
+        for (int ch = 0; ch < channels; ++ch) {
+            float* out = buffer.getWritePointer(ch) + start;
+            for (int i = 0; i < count; ++i) out[i] = dest[i * channels + ch];
+        }
+    }
 
     ArcVuLevels next[2] {};
     arcvu_levels(meter, 0, &next[0]);
@@ -359,6 +365,9 @@ static juce::File arcVuGlobalFile() {
 }
 
 void ArcVuProcessor::saveGlobalKey(const juce::String& key, const juce::String& value) {
+    // Every instance in this host shares the file, so the read-edit-write below runs one at a time.
+    static juce::CriticalSection fileLock;
+    const juce::ScopedLock lock(fileLock);
     const auto file = arcVuGlobalFile();
     juce::StringArray lines = file.existsAsFile() ? juce::StringArray::fromLines(file.loadFileAsString()) : juce::StringArray();
     bool found = false;
@@ -382,7 +391,7 @@ void ArcVuProcessor::saveGlobalSettings() {
          << "theme=" << themeIndex << "\n"
          << "skin=" << skinIndex << "\n"
          << "peak_scale=" << peakScaleIndex << "\n"
-         << "bounce_log=" << (bounceLogOn ? 1 : 0) << "\n"
+         << "bounce_log=" << (bounceLogOn.load() ? 1 : 0) << "\n"
          << "loud_on=" << loud.on << "\n"
          << "loud_target=" << juce::String(loud.target, 1) << "\n"
          << "loud_ceiling=" << juce::String(loud.ceiling, 1) << "\n"
@@ -425,18 +434,21 @@ void ArcVuProcessor::loadGlobalSettings() {
 void ArcVuProcessor::saveDefault() {
     auto file = arcVuDefaultFile();
     file.getParentDirectory().createDirectory();
-    file.replaceWithData(&setup, sizeof setup);
+    juce::MemoryBlock block;
+    getStateInformation(block);
+    file.replaceWithData(block.getData(), block.getSize());
 }
 
 void ArcVuProcessor::loadDefault() {
     auto file = arcVuDefaultFile();
     juce::MemoryBlock block;
-    if (file.getSize() >= (juce::int64) sizeof(ArcVuSetup) && file.loadFileAsData(block))
+    if (file.existsAsFile() && file.loadFileAsData(block))
         setStateInformation(block.getData(), (int) block.getSize());
 }
 
 void ArcVuProcessor::copySetup() {
-    juce::MemoryBlock block(&setup, sizeof setup);
+    juce::MemoryBlock block;
+    getStateInformation(block);
     juce::SystemClipboard::copyTextToClipboard(block.toBase64Encoding());
 }
 
@@ -473,7 +485,7 @@ void ArcVuProcessor::stepPreset(int delta) {
 void ArcVuProcessor::setZoom(float zoom) {
     if (std::abs(zoom - zoomValue) < 0.005f) return;
     zoomValue = juce::jlimit(0.4f, 4.0f, zoom);
-    saveGlobalKey("zoom", juce::String(zoomValue, 4));
+    zoomDirty = true;  // written by the 1 s timer: a window drag changes the zoom many times a second
 }
 
 void ArcVuProcessor::setSkin(int skin) {
@@ -529,7 +541,12 @@ juce::File ArcVuProcessor::bounceLogDirectory() {
 }
 
 // The host calls this on the message thread; it ends a bounce whose blocks stopped or turned real-time.
+void ArcVuProcessor::flushSettings() {
+    if (zoomDirty.exchange(false)) saveGlobalKey("zoom", juce::String(zoomValue, 4));
+}
+
 void ArcVuProcessor::timerCallback() {
+    flushSettings();
     if (bounceRunning.load() && (!lastBlockOffline.load() || juce::Time::getMillisecondCounter() - lastBlockMs.load() > 2000))
         finishBounce();
 }
@@ -717,45 +734,91 @@ juce::File ArcVuProcessor::userPresetDirectory() {
 void ArcVuProcessor::savePresetFile(const juce::File& file) {
     pullSetup();
     file.getParentDirectory().createDirectory();
-    file.replaceWithData(&setup, sizeof setup);
+    juce::MemoryBlock block;
+    getStateInformation(block);
+    file.replaceWithData(block.getData(), block.getSize());
 }
 
 bool ArcVuProcessor::loadPresetFile(const juce::File& file) {
     juce::MemoryBlock block;
-    if (file.getSize() < (juce::int64) sizeof(ArcVuSetup) || !file.loadFileAsData(block)) return false;
+    if (!file.existsAsFile() || !file.loadFileAsData(block)) return false;
+    ArcVuSetup probe = initialSetup;
+    if (!decodeState(block.getData(), (int) block.getSize(), probe)) return false;
     setStateInformation(block.getData(), (int) block.getSize());
     return true;
+}
+
+// A state blob is a small header and then the setup struct. The header makes the format versioned: a later build can
+// add fields at the END of ArcVuSetup, and a blob written by this build (shorter) still loads, with the new fields at
+// their defaults. Version 1 blobs (1.0.0) are the bare struct with no header.
+namespace {
+constexpr char stateMagic[4] = { 'A', 'R', 'C', 'V' };
+constexpr juce::uint32 stateVersion = 2;
+struct StateHeader { char magic[4]; juce::uint32 version; juce::uint32 payloadSize; };
 }
 
 void ArcVuProcessor::getStateInformation(juce::MemoryBlock& dest) {
     pullSetup();
     dest.reset();
+    StateHeader header {};
+    std::memcpy(header.magic, stateMagic, sizeof header.magic);
+    header.version = stateVersion;
+    header.payloadSize = (juce::uint32) sizeof(ArcVuSetup);
+    dest.append(&header, sizeof header);
     dest.append(&setup, sizeof(setup));
 }
 
-// A state blob is the raw setup struct, so a wrong file (an image, text) can be big enough. Reject values no setup can hold.
-static bool plausibleSetup(const ArcVuSetup& s) {
+// Every float is finite and every choice is inside its range, so a wrong file (an image, text) or a pasted blob can
+// never put a value into `setup` that the editor or the parameters cannot hold.
+bool ArcVuProcessor::plausibleSetup(const ArcVuSetup& s) {
     const auto finite = [](float v, float lo, float hi) { return std::isfinite(v) && v >= lo && v <= hi; };
-    return s.kind >= 0 && s.kind <= 8 && s.face >= 0 && s.face <= 2 && s.peak_mode >= 0 && s.peak_mode <= 2
-        && s.single >= 0 && s.single <= 1 && s.mid_side >= 0 && s.mid_side <= 1 && s.meters_only >= 0 && s.meters_only <= 1
-        && s.monitor >= 0 && s.monitor <= 5 && s.vu_model >= 0 && s.vu_model <= 2 && s.dyn_type >= 0 && s.dyn_type <= 4
+    const auto within = [](int v, int lo, int hi) { return v >= lo && v <= hi; };
+    return within(s.kind, 0, 8) && within(s.face, 0, 2) && within(s.peak_mode, 0, 2)
+        && within(s.single, 0, 1) && within(s.mid_side, 0, 1) && within(s.meters_only, 0, 1)
+        && within(s.monitor, 0, 5) && within(s.vu_model, 0, 2) && within(s.dyn_type, 0, 4)
+        && within(s.hpf_poles, 0, 4) && within(s.lpf_poles, 0, 4) && within(s.weight, 0, 5)
+        && within(s.gui_scale, 0, 2) && within(s.refresh_hz, 0, 240)
         && finite(s.reference_db, -36.0f, 0.0f) && finite(s.trim_l, -24.0f, 24.0f) && finite(s.trim_r, -24.0f, 24.0f)
         && finite(s.trim_m, -24.0f, 24.0f) && finite(s.trim_s, -24.0f, 24.0f) && finite(s.hpf_hz, 1.0f, 30000.0f)
-        && finite(s.lpf_hz, 1.0f, 30000.0f) && finite(s.drag_sens, 0.1f, 10.0f);
+        && finite(s.lpf_hz, 1.0f, 30000.0f) && finite(s.drag_sens, 0.1f, 10.0f)
+        && finite(s.rms_ms, 1.0f, 10000.0f) && finite(s.clip_db, -60.0f, 12.0f) && finite(s.mono_hz, 1.0f, 30000.0f)
+        && finite(s.mono_amt, 0.0f, 1.0f) && finite(s.dyn_hz, 1.0f, 30000.0f) && finite(s.dyn_depth, 0.0f, 1.0f)
+        && finite(s.rise_ms, 1.0f, 10000.0f) && finite(s.fall_ms, 1.0f, 10000.0f) && finite(s.overshoot, 0.0f, 100.0f)
+        && finite(s.peak_hold_s, -1.0f, 3600.0f) && finite(s.value_hold_s, -1.0f, 3600.0f) && finite(s.clip_hold_s, -1.0f, 3600.0f)
+        && finite(s.peak_thresh_db, -60.0f, 12.0f) && finite(s.red_db, -60.0f, 60.0f) && finite(s.comfort_db, 0.0f, 60.0f);
+}
+
+bool ArcVuProcessor::decodeState(const void* data, int size, ArcVuSetup& out) {
+    if (data == nullptr || size <= 0) return false;
+    const auto* bytes = static_cast<const unsigned char*>(data);
+    const unsigned char* payload = bytes;
+    size_t payloadSize = (size_t) size;
+    if ((size_t) size >= sizeof(StateHeader) && std::memcmp(bytes, stateMagic, sizeof stateMagic) == 0) {
+        StateHeader header {};
+        std::memcpy(&header, bytes, sizeof header);
+        if (header.version < 2 || header.payloadSize > (juce::uint32) size - sizeof header) return false;
+        payload = bytes + sizeof header;
+        payloadSize = header.payloadSize;
+    } else if ((size_t) size < sizeof(ArcVuSetup)) {
+        return false;  // a version 1 blob is exactly the struct (or, from a later build, longer)
+    }
+    ArcVuSetup incoming = out;  // fields this blob is too short to carry keep their current value
+    std::memcpy(&incoming, payload, std::min(payloadSize, sizeof(ArcVuSetup)));
+    if (!plausibleSetup(incoming)) return false;
+    out = incoming;
+    return true;
 }
 
 void ArcVuProcessor::setStateInformation(const void* data, int size) {
-    ArcVuSetup incoming;
-    if (size >= (int) sizeof(ArcVuSetup)) std::memcpy(&incoming, data, sizeof(incoming));
-    if (size >= (int) sizeof(ArcVuSetup) && plausibleSetup(incoming)) {
-        std::memcpy(&setup, data, sizeof(setup));
-        setup.panel = 0;
-        setup.label[sizeof(setup.label) - 1] = 0;
-        const int ref = setup.reference_db > -16.0f ? 2 : setup.reference_db > -19.0f ? 1 : 0;
-        *referenceDb = ref;
-        *peakModeParam = setup.peak_mode;
-        noteSetup();
-    }
+    ArcVuSetup incoming = initialSetup;
+    if (!decodeState(data, size, incoming)) return;
+    setup = incoming;
+    setup.panel = 0;
+    setup.label[sizeof(setup.label) - 1] = 0;
+    const int ref = setup.reference_db > -16.0f ? 2 : setup.reference_db > -19.0f ? 1 : 0;
+    *referenceDb = ref;
+    *peakModeParam = setup.peak_mode;
+    noteSetup();
 }
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() { return new ArcVuProcessor(); }

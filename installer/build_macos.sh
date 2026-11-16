@@ -32,7 +32,7 @@ cmake -S . -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DARCVU_UNIVERSAL=ON 
 cmake --build "$BUILD" --config Release
 
 echo "==> Tests"
-CARGO_TARGET_DIR="$ROOT/$BUILD/dsp-test" cargo test --release --manifest-path dsp/Cargo.toml --offline --lib
+CARGO_TARGET_DIR="$ROOT/$BUILD/dsp-test" cargo test --release --manifest-path dsp/Cargo.toml --lib
 QA="$BUILD/ArcVu_QA_artefacts/Release/ArcVu_QA"
 SCRATCH=$(mktemp -d)
 "$QA" "$SCRATCH/ui" > "$SCRATCH/ui.log" 2>&1 || { tail -20 "$SCRATCH/ui.log"; echo "UI audit failed" >&2; exit 1; }

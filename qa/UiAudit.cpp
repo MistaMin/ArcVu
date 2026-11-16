@@ -1,5 +1,8 @@
 #include "PluginEditor.h"
 #include <iostream>
+#include <limits>
+#include <cstdint>
+#include <algorithm>
 #include <set>
 #include <cstring>
 #include <cstdlib>
@@ -217,6 +220,69 @@ int main(int argc, char** argv) {
         std::cout << "overs " << p.overs() << std::endl;
         return 0;
     }
+    if (argc > 1 && juce::String(argv[1]) == "--state-test") {
+        // Saved sessions: the versioned format round-trips, a 1.0.0 blob (the bare struct) still loads, a longer blob from a
+        // later build still loads, and junk or non-finite values are refused.
+        ArcVuProcessor a; a.prepareToPlay(48000, 512);
+        a.setup.kind = 5; a.setup.face = 1; a.setup.trim_l = 3.5f; a.setup.hpf_hz = 120.0f; a.setup.weight = 2;
+        a.noteSetup();
+        juce::MemoryBlock saved; a.getStateInformation(saved);
+        check(saved.getSize() == sizeof(ArcVuSetup) + 12 && std::memcmp(saved.getData(), "ARCV", 4) == 0, "state starts with the ARCV header and a version");
+        ArcVuProcessor b; b.setStateInformation(saved.getData(), (int) saved.getSize());
+        check(b.setup.kind == 5 && b.setup.face == 1 && std::abs(b.setup.trim_l - 3.5f) < 0.01f && b.setup.weight == 2, "a versioned state round-trips");
+        ArcVuSetup legacy = a.setup;
+        ArcVuProcessor c; c.setStateInformation(&legacy, (int) sizeof legacy);
+        check(c.setup.kind == 5 && std::abs(c.setup.hpf_hz - 120.0f) < 0.5f, "a 1.0.0 state (the bare struct) still loads");
+        // A state from a later build: same header, a longer payload with extra fields at the end.
+        juce::MemoryBlock longer(saved.getData(), saved.getSize()); longer.append("....", 4);
+        std::uint32_t bigger = (std::uint32_t) sizeof(ArcVuSetup) + 4; std::memcpy(static_cast<char*>(longer.getData()) + 8, &bigger, 4);
+        ArcVuProcessor d; d.setStateInformation(longer.getData(), (int) longer.getSize());
+        check(d.setup.kind == 5, "a state with extra fields from a later build loads");
+        // A state from an earlier build with fewer fields: the missing ones keep their defaults.
+        juce::MemoryBlock shorter(saved.getData(), sizeof(char) * 12 + sizeof(ArcVuSetup) - 8);
+        std::uint32_t smaller = (std::uint32_t) sizeof(ArcVuSetup) - 8; std::memcpy(static_cast<char*>(shorter.getData()) + 8, &smaller, 4);
+        ArcVuProcessor e2; e2.setStateInformation(shorter.getData(), (int) shorter.getSize());
+        check(e2.setup.kind == 5, "a state with fewer fields from an earlier build loads");
+        ArcVuProcessor f; f.setup.kind = 2; f.noteSetup();
+        juce::MemoryBlock junk; junk.setSize(sizeof(ArcVuSetup) + 40, true);
+        f.setStateInformation(junk.getData(), (int) junk.getSize());
+        check(f.setup.kind == 2 || f.setup.kind == 0, "an all-zero blob is handled without breaking the setup");
+        ArcVuSetup bad = a.setup; bad.trim_l = std::numeric_limits<float>::quiet_NaN();
+        ArcVuProcessor g; g.setup.kind = 2; g.noteSetup(); g.setStateInformation(&bad, (int) sizeof bad);
+        check(g.setup.kind == 2, "a state with a NaN value is refused");
+        ArcVuSetup badEnum = a.setup; badEnum.weight = 99;
+        ArcVuProcessor h; h.setup.kind = 2; h.noteSetup(); h.setStateInformation(&badEnum, (int) sizeof badEnum);
+        check(h.setup.kind == 2, "a state with an out-of-range choice is refused");
+        const char text[] = "this is not an ArcVu state at all, just some text that is long enough to be the size of one";
+        ArcVuProcessor i; i.setup.kind = 2; i.noteSetup(); i.setStateInformation(text, (int) sizeof text);
+        check(i.setup.kind == 2, "text is refused");
+        // A block far larger than the prepared size must neither allocate nor change the audio's length.
+        ArcVuProcessor r; r.prepareToPlay(48000, 64);
+        juce::AudioBuffer<float> huge(2, 65536); juce::MidiBuffer midi; huge.clear();
+        for (int k = 0; k < 4; ++k) r.processBlock(huge, midi);
+        g_allocCount = 0; g_countAllocs = true;
+        for (int k = 0; k < 20; ++k) r.processBlock(huge, midi);
+        g_countAllocs = false;
+        check(g_allocCount == 0, "processBlock does not allocate for a block 1000 times the prepared size: " + juce::String((int) g_allocCount));
+        // The slices must not change what is metered: a tone gives the same audio whether it arrives in one block or many.
+        auto render = [](int block) {
+            ArcVuProcessor p; p.prepareToPlay(48000, block);
+            juce::MidiBuffer m; juce::AudioBuffer<float> all(2, 30000);
+            for (int ch = 0; ch < 2; ++ch) for (int n = 0; n < 30000; ++n) all.setSample(ch, n, 0.2f * std::sin(0.05f * (float) n * (float) (ch + 1)));
+            for (int start = 0; start < 30000; start += block) {
+                const int count = std::min(block, 30000 - start);
+                juce::AudioBuffer<float> part(all.getArrayOfWritePointers(), 2, start, count);
+                p.processBlock(part, m);
+            }
+            return all;
+        };
+        auto one = render(30000), many = render(480);
+        bool same = true;
+        for (int ch = 0; ch < 2 && same; ++ch) for (int n = 0; n < 30000; ++n) if (std::abs(one.getSample(ch, n) - many.getSample(ch, n)) > 1.0e-5f) { same = false; break; }
+        check(same, "the output does not depend on the block size");
+        std::cout << "FAILURES " << failures << std::endl;
+        return failures ? 1 : 0;
+    }
     if (argc > 1 && juce::String(argv[1]) == "--realtime-test") {
         // B1: processBlock must not allocate, and must keep running while the editor-side calls run on another thread.
         ArcVuProcessor p; p.prepareToPlay(48000, 512);
@@ -296,7 +362,7 @@ int main(int argc, char** argv) {
                 e->showPanel(5); pump();
             }
         }
-        p.setZoom(0.5f); pump(); pump();
+        p.setZoom(0.5f); p.flushSettings(); pump(); pump();
         ArcVuProcessor restored;
         check(std::abs(restored.zoom() - 0.5f) < 0.005f, "small zoom persists for new instances");
         check(parameter(p, "guiScale")->getNumSteps() == 3, "legacy host size range stays compatible");
@@ -354,6 +420,7 @@ int main(int argc, char** argv) {
             first.noteSetup();
             first.saveGlobalSettings();
             first.setZoom(1.75f);
+            first.flushSettings();
         }
         {
             ArcVuProcessor second;
@@ -379,6 +446,7 @@ int main(int argc, char** argv) {
             other.setup.refresh_hz = 20;
             other.noteSetup();
             other.setZoom(1.5f);
+            other.flushSettings();
             ArcVuProcessor::saveGlobalKey("skin", "0");
             ArcVuProcessor probe;
             check(std::abs(probe.setup.drag_sens - 2.5f) < 0.001f, "changing the zoom keeps the saved drag sensitivity");
@@ -795,7 +863,7 @@ int main(int argc, char** argv) {
     ArcVuProcessor stopped; stopped.setStateInformation(stoppedState.getData(), (int)stoppedState.getSize());
     check(std::abs(parameter(stopped, "trimL")->convertFrom0to1(parameter(stopped, "trimL")->getValue()) - 13.5f) < 0.001f, "state captures host change while stopped");
     p.getStateInformation(stoppedState);
-    check(stoppedState.getSize() == sizeof(ArcVuSetup), "state overwrites reused MemoryBlock");
+    check(stoppedState.getSize() == sizeof(ArcVuSetup) + 12, "state overwrites reused MemoryBlock");
     check(covered.size() == (size_t)p.getParameters().size(), "coverage count " + juce::String((int)covered.size()));
     for (int n = 0; n < 10; ++n) { e.reset(static_cast<ArcVuEditor*>(p.createEditor())); process(p); pump(); }
     check(true, "editor lifecycle 10 reopenings");

@@ -2,11 +2,11 @@
 # Builds, tests and packages ArcVu for Windows (x86_64) and Linux (x86_64). macOS is built, signed, PACE-wrapped and
 # notarized on the developer's machine (installer/build_macos.sh); the AAX SDK is not available in CI.
 #
-# ArcVu uses two repositories that sit next to it on a developer machine, so the job checks out the same layout:
+# ArcVu needs JUCE next to it on a developer machine, so the job checks out the same layout:
 #   ArcVu/                       this repository
 #   audiogridder/JUCE            the JUCE checkout (public MistaMin/JUCE, pinned)
-#   instruments/GoodLookinDri    the Rust drawing library (private MistaMin/GoodLookinDri, pinned)
-# GoodLookinDri is private: add a repository secret OPENGRID_CI_TOKEN (a fine-grained token with read access to it).
+# The Rust drawing library, GoodLookin DRI (public MistaMin/GoodLookinDri), is a git dependency pinned by rev in
+# dsp/Cargo.toml and Cargo.lock; cargo fetches it, so no token or extra checkout is needed.
 name: build
 
 on:
@@ -18,7 +18,6 @@ on:
 
 env:
   JUCE_REF: a480a36d4ece2dc8fdaae65b6318995d0858afe1
-  GOODLOOKINDRI_REF: d8311fa02d7035c08dcdfa39a13b12e5398b6a5e
 
 jobs:
   build:
@@ -42,12 +41,6 @@ jobs:
           repository: MistaMin/JUCE
           ref: ${{ env.JUCE_REF }}
           path: audiogridder/JUCE
-      - uses: actions/checkout@v4
-        with:
-          repository: MistaMin/GoodLookinDri
-          ref: ${{ env.GOODLOOKINDRI_REF }}
-          token: ${{ secrets.OPENGRID_CI_TOKEN }}
-          path: instruments/GoodLookinDri
 
       - name: Linux dependencies
         if: matrix.name == 'linux'
