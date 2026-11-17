@@ -256,6 +256,18 @@ int main(int argc, char** argv) {
         const char text[] = "this is not an ArcVu state at all, just some text that is long enough to be the size of one";
         ArcVuProcessor i; i.setup.kind = 2; i.noteSetup(); i.setStateInformation(text, (int) sizeof text);
         check(i.setup.kind == 2, "text is refused");
+        // What the REAPER suite does: every parameter to a distinct value, save, load into a fresh instance, compare.
+        {
+            ArcVuProcessor src; auto& ps = src.getParameters();
+            for (int i = 0; i < ps.size(); ++i) ps[i]->setValueNotifyingHost(std::fmod(0.13f + 0.37f * (float) i, 1.0f));
+            juce::MemoryBlock blob; src.getStateInformation(blob);
+            ArcVuProcessor dst; dst.setStateInformation(blob.getData(), (int) blob.getSize());
+            auto& pd = dst.getParameters();
+            juce::StringArray lost;
+            for (int i = 0; i < ps.size(); ++i)
+                if (ps[i]->getCurrentValueAsText() != pd[i]->getCurrentValueAsText()) lost.add(ps[i]->getName(40) + " " + ps[i]->getCurrentValueAsText() + "->" + pd[i]->getCurrentValueAsText());
+            check(lost.isEmpty(), "every parameter survives a state round trip with distinct values: " + lost.joinIntoString(", "));
+        }
         // A host that calls processBlock before prepareToPlay must not crash.
         { ArcVuProcessor early; juce::AudioBuffer<float> b(2, 256); juce::MidiBuffer m; b.clear(); early.processBlock(b, m); check(true, "processBlock before prepareToPlay does not crash"); }
         // A block far larger than the prepared size must neither allocate nor change the audio's length.
