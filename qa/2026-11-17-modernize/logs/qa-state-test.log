@@ -1,0 +1,13 @@
+PASS state starts with the ARCV header and a version
+PASS a versioned state round-trips
+PASS a 1.0.0 state (the bare struct) still loads
+PASS a state with extra fields from a later build loads
+PASS a state with fewer fields from an earlier build loads
+PASS an all-zero blob is handled without breaking the setup
+PASS a state with a NaN value is refused
+PASS a state with an out-of-range choice is refused
+PASS text is refused
+PASS processBlock before prepareToPlay does not crash
+PASS processBlock does not allocate for a block 1000 times the prepared size: 0
+PASS the output does not depend on the block size
+FAILURES 0

@@ -1,0 +1,267 @@
+PASS size choice skin 0 face 0 id 5
+PASS skin-0-face-0-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-0-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 0 id 4
+PASS skin-0-face-0-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-0-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 0 id 1
+PASS skin-0-face-0-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-0-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 0 id 2
+PASS skin-0-face-0-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-0-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 0 id 3
+PASS skin-0-face-0-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-0-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-0-face-0.png
+PASS Tools opens Channels tab
+PASS channels-skin-0-face-0.png
+PASS size choice skin 0 face 1 id 5
+PASS skin-0-face-1-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-1-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 1 id 4
+PASS skin-0-face-1-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-1-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 1 id 1
+PASS skin-0-face-1-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-1-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 1 id 2
+PASS skin-0-face-1-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-1-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 1 id 3
+PASS skin-0-face-1-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-1-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-0-face-1.png
+PASS Tools opens Channels tab
+PASS channels-skin-0-face-1.png
+PASS size choice skin 0 face 2 id 5
+PASS skin-0-face-2-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-2-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 2 id 4
+PASS skin-0-face-2-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-2-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 2 id 1
+PASS skin-0-face-2-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-2-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 2 id 2
+PASS skin-0-face-2-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-2-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 0 face 2 id 3
+PASS skin-0-face-2-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-0-face-2-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-0-face-2.png
+PASS Tools opens Channels tab
+PASS channels-skin-0-face-2.png
+PASS size choice skin 1 face 0 id 5
+PASS skin-1-face-0-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-0-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 0 id 4
+PASS skin-1-face-0-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-0-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 0 id 1
+PASS skin-1-face-0-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-0-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 0 id 2
+PASS skin-1-face-0-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-0-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 0 id 3
+PASS skin-1-face-0-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-0-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-1-face-0.png
+PASS Tools opens Channels tab
+PASS channels-skin-1-face-0.png
+PASS size choice skin 1 face 1 id 5
+PASS skin-1-face-1-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-1-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 1 id 4
+PASS skin-1-face-1-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-1-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 1 id 1
+PASS skin-1-face-1-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-1-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 1 id 2
+PASS skin-1-face-1-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-1-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 1 id 3
+PASS skin-1-face-1-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-1-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-1-face-1.png
+PASS Tools opens Channels tab
+PASS channels-skin-1-face-1.png
+PASS size choice skin 1 face 2 id 5
+PASS skin-1-face-2-size-5-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-2-size-5-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 2 id 4
+PASS skin-1-face-2-size-4-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-2-size-4-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 2 id 1
+PASS skin-1-face-2-size-1-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-2-size-1-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 2 id 2
+PASS skin-1-face-2-size-2-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-2-size-2-loudness.png
+PASS visibility switch hides loudness panel
+PASS size choice skin 1 face 2 id 3
+PASS skin-1-face-2-size-3-appearance.png
+PASS Display opens Loudness tab
+PASS loudness visibility on first page
+PASS loudness unit on first page
+PASS visibility and LU controls change loudness settings
+PASS skin-1-face-2-size-3-loudness.png
+PASS visibility switch hides loudness panel
+PASS processing tools fit inside face
+PASS tools-skin-1-face-2.png
+PASS Tools opens Channels tab
+PASS channels-skin-1-face-2.png
+PASS small zoom persists for new instances
+PASS legacy host size range stays compatible
+FAILURES 0

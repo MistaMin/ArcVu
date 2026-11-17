@@ -1,0 +1,2 @@
+1794876020
+{"ok":true,"result":{"version":"7.80/macOS-arm64","resourcePath":"/Users/<user>/Library/Application Support/REAPER"}}

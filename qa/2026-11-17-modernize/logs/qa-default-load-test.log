@@ -1,0 +1,4 @@
+PASS new instance loads saved meter type
+PASS new instance loads saved trim
+PASS new instance loads saved label
+FAILURES 0
