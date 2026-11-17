@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: MIT
-# Builds, tests and packages ArcVu for macOS (universal arm64 + x86_64): VST3, AU, CLAP, LV2, AAX and the
-# Standalone app in one installer package, a DMG and a bundle archive.
+# Builds, tests and packages ArcVu for macOS (universal arm64 + x86_64): VST3, AU, CLAP, LV2 and AAX in one
+# installer package and a DMG. The Standalone app is built for the QA harness but is not shipped.
 #
 #   installer/build_macos.sh                       unsigned (local checks)
 #   SIGN=1 installer/build_macos.sh                sign, PACE-wrap the AAX, notarize and staple
@@ -45,7 +45,7 @@ if arch -x86_64 /usr/bin/true 2>/dev/null; then
   arch -x86_64 "$QA" --state-test | tail -1
 fi
 
-for f in VST3/ArcVu.vst3 AU/ArcVu.component CLAP/ArcVu.clap LV2/ArcVu.lv2 Standalone/ArcVu.app; do
+for f in VST3/ArcVu.vst3 AU/ArcVu.component CLAP/ArcVu.clap LV2/ArcVu.lv2; do
   [ -e "$ART/$f" ] || { echo "missing $f" >&2; exit 1; }
 done
 AAX=0; [ -d "$ART/AAX/ArcVu.aaxplugin" ] && AAX=1
@@ -60,9 +60,6 @@ if [ "${SIGN:-0}" = "1" ]; then
     codesign --force --timestamp --options runtime --sign "$APP_ID" "$f"
     codesign --verify --strict --verbose=2 "$f"
   done
-  codesign --force --deep --timestamp --options runtime --entitlements installer/standalone.entitlements \
-    --sign "$APP_ID" "$ART/Standalone/ArcVu.app"
-  codesign --verify --deep --strict --verbose=2 "$ART/Standalone/ArcVu.app"
   if [ "$AAX" = 1 ]; then
     echo "==> AAX: Developer ID, then PACE Eden signature"
     codesign --force --deep --timestamp --options runtime --sign "$APP_ID" "$ART/AAX/ArcVu.aaxplugin"
@@ -76,12 +73,11 @@ echo "==> Stage the installer payload"
 rm -rf "$OUT"; mkdir -p "$OUT"
 STAGE="$OUT/stage"; ROOTFS="$STAGE/root"; mkdir -p "$STAGE/scripts" "$ROOTFS"
 P="$ROOTFS/Library/Audio/Plug-Ins"
-mkdir -p "$P/VST3" "$P/Components" "$P/CLAP" "$P/LV2" "$ROOTFS/Applications"
+mkdir -p "$P/VST3" "$P/Components" "$P/CLAP" "$P/LV2"
 ditto "$ART/VST3/ArcVu.vst3" "$P/VST3/ArcVu.vst3"
 ditto "$ART/AU/ArcVu.component" "$P/Components/ArcVu.component"
 ditto "$ART/CLAP/ArcVu.clap" "$P/CLAP/ArcVu.clap"
 ditto "$ART/LV2/ArcVu.lv2" "$P/LV2/ArcVu.lv2"
-ditto "$ART/Standalone/ArcVu.app" "$ROOTFS/Applications/ArcVu.app"
 if [ "$AAX" = 1 ]; then
   mkdir -p "$ROOTFS/Library/Application Support/Avid/Audio/Plug-Ins"
   ditto "$ART/AAX/ArcVu.aaxplugin" "$ROOTFS/Library/Application Support/Avid/Audio/Plug-Ins/ArcVu.aaxplugin"
@@ -105,7 +101,7 @@ cat > "$STAGE/welcome.html" <<HTML
 <li><b>CLAP</b> &rarr; /Library/Audio/Plug-Ins/CLAP/</li>
 <li><b>LV2</b> &rarr; /Library/Audio/Plug-Ins/LV2/</li>
 $AAX_LINE
-<li><b>Standalone app</b> &rarr; /Applications/</li></ul>
+</ul>
 <p>macOS universal (Apple silicon and Intel). The manual and licence texts go to /Library/Application Support/OpenGrid/ArcVu.</p>
 </body></html>
 HTML
@@ -150,24 +146,18 @@ else
   cp "$UNSIGNED" "$PKG"
 fi
 
-echo "==> DMG and bundle archive"
+echo "==> DMG"
 DMGSTAGE="$OUT/dmg"; mkdir -p "$DMGSTAGE/Documentation"
 cp "$PKG" "$DMGSTAGE/"; cp output/pdf/ArcVu-User-Manual.pdf "$DMGSTAGE/Documentation/"
 cp LICENSE BINARY_LICENSE.txt THIRD_PARTY_LICENSES.md CHANGELOG.md "$DMGSTAGE/Documentation/"
-printf 'ArcVu %s\n\nDouble-click ArcVu-%s-macos.pkg to install VST3, Audio Unit, CLAP, LV2, AAX and the Standalone app.\n' "$VERSION" "$VERSION" > "$DMGSTAGE/INSTALL.txt"
+printf 'ArcVu %s\n\nDouble-click ArcVu-%s-macos.pkg to install VST3, Audio Unit, CLAP, LV2 and AAX.\n' "$VERSION" "$VERSION" > "$DMGSTAGE/INSTALL.txt"
 DMG="$OUT/ArcVu-$VERSION-macos.dmg"
 if [ "${SIGN:-0}" = "1" ]; then
   NOTARIZE=${NOTARIZE:-1} "$HOME/.agent/skills/Make-Plugin-Release/scripts/build_notarized_dmg.sh" "ArcVu $VERSION" "$DMGSTAGE" "$DMG" "$APP_ID" "$NOTARY_PROFILE"
 else
   hdiutil create -volname "ArcVu $VERSION" -srcfolder "$DMGSTAGE" -ov -format UDZO "$DMG" > /dev/null
 fi
-ZIP="$OUT/ArcVu-$VERSION-macos-bundles.zip"
-BUNDLES="$OUT/bundles"; mkdir -p "$BUNDLES"
-for f in VST3/ArcVu.vst3 AU/ArcVu.component CLAP/ArcVu.clap LV2/ArcVu.lv2 Standalone/ArcVu.app; do ditto "$ART/$f" "$BUNDLES/$(basename "$f")"; done
-[ "$AAX" = 1 ] && ditto "$ART/AAX/ArcVu.aaxplugin" "$BUNDLES/ArcVu.aaxplugin"
-cp -R "$SUPPORT/Licenses" "$BUNDLES/Licenses"; cp output/pdf/ArcVu-User-Manual.pdf "$BUNDLES/"
-(cd "$BUNDLES" && ditto -c -k --sequesterRsrc . "$ROOT/$ZIP")
-rm -rf "$STAGE" "$DMGSTAGE" "$BUNDLES"
-(cd "$OUT" && shasum -a 256 "ArcVu-$VERSION-macos.pkg" "ArcVu-$VERSION-macos.dmg" "ArcVu-$VERSION-macos-bundles.zip" > "ArcVu-$VERSION-macos.sha256")
+rm -rf "$STAGE" "$DMGSTAGE"
+(cd "$OUT" && shasum -a 256 "ArcVu-$VERSION-macos.pkg" "ArcVu-$VERSION-macos.dmg" > "ArcVu-$VERSION-macos.sha256")
 cat "$OUT/ArcVu-$VERSION-macos.sha256"
 echo "done: $OUT"
