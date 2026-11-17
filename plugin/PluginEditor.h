@@ -15,6 +15,7 @@ public:
     void mouseUp(const juce::MouseEvent&) override;
 
 private:
+    std::vector<ArcVuPaint> paintCmds = std::vector<ArcVuPaint>(8192);  // reused every repaint
     void timerCallback() override;
     ArcVuProcessor& arcvu;
     int dragTrim = -1;

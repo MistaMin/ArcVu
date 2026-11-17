@@ -12,7 +12,7 @@ $Out = "dist\windows"
 $Art = "$Build\ArcVu_artefacts\Release"
 
 $env:CARGO_TARGET_DIR = "$Build-test"
-cargo test --release --manifest-path dsp\Cargo.toml --lib
+cargo test --locked --release --manifest-path dsp\Cargo.toml --lib
 if ($LASTEXITCODE -ne 0) { throw "Rust tests failed" }
 cmake -S . -B $Build -G "Visual Studio 17 2022" -A x64 -DARCVU_BUILD_AAX=OFF
 cmake --build $Build --config Release --parallel

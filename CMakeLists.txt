@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(ArcVu VERSION 1.0.0)
+project(ArcVu VERSION 1.0.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -33,9 +33,9 @@ set(ARCVU_RUST_SOURCES ${CMAKE_SOURCE_DIR}/dsp/src/lib.rs ${CMAKE_SOURCE_DIR}/ds
 if(APPLE AND ARCVU_UNIVERSAL)
     add_custom_command(
         OUTPUT ${ARCVU_LIB}
-        COMMAND ${ARCVU_CARGO} build --release --target aarch64-apple-darwin --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
+        COMMAND ${ARCVU_CARGO} build --locked --release --target aarch64-apple-darwin --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
                 --target-dir ${CMAKE_BINARY_DIR}/dsp-target
-        COMMAND ${ARCVU_CARGO} build --release --target x86_64-apple-darwin --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
+        COMMAND ${ARCVU_CARGO} build --locked --release --target x86_64-apple-darwin --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
                 --target-dir ${CMAKE_BINARY_DIR}/dsp-target
         COMMAND lipo -create -output ${ARCVU_LIB}
                 ${CMAKE_BINARY_DIR}/dsp-target/aarch64-apple-darwin/release/${ARCVU_CARGO_LIB}
@@ -45,7 +45,7 @@ if(APPLE AND ARCVU_UNIVERSAL)
 else()
     add_custom_command(
         OUTPUT ${ARCVU_LIB}
-        COMMAND ${ARCVU_CARGO} build --release --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
+        COMMAND ${ARCVU_CARGO} build --locked --release --manifest-path ${CMAKE_SOURCE_DIR}/dsp/Cargo.toml
                 --target-dir ${CMAKE_BINARY_DIR}/dsp-target
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/dsp-target/release/${ARCVU_CARGO_LIB} ${ARCVU_LIB}
         DEPENDS ${ARCVU_RUST_SOURCES}

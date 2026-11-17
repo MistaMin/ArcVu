@@ -87,6 +87,7 @@ ArcVuProcessor::ArcVuProcessor()
     bypassP = flag("bypassHidden", "Bypass hidden processors", false);
     tipsP = flag("tooltips", "Tooltips", true);
     topP = flag("alwaysOnTop", "Stay above windows", false);
+    interleaved.assign((size_t) maxSliceFrames * 2, 0.0f);  // processBlock may run before prepareToPlay
     meter = arcvu_create(48000.0);
     setup.kind = 0;
     setup.face = 0;
@@ -364,10 +365,11 @@ static juce::File arcVuGlobalFile() {
         .getChildFile("ArcVu").getChildFile("global.txt");
 }
 
+// Every instance in this host shares global.txt, so its writes run one at a time.
+static juce::CriticalSection& globalFileLock() { static juce::CriticalSection lock; return lock; }
+
 void ArcVuProcessor::saveGlobalKey(const juce::String& key, const juce::String& value) {
-    // Every instance in this host shares the file, so the read-edit-write below runs one at a time.
-    static juce::CriticalSection fileLock;
-    const juce::ScopedLock lock(fileLock);
+    const juce::ScopedLock lock(globalFileLock());
     const auto file = arcVuGlobalFile();
     juce::StringArray lines = file.existsAsFile() ? juce::StringArray::fromLines(file.loadFileAsString()) : juce::StringArray();
     bool found = false;
@@ -398,7 +400,8 @@ void ArcVuProcessor::saveGlobalSettings() {
          << "loud_scale=" << loud.scale << "\n"
          << "loud_unit=" << loud.unit << "\n"
          << "loud_window=" << juce::String(loud.window, 1) << "\n"
-         << "zoom=" << juce::String(zoomValue, 4) << "\n";
+         << "zoom=" << juce::String(zoomValue.load(), 4) << "\n";
+    const juce::ScopedLock lock(globalFileLock());
     arcVuGlobalFile().getParentDirectory().createDirectory();
     arcVuGlobalFile().replaceWithText(text);
 }
@@ -483,7 +486,7 @@ void ArcVuProcessor::stepPreset(int delta) {
 }
 
 void ArcVuProcessor::setZoom(float zoom) {
-    if (std::abs(zoom - zoomValue) < 0.005f) return;
+    if (std::abs(zoom - zoomValue.load()) < 0.005f) return;
     zoomValue = juce::jlimit(0.4f, 4.0f, zoom);
     zoomDirty = true;  // written by the 1 s timer: a window drag changes the zoom many times a second
 }
@@ -542,7 +545,7 @@ juce::File ArcVuProcessor::bounceLogDirectory() {
 
 // The host calls this on the message thread; it ends a bounce whose blocks stopped or turned real-time.
 void ArcVuProcessor::flushSettings() {
-    if (zoomDirty.exchange(false)) saveGlobalKey("zoom", juce::String(zoomValue, 4));
+    if (zoomDirty.exchange(false)) saveGlobalKey("zoom", juce::String(zoomValue.load(), 4));
 }
 
 void ArcVuProcessor::timerCallback() {
@@ -652,7 +655,7 @@ juce::File ArcVuProcessor::finishBounce() {
       << (r.integrated <= -100.0f ? juce::String("n/a") : (offTarget >= 0 ? "+" : "") + juce::String(offTarget, 1) + " LU from it, " + (std::abs(offTarget) <= 1.0f ? "within" : "outside") + " +/-1 LU") << "\n"
       << "  Ceiling " << juce::String(ls.ceiling, 1) << " dBTP: true peak is "
       << (r.true_peak <= -100.0f ? juce::String("n/a") : juce::String(r.true_peak <= ls.ceiling ? "under it (pass)" : "over it (fail)")) << "\n\n"
-      << "Per-second values: " << csv.getFileName() << "\n";
+      << "Per-second values: " << csv.getFileName() << (rowCount >= 36000 ? " (stops after 10 hours; the figures above cover the whole render)" : "") << "\n";
     juce::String c = "seconds,momentary_LUFS,short_term_LUFS,integrated_LUFS,true_peak_dBTP\n";
     for (int i = 0; i < rowCount; ++i) {
         c << juce::String(rows[(size_t) i * 5], 0);

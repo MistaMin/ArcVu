@@ -13,7 +13,7 @@ OUT=${OUT:-dist/linux}
 ART="$BUILD/ArcVu_artefacts/Release"
 export PATH="$HOME/.cargo/bin:$PATH"
 
-CARGO_TARGET_DIR="$BUILD-test" cargo test --release --manifest-path dsp/Cargo.toml --lib
+CARGO_TARGET_DIR="$BUILD-test" cargo test --locked --release --manifest-path dsp/Cargo.toml --lib
 cmake -S . -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DARCVU_BUILD_AAX=OFF
 cmake --build "$BUILD" --config Release
 python3 -c 'import reportlab, PIL' 2>/dev/null || python3 -m pip install --quiet reportlab pillow

@@ -230,10 +230,9 @@ void ArcVuEditor::paint(juce::Graphics& g) {
     float vw = 1100.0f, vh = 500.0f;
     arcvu_view_size(arcvu.setup.face, &vw, &vh);
     g.addTransform(juce::AffineTransform::scale(getWidth() / vw, getHeight() / vh));
-    std::vector<ArcVuPaint> cmds(8192);
     arcvu.pushUi();
-    const int n = arcvu.paint(cmds.data(), (int) cmds.size());
-    for (int i = 0; i < n; ++i) replay(g, cmds[(size_t) i]);
+    const int n = arcvu.paint(paintCmds.data(), (int) paintCmds.size());
+    for (int i = 0; i < n; ++i) replay(g, paintCmds[(size_t) i]);
     if (arcvu.setup.panel == 8) {
         // Live values for the rows the menu draws as labels only.
         const bool compact = arcvu.setup.face == 2;

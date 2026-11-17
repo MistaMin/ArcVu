@@ -32,14 +32,17 @@ cmake -S . -B "$BUILD" -G Ninja -DCMAKE_BUILD_TYPE=Release -DARCVU_UNIVERSAL=ON 
 cmake --build "$BUILD" --config Release
 
 echo "==> Tests"
-CARGO_TARGET_DIR="$ROOT/$BUILD/dsp-test" cargo test --release --manifest-path dsp/Cargo.toml --lib
+CARGO_TARGET_DIR="$ROOT/$BUILD/dsp-test" cargo test --locked --release --manifest-path dsp/Cargo.toml --lib
 QA="$BUILD/ArcVu_QA_artefacts/Release/ArcVu_QA"
 SCRATCH=$(mktemp -d)
 "$QA" "$SCRATCH/ui" > "$SCRATCH/ui.log" 2>&1 || { tail -20 "$SCRATCH/ui.log"; echo "UI audit failed" >&2; exit 1; }
 tail -1 "$SCRATCH/ui.log"
+for mode in --state-test --realtime-test --keys-test; do
+  "$QA" "$mode" 2>&1 | grep -q "^FAILURES 0" || { echo "$mode failed" >&2; exit 1; }
+done
 if arch -x86_64 /usr/bin/true 2>/dev/null; then
   # The x86_64 slice under Rosetta: exercises the code path, not Intel performance.
-  arch -x86_64 "$QA" --keys-test | tail -1
+  arch -x86_64 "$QA" --state-test | tail -1
 fi
 
 for f in VST3/ArcVu.vst3 AU/ArcVu.component CLAP/ArcVu.clap LV2/ArcVu.lv2 Standalone/ArcVu.app; do

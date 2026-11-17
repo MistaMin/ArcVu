@@ -81,7 +81,7 @@ public:
     int skin() const { return skinIndex; }
     int theme() const { return themeIndex; }
     void setZoom(float zoom);
-    float zoom() const { return zoomValue; }
+    float zoom() const { return zoomValue.load(); }
     int dragMode() const { return dragModeIndex; }
     void saveGlobalSettings();
     // Changes one key of the global settings file and leaves every other line as it is.
@@ -117,7 +117,7 @@ private:
     std::atomic<juce::int64> bounceStartMs { 0 };
     void timerCallback() override;
     ArcVuLoudSettings loud { 0, -14.0f, -1.0f, 0, 0, 10.0f };
-    float zoomValue = 0.0f;
+    std::atomic<float> zoomValue { 0.0f };
     std::atomic<bool> zoomDirty { false };
     ArcVuSetup audioSetup {};
     static constexpr int maxSliceFrames = 8192;

@@ -256,6 +256,8 @@ int main(int argc, char** argv) {
         const char text[] = "this is not an ArcVu state at all, just some text that is long enough to be the size of one";
         ArcVuProcessor i; i.setup.kind = 2; i.noteSetup(); i.setStateInformation(text, (int) sizeof text);
         check(i.setup.kind == 2, "text is refused");
+        // A host that calls processBlock before prepareToPlay must not crash.
+        { ArcVuProcessor early; juce::AudioBuffer<float> b(2, 256); juce::MidiBuffer m; b.clear(); early.processBlock(b, m); check(true, "processBlock before prepareToPlay does not crash"); }
         // A block far larger than the prepared size must neither allocate nor change the audio's length.
         ArcVuProcessor r; r.prepareToPlay(48000, 64);
         juce::AudioBuffer<float> huge(2, 65536); juce::MidiBuffer midi; huge.clear();
