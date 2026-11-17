@@ -103,6 +103,16 @@ int main(int argc, char** argv) {
         shoot("arcvu-single", 0, 0, 0, 0, 0, true);
         shoot("arcvu-k14", 0, 1, 0, 3, 0, false);
         shoot("arcvu-ppm-ebu", 0, 1, 2, 8, 0, false);
+        // Menu pages at 1x on the Arc face, for the manual.
+        p.setSkin(0); p.setTheme(0);
+        parameter(p, "kind")->setValueNotifyingHost(0.0f);
+        parameter(p, "face")->setValueNotifyingHost(0.0f);
+        parameter(p, "single")->setValueNotifyingHost(0.0f);
+        { float vw = 1100.0f, vh = 500.0f; arcvu_view_size(0, &vw, &vh); e->setSize((int) vw, (int) vh); }
+        process(p); pump();
+        e->showPanel(2); pump(); snapshot(*e, out.getChildFile("arcvu-display-menu.png"));
+        e->parameterPanel()->onNavigate(9); pump(); snapshot(*e, out.getChildFile("arcvu-display-loudness.png"));
+        e->showPanel(6); pump(); snapshot(*e, out.getChildFile("arcvu-tools.png"));
         return failures ? 1 : 0;
     }
     if (argc > 2 && juce::String(argv[1]) == "--icon-render") {
